@@ -1,5 +1,7 @@
 <resources>
   <string name="app_name">Shopingo</string>
+  <string name="title_activity_contact_details">ContactDetailsActivity</string>
+  <string name="facebook_app_id">617830311610935</string>
 
   <!-- Request States -->
   <string name="title_activity_request_state">RequestState</string>
@@ -15,6 +17,6 @@
   <string name="title_activity_select_shopper">SelectShopperActivity</string>
   <string name="select_shopper_distance_format">%.1f km</string>
 
-  <string name="hello_world">Hello world!</string>
   <string name="action_settings">Settings</string>
+
 </resources>
