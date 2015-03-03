@@ -5,26 +5,28 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import com.iic.shopingo.R;
 
 public class ContactDetailsActivity extends ActionBarActivity {
 
   @InjectView(R.id.contact_first_name_editview)
-  private EditText firstNameEditView;
+  EditText firstNameEditView;
 
   @InjectView(R.id.contact_last_name_editview)
-  private EditText lastNameEditView;
+  EditText lastNameEditView;
 
   @InjectView(R.id.contact_street_editview)
-  private EditText streetEditView;
+  EditText streetEditView;
 
   @InjectView(R.id.contact_city_editview)
-  private EditText cityEditView;
+  EditText cityEditView;
 
   @InjectView(R.id.contact_phone_editview)
-  private EditText phoneEditView;
+  EditText phoneEditView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,5 +55,10 @@ public class ContactDetailsActivity extends ActionBarActivity {
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @OnClick(R.id.contact_save_btn)
+  void onSaveClicked() {
+    Toast.makeText(this, "Yeah I've been saved", Toast.LENGTH_LONG).show();
   }
 }
