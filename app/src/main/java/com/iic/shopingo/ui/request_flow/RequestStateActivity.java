@@ -12,13 +12,13 @@ public class RequestStateActivity extends ActionBarActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    String state = getIntent().getStringExtra(REQUEST_STATE_EXTRA_KEY);
+    RequestStatus state = RequestStatus.values()[getIntent().getIntExtra(REQUEST_STATE_EXTRA_KEY, 0)];
     int layout;
     switch (state) {
-      case "approved":
+      case APPROVED:
         layout = R.layout.activity_request_state_approved;
         break;
-      case "declined":
+      case DECLINED:
         layout = R.layout.activity_request_state_declined;
         break;
       default:
@@ -42,4 +42,7 @@ public class RequestStateActivity extends ActionBarActivity {
   public void onGoYourself(View view) {
     // TODO: Create trip and go to trip activity
   }
+
+  // Should probably go into the Request model
+  public static enum RequestStatus { PENDING, APPROVED, DECLINED }
 }
