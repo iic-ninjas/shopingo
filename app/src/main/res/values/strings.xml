@@ -17,8 +17,9 @@
   <string name="request_state_try_again_button">Try someone else</string>
   <string name="request_state_go_yourself_button">Go yourself</string>
 
-  <string name="hello_world">Hello world!</string>
   <string name="action_settings">Settings</string>
+
+  <!-- Home -->
   <string name="title_activity_home">HomeActivity</string>
   <string name="home_go_shopping_btn_title">Go Shopping</string>
   <string name="home_create_request_btn_title">Make a request</string>
