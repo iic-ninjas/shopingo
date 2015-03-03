@@ -1,4 +1,4 @@
-package com.iic.shopingo.ui.request_flow.Activities;
+package com.iic.shopingo.ui.request_flow.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;

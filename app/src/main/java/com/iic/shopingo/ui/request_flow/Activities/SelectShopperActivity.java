@@ -1,4 +1,4 @@
-package com.iic.shopingo.ui.request_flow.Activities;
+package com.iic.shopingo.ui.request_flow.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import com.iic.shopingo.R;
-import com.iic.shopingo.ui.request_flow.Views.SelectShopperListItemView;
+import com.iic.shopingo.ui.request_flow.views.SelectShopperListItemView;
 import java.util.ArrayList;
 import java.util.List;
 

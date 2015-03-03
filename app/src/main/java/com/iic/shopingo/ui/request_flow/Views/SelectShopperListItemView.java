@@ -1,4 +1,4 @@
-package com.iic.shopingo.ui.request_flow.Views;
+package com.iic.shopingo.ui.request_flow.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
-import com.iic.shopingo.ui.request_flow.Activities.SelectShopperActivity;
+import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
 import com.squareup.picasso.Picasso;
 
 /**
