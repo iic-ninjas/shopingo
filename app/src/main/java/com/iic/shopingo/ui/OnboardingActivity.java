@@ -39,12 +39,6 @@ public class OnboardingActivity extends ActionBarActivity {
   @Override
   protected void onResume() {
     super.onResume();
-
-    Session session = Session.getActiveSession();
-    if (session != null && (session.isOpened() || session.isClosed())) {
-      onSessionStateChanged(session, session.getState(), null);
-    }
-
     facebookLifecycleHelper.onResume();
   }
 
