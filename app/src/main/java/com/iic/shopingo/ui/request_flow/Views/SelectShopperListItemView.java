@@ -10,7 +10,7 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
-import com.iic.shopingo.ui.request_flow.SelectShopperAdapter;
+import com.iic.shopingo.ui.request_flow.Activities.SelectShopperActivity;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -26,9 +26,23 @@ public class SelectShopperListItemView extends LinearLayout {
   @InjectView(R.id.select_shopper_list_item_distance)
   TextView mDistanceView;
 
+  public SelectShopperListItemView(Context context) {
+    super(context);
+    init();
+  }
+
+  public SelectShopperListItemView(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+    init();
+  }
+
   public SelectShopperListItemView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    LayoutInflater.from(context).inflate(R.layout.select_shopper_list_item_children, this, true);
+    init();
+  }
+
+  private void init() {
+    LayoutInflater.from(getContext()).inflate(R.layout.select_shopper_list_item_children, this, true);
     ButterKnife.inject(this);
   }
 
@@ -38,7 +52,7 @@ public class SelectShopperListItemView extends LinearLayout {
     return itemView;
   }
 
-  public void setUser(SelectShopperAdapter.User user) {
+  public void setUser(SelectShopperActivity.SelectShopperAdapter.User user) {
     Picasso.with(getContext()).load(user.photo).into(mPhotoView);
     mNameView.setText(user.name);
     int distanceInMeters = CurrentLocationService.distanceToPoint(user.latitude, user.longitude);
