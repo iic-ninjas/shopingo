@@ -16,9 +16,9 @@ import java.util.List;
 
 public class SelectShopperActivity extends ActionBarActivity {
   @InjectView(R.id.select_shopper_list)
-  ListView mShopperList;
+  ListView shopperList;
 
-  private SelectShopperAdapter mAdapter;
+  private SelectShopperAdapter adapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,8 @@ public class SelectShopperActivity extends ActionBarActivity {
     setContentView(R.layout.activity_select_shopper);
     ButterKnife.inject(this);
 
-    mAdapter = new SelectShopperAdapter(new ArrayList<SelectShopperAdapter.Shopper>());
-    mShopperList.setAdapter(mAdapter);
+    adapter = new SelectShopperAdapter(new ArrayList<SelectShopperAdapter.Shopper>());
+    shopperList.setAdapter(adapter);
   }
 
   @OnItemClick(R.id.select_shopper_list)
@@ -36,20 +36,20 @@ public class SelectShopperActivity extends ActionBarActivity {
   }
 
   public static class SelectShopperAdapter extends BaseAdapter {
-    private List<Shopper> mShoppers;
+    private List<Shopper> shoppers;
 
     public SelectShopperAdapter(List<Shopper> shoppers) {
-      mShoppers = shoppers;
+      this.shoppers = shoppers;
     }
 
     @Override
     public int getCount() {
-      return mShoppers.size();
+      return shoppers.size();
     }
 
     @Override
     public Shopper getItem(int position) {
-      return mShoppers.get(position);
+      return shoppers.get(position);
     }
 
     @Override

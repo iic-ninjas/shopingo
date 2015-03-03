@@ -18,13 +18,13 @@ import com.squareup.picasso.Picasso;
  */
 public class SelectShopperListItemView extends LinearLayout {
   @InjectView(R.id.select_shopper_list_item_photo)
-  ImageView mPhotoView;
+  ImageView photoView;
 
   @InjectView(R.id.select_shopper_list_item_name)
-  TextView mNameView;
+  TextView nameView;
 
   @InjectView(R.id.select_shopper_list_item_distance)
-  TextView mDistanceView;
+  TextView distanceView;
 
   public SelectShopperListItemView(Context context) {
     super(context);
@@ -53,10 +53,11 @@ public class SelectShopperListItemView extends LinearLayout {
   }
 
   public void setShopper(SelectShopperActivity.SelectShopperAdapter.Shopper shopper) {
-    Picasso.with(getContext()).load(shopper.photo).into(mPhotoView);
-    mNameView.setText(shopper.name);
+    Picasso.with(getContext()).load(shopper.photo).into(photoView);
+    nameView.setText(shopper.name);
     int distanceInMeters = CurrentLocationService.distanceToPoint(shopper.latitude, shopper.longitude);
-    mDistanceView.setText(String.format(getContext().getString(R.string.select_shopper_distance_format), distanceInMeters / 1000.0f));
+    distanceView.setText(
+        String.format(getContext().getString(R.string.select_shopper_distance_format), distanceInMeters / 1000.0f));
   }
 
   // TODO: Move to actual service
