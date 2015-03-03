@@ -2,6 +2,16 @@
   <string name="app_name">Shopingo</string>
   <string name="title_activity_select_shopper">SelectShopperActivity</string>
 
+  <!-- Request States -->
+  <string name="title_activity_request_state">RequestState</string>
+  <string name="request_state_title_pending">Waiting for approval</string>
+  <string name="request_state_title_approved">Your items are on their way! :)</string>
+  <string name="request_state_title_declined">Your request was declined :(</string>
+  <string name="request_state_cancel_button">Cancel</string>
+  <string name="request_state_settle_button">Done!</string>
+  <string name="request_state_try_again_button">Try someone else</string>
+  <string name="request_state_go_yourself_button">Go yourself</string>
+
   <string name="hello_world">Hello world!</string>
   <string name="action_settings">Settings</string>
 </resources>

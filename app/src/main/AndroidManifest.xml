@@ -11,6 +11,10 @@
             android:name=".ui.request_flow.SelectShopperActivity"
             android:label="@string/title_activity_select_shopper" >
         </activity>
+        <activity
+            android:name=".ui.request_flow.RequestStateActivity"
+            android:label="@string/title_activity_request_state" >
+        </activity>
     </application>
 
 </manifest>
