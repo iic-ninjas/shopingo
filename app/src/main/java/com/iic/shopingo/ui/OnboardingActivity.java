@@ -105,11 +105,12 @@ public class OnboardingActivity extends ActionBarActivity {
   }
 
   private void loginToServer(Session session) {
+    // TODO: create/fetch user from server by facebook uid and navigate to contact details activity if it's a new user
     Intent intent = new Intent(this, ContactDetailsActivity.class);
     startActivity(intent);
   }
 
   private void logout() {
-
+    // TODO: unset current user
   }
 }
