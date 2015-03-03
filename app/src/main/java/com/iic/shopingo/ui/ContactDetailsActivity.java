@@ -4,14 +4,33 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.iic.shopingo.R;
 
 public class ContactDetailsActivity extends ActionBarActivity {
+
+  @InjectView(R.id.contact_first_name_editview)
+  private EditText firstNameEditView;
+
+  @InjectView(R.id.contact_last_name_editview)
+  private EditText lastNameEditView;
+
+  @InjectView(R.id.contact_street_editview)
+  private EditText streetEditView;
+
+  @InjectView(R.id.contact_city_editview)
+  private EditText cityEditView;
+
+  @InjectView(R.id.contact_phone_editview)
+  private EditText phoneEditView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_contact_details);
+    ButterKnife.inject(this);
   }
 
   @Override
