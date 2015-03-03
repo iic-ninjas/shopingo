@@ -1,11 +1,11 @@
 package com.iic.shopingo.ui;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -59,6 +59,8 @@ public class ContactDetailsActivity extends ActionBarActivity {
 
   @OnClick(R.id.contact_save_btn)
   void onSaveClicked() {
-    Toast.makeText(this, "Yeah I've been saved", Toast.LENGTH_LONG).show();
+    Intent intent = new Intent(this, HomeActivity.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(intent);
   }
 }
