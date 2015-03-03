@@ -3,6 +3,7 @@ package com.iic.shopingo.ui.request_flow;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
 
@@ -19,8 +20,8 @@ public class RequestStateActivity extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     int state = getIntent().getIntExtra(REQUEST_STATE_EXTRA_KEY, 0);
-
     setContentView(LAYOUTS[state]);
+    ButterKnife.inject(this);
   }
 
   @OnClick(R.id.request_state_cancel_button)
