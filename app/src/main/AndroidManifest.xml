@@ -28,6 +28,10 @@
       <meta-data
           android:name="com.facebook.sdk.ApplicationId"
           android:value="@string/facebook_app_id" />
+        <activity
+            android:name=".ui.request_flow.RequestStateActivity"
+            android:label="@string/title_activity_request_state" >
+        </activity>
     </application>
 
 </manifest>
