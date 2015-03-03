@@ -8,23 +8,18 @@ import com.iic.shopingo.R;
 public class RequestStateActivity extends ActionBarActivity {
 
   public static final String REQUEST_STATE_EXTRA_KEY = "request_state";
+  private static final int[] LAYOUTS = new int[] {
+    R.layout.activity_request_state_pending,
+    R.layout.activity_request_state_approved,
+    R.layout.activity_request_state_declined
+  };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    RequestStatus state = RequestStatus.values()[getIntent().getIntExtra(REQUEST_STATE_EXTRA_KEY, 0)];
-    int layout;
-    switch (state) {
-      case APPROVED:
-        layout = R.layout.activity_request_state_approved;
-        break;
-      case DECLINED:
-        layout = R.layout.activity_request_state_declined;
-        break;
-      default:
-        layout = R.layout.activity_request_state_pending;
-    }
-    setContentView(layout);
+    int state = getIntent().getIntExtra(REQUEST_STATE_EXTRA_KEY, 0);
+
+    setContentView(LAYOUTS[state]);
   }
 
   public void onCancelRequest(View view) {
