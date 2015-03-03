@@ -3,10 +3,6 @@
   <string name="title_activity_contact_details">ContactDetailsActivity</string>
   <string name="facebook_app_id">617830311610935</string>
 
-  <!-- Onboarding Flow -->
-  <string name="title_activity_onboarding">OnboardingActivity</string>
-  <string name="title_facebook_login">Facebook login</string>
-
   <!-- Request States -->
   <string name="title_activity_request_state">RequestState</string>
   <string name="request_state_title_pending">Waiting for approval</string>
@@ -19,8 +15,4 @@
 
   <string name="action_settings">Settings</string>
 
-  <!-- Home -->
-  <string name="title_activity_home">HomeActivity</string>
-  <string name="home_go_shopping_btn_title">Go Shopping</string>
-  <string name="home_create_request_btn_title">Make a request</string>
 </resources>

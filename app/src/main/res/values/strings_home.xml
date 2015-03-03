@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="title_activity_home">HomeActivity</string>
+  <string name="home_go_shopping_btn_title">Go Shopping</string>
+  <string name="home_create_request_btn_title">Make a request</string>
+</resources>
