@@ -13,62 +13,54 @@
       android:layout_height="wrap_content"
       android:id="@+id/imageView"
       android:src="@mipmap/ic_launcher"
-      android:layout_alignParentTop="false"
+      android:layout_alignParentTop="true"
       android:layout_centerHorizontal="true"
-      android:layout_marginBottom="16dp"
       />
-  <EditText
+
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:inputType="textPersonName"
-      android:ems="10"
-      android:id="@+id/contact_first_name_editview"
-      android:hint="First name"
-      android:layout_below="@+id/imageView"
-      android:layout_alignParentLeft="true"
-      android:layout_alignParentStart="true"
-      />
-  <EditText
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="textPersonName"
-      android:ems="10"
-      android:id="@+id/contact_last_name_editview"
-      android:layout_below="@+id/contact_first_name_editview"
-      android:layout_alignParentLeft="true"
-      android:layout_alignParentStart="true"
-      android:hint="Last name"
-      />
-  <EditText
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/contact_street_editview"
-      android:layout_below="@+id/imageView"
-      android:layout_alignParentLeft="true"
-      android:layout_alignParentStart="true"
-      android:layout_marginTop="78dp"
-      android:hint="Street"
-      />
-  <EditText
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/contact_city_editview"
-      android:layout_below="@+id/contact_street_editview"
-      android:layout_alignParentLeft="true"
-      android:layout_alignParentStart="true"
-      android:hint="City"
-      />
-  <EditText
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="phone"
-      android:ems="10"
-      android:id="@+id/contact_phone_editview"
-      android:layout_below="@+id/contact_city_editview"
-      android:layout_alignParentLeft="true"
-      android:layout_alignParentStart="true"
-      android:hint="Phone number"
-      />
+      android:orientation="vertical"
+      android:layout_centerVertical="true"
+      >
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/contact_first_name_editview"
+        android:hint="First name"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/contact_last_name_editview"
+        android:hint="Last name"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_street_editview"
+        android:hint="Street"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_city_editview"
+        android:hint="City"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/contact_phone_editview"
+        android:hint="Phone number"
+        />
+      </LinearLayout>
+
   <Button
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
