@@ -3,6 +3,7 @@ package com.iic.shopingo.ui.request_flow;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import butterknife.OnClick;
 import com.iic.shopingo.R;
 
 public class RequestStateActivity extends ActionBarActivity {
@@ -22,18 +23,22 @@ public class RequestStateActivity extends ActionBarActivity {
     setContentView(LAYOUTS[state]);
   }
 
+  @OnClick(R.id.request_state_cancel_button)
   public void onCancelRequest(View view) {
     // TODO: Cancel request in server and go to trippers list
   }
 
+  @OnClick(R.id.request_state_settle_button)
   public void onSettleRequest(View view) {
     // TODO: Settle request in server and go home
   }
 
+  @OnClick(R.id.request_state_try_again_button)
   public void onTryAgain(View view) {
     // TODO: Go to trippers list
   }
 
+  @OnClick(R.id.request_state_go_yourself_button)
   public void onGoYourself(View view) {
     // TODO: Create trip and go to trip activity
   }
