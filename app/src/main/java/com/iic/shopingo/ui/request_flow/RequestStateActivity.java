@@ -49,6 +49,6 @@ public class RequestStateActivity extends ActionBarActivity {
     // TODO: Create trip and go to trip activity
   }
 
-  // Should probably go into the Request model
+  // TODO: Move this to appropriate model
   public static enum RequestStatus { PENDING, APPROVED, DECLINED }
 }
