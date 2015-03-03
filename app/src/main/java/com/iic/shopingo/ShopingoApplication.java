@@ -3,6 +3,7 @@ package com.iic.shopingo;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import com.iic.shopingo.services.SharedUserConnector;
 import com.iic.shopingo.services.UserConnector;
 
 /**
@@ -15,6 +16,6 @@ public class ShopingoApplication extends Application {
     super.onCreate();
 
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-    UserConnector.setInstance(new UserConnector(sharedPreferences));
+    SharedUserConnector.setInstance(new UserConnector(sharedPreferences));
   }
 }

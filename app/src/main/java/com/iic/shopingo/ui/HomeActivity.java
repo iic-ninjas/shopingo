@@ -1,12 +1,12 @@
 package com.iic.shopingo.ui;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.iic.shopingo.R;
-import com.iic.shopingo.services.UserConnector;
+import com.iic.shopingo.services.SharedUserConnector;
 
 public class HomeActivity extends ActionBarActivity {
 
@@ -15,7 +15,7 @@ public class HomeActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
 
-    if (!UserConnector.getInstance().isUserSignedIn()) {
+    if (!SharedUserConnector.getInstance().isUserSignedIn()) {
       Intent intent = new Intent(this, OnboardingActivity.class);
       startActivity(intent);
     }

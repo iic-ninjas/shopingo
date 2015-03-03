@@ -11,7 +11,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.User;
-import com.iic.shopingo.services.UserConnector;
+import com.iic.shopingo.services.SharedUserConnector;
 
 public class OnboardingActivity extends ActionBarActivity {
 
@@ -78,7 +78,7 @@ public class OnboardingActivity extends ActionBarActivity {
 
   private void loginToServer(Session session) {
     // TODO: create/fetch user from server by facebook uid and navigate to contact details activity if it's a new user
-    UserConnector.getInstance().setCurrentUser(new User(1, null));
+    SharedUserConnector.getInstance().setCurrentUser(new User(1, null));
 
     Intent intent = new Intent(this, ContactDetailsActivity.class);
     startActivity(intent);

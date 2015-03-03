@@ -10,22 +10,12 @@ public class UserConnector {
 
   private static final String PREF_USER_ID_KEY = "pref_user_id";
 
-  private static UserConnector instance;
-
   private User currentUser;
 
   private SharedPreferences sharedPreferences;
 
   public UserConnector(SharedPreferences sharedPreferences) {
     this.sharedPreferences = sharedPreferences;
-  }
-
-  public static synchronized UserConnector getInstance() {
-    return instance;
-  }
-
-  public static synchronized void setInstance(UserConnector connector) {
-    instance = connector;
   }
 
   public boolean isUserSignedIn() {
