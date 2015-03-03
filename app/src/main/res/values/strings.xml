@@ -1,5 +1,7 @@
 <resources>
   <string name="app_name">Shopingo</string>
+  <string name="title_activity_contact_details">ContactDetailsActivity</string>
+  <string name="facebook_app_id">617830311610935</string>
 
   <!-- Request States -->
   <string name="title_activity_request_state">RequestState</string>
@@ -11,6 +13,6 @@
   <string name="request_state_try_again_button">Try someone else</string>
   <string name="request_state_go_yourself_button">Go yourself</string>
 
-  <string name="hello_world">Hello world!</string>
   <string name="action_settings">Settings</string>
+
 </resources>
