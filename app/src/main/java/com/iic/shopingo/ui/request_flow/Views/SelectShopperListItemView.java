@@ -52,10 +52,10 @@ public class SelectShopperListItemView extends LinearLayout {
     return itemView;
   }
 
-  public void setUser(SelectShopperActivity.SelectShopperAdapter.User user) {
-    Picasso.with(getContext()).load(user.photo).into(mPhotoView);
-    mNameView.setText(user.name);
-    int distanceInMeters = CurrentLocationService.distanceToPoint(user.latitude, user.longitude);
+  public void setShopper(SelectShopperActivity.SelectShopperAdapter.Shopper shopper) {
+    Picasso.with(getContext()).load(shopper.photo).into(mPhotoView);
+    mNameView.setText(shopper.name);
+    int distanceInMeters = CurrentLocationService.distanceToPoint(shopper.latitude, shopper.longitude);
     mDistanceView.setText(String.format(getContext().getString(R.string.select_shopper_distance_format), distanceInMeters / 1000.0f));
   }
 
