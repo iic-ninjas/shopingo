@@ -1,5 +1,6 @@
 package com.iic.shopingo.ui.request_flow.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -71,23 +72,31 @@ public class CreateRequestActivity extends ActionBarActivity implements
     int price = Integer.parseInt(priceView.getText().toString());
     Request request = new Request(shopper, items, price);
     // TODO: Create request on server and move to state activity
+    Intent intent = new Intent(this, RequestStateActivity.class);
+    intent.putExtra(RequestStateActivity.REQUEST_EXTRA_KEY, request);
+    startActivity(intent);
   }
 
   public static class Request implements Parcelable {
+    public static enum RequestStatus { PENDING, APPROVED, DECLINED }
+
     public SelectShopperActivity.SelectShopperAdapter.Shopper shopper;
     public List<String> items;
     public int price;
+    public RequestStatus status;
 
     public Request(SelectShopperActivity.SelectShopperAdapter.Shopper shopper, List<String> items, int price) {
       this.shopper = shopper;
       this.items = items;
       this.price = price;
+      this.status = RequestStatus.PENDING;
     }
 
     public Request(Parcel source) {
       shopper = source.readParcelable(SelectShopperActivity.SelectShopperAdapter.Shopper.class.getClassLoader());
       items = source.createStringArrayList();
       price = source.readInt();
+      status = RequestStatus.values()[source.readInt()];
     }
 
     @Override
@@ -100,6 +109,7 @@ public class CreateRequestActivity extends ActionBarActivity implements
       dest.writeParcelable(shopper, 0);
       dest.writeStringList(items);
       dest.writeInt(price);
+      dest.writeInt(status.ordinal());
     }
 
     public final static Creator<Request> CREATOR = new Creator<Request>() {

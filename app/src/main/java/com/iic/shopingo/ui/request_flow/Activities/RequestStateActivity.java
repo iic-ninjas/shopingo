@@ -9,8 +9,9 @@ import butterknife.Optional;
 import com.iic.shopingo.R;
 
 public class RequestStateActivity extends ActionBarActivity {
+  private CreateRequestActivity.Request request;
 
-  public static final String REQUEST_STATE_EXTRA_KEY = "request_state";
+  public static final String REQUEST_EXTRA_KEY = "request";
   private static final int[] LAYOUTS = new int[] {
     R.layout.activity_request_state_pending,
     R.layout.activity_request_state_approved,
@@ -20,8 +21,8 @@ public class RequestStateActivity extends ActionBarActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    int state = getIntent().getIntExtra(REQUEST_STATE_EXTRA_KEY, 0);
-    setContentView(LAYOUTS[state]);
+    request = getIntent().getParcelableExtra(REQUEST_EXTRA_KEY);
+    setContentView(LAYOUTS[request.status.ordinal()]);
     ButterKnife.inject(this);
   }
 
@@ -48,7 +49,4 @@ public class RequestStateActivity extends ActionBarActivity {
   public void onGoYourself(View view) {
     // TODO: Create trip and go to trip activity
   }
-
-  // TODO: Move this to appropriate model
-  public static enum RequestStatus { PENDING, APPROVED, DECLINED }
 }
