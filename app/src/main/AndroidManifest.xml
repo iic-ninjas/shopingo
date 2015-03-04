@@ -13,8 +13,7 @@
         android:name=".ShopingoApplication">
         <activity
             android:name=".ui.ContactDetailsActivity"
-            android:label="@string/title_activity_contact_details"
-            android:noHistory="true">
+            android:label="@string/title_activity_contact_details">
         </activity>
         <activity
             android:name=".ui.OnboardingActivity"

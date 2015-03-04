@@ -22,6 +22,8 @@ public class OnboardingActivity extends ActionBarActivity {
 
   private UiLifecycleHelper facebookLifecycleHelper;
 
+  private boolean duringLogin;
+
   @InjectView(R.id.onboarding_login_btn)
   LoginButton loginBtn;
 
@@ -81,7 +83,7 @@ public class OnboardingActivity extends ActionBarActivity {
   }
 
   private void onSessionStateChanged(Session session, SessionState sessionState, Exception e) {
-    if (sessionState.isOpened()) {
+    if (sessionState.isOpened() && !duringLogin) {
       Log.d(LOG_TAG, "Logged in to facebook");
       login(session);
     } else if (sessionState.isClosed()) {
@@ -91,11 +93,14 @@ public class OnboardingActivity extends ActionBarActivity {
   }
 
   private void login(Session session) {
+    duringLogin = true;
     SharedUserConnector.getInstance().connectWithFacebook(session).onSuccess(new Continuation<User, Void>() {
       @Override
       public Void then(Task<User> task) throws Exception {
         Intent intent = new Intent(OnboardingActivity.this, ContactDetailsActivity.class);
         startActivity(intent);
+        finish();
+        duringLogin = false;
         return null;
       }
     }, Task.UI_THREAD_EXECUTOR);

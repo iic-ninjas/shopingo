@@ -48,9 +48,11 @@ public class ContactDetailsActivity extends ActionBarActivity {
     Intent intent = new Intent(this, HomeActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivity(intent);
+    finish();
   }
 
   private void updateUser() {
+    // TODO: add input validation
     User user = SharedUserConnector.getInstance().getCurrentUser();
     user.setFirstName(firstNameEditView.getText().toString());
     user.setLastName(lastNameEditView.getText().toString());

@@ -50,6 +50,8 @@ public class HomeActivity extends ActionBarActivity {
 
   private void navigateToOnboarding() {
     Intent intent = new Intent(this, OnboardingActivity.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivity(intent);
+    finish();
   }
 }
