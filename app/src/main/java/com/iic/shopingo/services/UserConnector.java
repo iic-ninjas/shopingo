@@ -16,6 +16,11 @@ import com.iic.shopingo.dal.models.User;
 public class UserConnector {
 
   private static final String CURRENT_USER_UID_KEY = "current_user_uid";
+  private static final String CURRENT_USER_FIRST_NAME_KEY = "current_user_first_name";
+  private static final String CURRENT_USER_LAST_NAME_KEY = "current_user_last_name";
+  private static final String CURRENT_USER_STREET_KEY = "current_user_street";
+  private static final String CURRENT_USER_CITY_KEY = "current_user_city";
+  private static final String CURRENT_USER_PHONE_KEY = "current_user_phone";
 
   private User currentUser;
 
@@ -58,7 +63,15 @@ public class UserConnector {
   public User getCurrentUser() {
     if (currentUser == null) {
       String uid = sharedPreferences.getString(CURRENT_USER_UID_KEY, null);
-      // TODO: fetch user from local db
+      if (uid != null) {
+        // TODO: fetch from local db
+        String firstName = sharedPreferences.getString(CURRENT_USER_FIRST_NAME_KEY, null);
+        String lastName = sharedPreferences.getString(CURRENT_USER_LAST_NAME_KEY, null);
+        String street = sharedPreferences.getString(CURRENT_USER_STREET_KEY, null);
+        String city = sharedPreferences.getString(CURRENT_USER_CITY_KEY, null);
+        String phone = sharedPreferences.getString(CURRENT_USER_PHONE_KEY, null);
+        currentUser = new User(uid, firstName, lastName, street, city, phone);
+      }
     }
 
     return currentUser;
@@ -68,6 +81,11 @@ public class UserConnector {
     this.currentUser = currentUser;
     SharedPreferences.Editor editor = sharedPreferences.edit();
     editor.putString(CURRENT_USER_UID_KEY, currentUser.getUid());
+    editor.putString(CURRENT_USER_FIRST_NAME_KEY, currentUser.getFirstName());
+    editor.putString(CURRENT_USER_LAST_NAME_KEY, currentUser.getLastName());
+    editor.putString(CURRENT_USER_STREET_KEY, currentUser.getStreet());
+    editor.putString(CURRENT_USER_CITY_KEY, currentUser.getCity());
+    editor.putString(CURRENT_USER_PHONE_KEY, currentUser.getPhoneNumber());
     editor.apply();
   }
 }

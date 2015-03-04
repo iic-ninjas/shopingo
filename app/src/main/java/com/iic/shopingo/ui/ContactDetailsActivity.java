@@ -44,9 +44,20 @@ public class ContactDetailsActivity extends ActionBarActivity {
 
   @OnClick(R.id.contact_save_btn)
   void onSaveClicked() {
+    updateUser();
     Intent intent = new Intent(this, HomeActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivity(intent);
+  }
+
+  private void updateUser() {
+    User user = SharedUserConnector.getInstance().getCurrentUser();
+    user.setFirstName(firstNameEditView.getText().toString());
+    user.setLastName(lastNameEditView.getText().toString());
+    user.setStreet(streetEditView.getText().toString());
+    user.setCity(cityEditView.getText().toString());
+    user.setPhoneNumber(phoneEditView.getText().toString());
+    SharedUserConnector.getInstance().setCurrentUser(user);
   }
 
   private void prefillFields() {
