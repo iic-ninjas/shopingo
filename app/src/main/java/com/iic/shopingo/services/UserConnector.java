@@ -1,6 +1,12 @@
 package com.iic.shopingo.services;
 
 import android.content.SharedPreferences;
+import bolts.Task;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphLocation;
+import com.facebook.model.GraphUser;
 import com.iic.shopingo.dal.models.User;
 
 /**
@@ -8,7 +14,7 @@ import com.iic.shopingo.dal.models.User;
  */
 public class UserConnector {
 
-  private static final String PREF_USER_ID_KEY = "pref_user_id";
+  private static final String CURRENT_USER_UID_KEY = "current_user_uid";
 
   private User currentUser;
 
@@ -18,16 +24,34 @@ public class UserConnector {
     this.sharedPreferences = sharedPreferences;
   }
 
+  public Task<User> connectWithFacebook(Session session) {
+    final Task<User>.TaskCompletionSource taskCompletionSource = Task.create();
+
+    Request.newMeRequest(session, new Request.GraphUserCallback() {
+      @Override
+      public void onCompleted(GraphUser graphUser, Response response) {
+        GraphLocation location = graphUser.getLocation().getLocation();
+
+        User user = new User(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), location.getStreet(),
+            location.getCountry(), null);
+
+        // TODO: Make a call create/fetch the user from the server
+        SharedUserConnector.getInstance().setCurrentUser(user);
+        taskCompletionSource.setResult(user);
+      }
+    }).executeAsync();
+
+    return taskCompletionSource.getTask();
+  }
+
   public boolean isUserSignedIn() {
     return getCurrentUser() != null;
   }
 
   public User getCurrentUser() {
     if (currentUser == null) {
-      int userId = sharedPreferences.getInt(PREF_USER_ID_KEY, -1);
-      if (userId != -1) {
-        currentUser = new User(userId, null);
-      }
+      String uid = sharedPreferences.getString(CURRENT_USER_UID_KEY, null);
+      // TODO: fetch user from local db
     }
 
     return currentUser;
@@ -36,7 +60,7 @@ public class UserConnector {
   public void setCurrentUser(User currentUser) {
     this.currentUser = currentUser;
     SharedPreferences.Editor editor = sharedPreferences.edit();
-    editor.putInt(PREF_USER_ID_KEY, currentUser.getId());
+    editor.putString(CURRENT_USER_UID_KEY, currentUser.getUid());
     editor.apply();
   }
 }

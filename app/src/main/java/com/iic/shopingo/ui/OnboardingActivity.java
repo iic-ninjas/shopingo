@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import bolts.Continuation;
+import bolts.Task;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.LoginButton;
 import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.User;
 import com.iic.shopingo.services.SharedUserConnector;
@@ -17,11 +22,17 @@ public class OnboardingActivity extends ActionBarActivity {
 
   private UiLifecycleHelper facebookLifecycleHelper;
 
+  @InjectView(R.id.onboarding_login_btn)
+  LoginButton loginBtn;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_onboarding);
 
+    ButterKnife.inject(this);
+
+    loginBtn.setReadPermissions("public_profile", "user_location");
     facebookLifecycleHelper = new UiLifecycleHelper(this, new Session.StatusCallback() {
       @Override
       public void call(Session session, SessionState sessionState, Exception e) {
@@ -64,19 +75,22 @@ public class OnboardingActivity extends ActionBarActivity {
   private void onSessionStateChanged(Session session, SessionState sessionState, Exception e) {
     if (sessionState.isOpened()) {
       Log.d(LOG_TAG, "Logged in to facebook");
-      loginToServer(session);
+      login(session);
     } else if (sessionState.isClosed()) {
       Log.d(LOG_TAG, "Logged out from facebook");
       logout();
     }
   }
 
-  private void loginToServer(Session session) {
-    // TODO: create/fetch user from server by facebook uid and navigate to contact details activity if it's a new user
-    SharedUserConnector.getInstance().setCurrentUser(new User(1, null));
-
-    Intent intent = new Intent(this, ContactDetailsActivity.class);
-    startActivity(intent);
+  private void login(Session session) {
+    SharedUserConnector.getInstance().connectWithFacebook(session).onSuccess(new Continuation<User, Void>() {
+      @Override
+      public Void then(Task<User> task) throws Exception {
+        Intent intent = new Intent(OnboardingActivity.this, ContactDetailsActivity.class);
+        startActivity(intent);
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
   }
 
   private void logout() {

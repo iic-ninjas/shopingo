@@ -8,6 +8,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
+import com.iic.shopingo.dal.models.User;
+import com.iic.shopingo.services.SharedUserConnector;
 
 public class ContactDetailsActivity extends ActionBarActivity {
 
@@ -31,6 +33,8 @@ public class ContactDetailsActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_contact_details);
     ButterKnife.inject(this);
+
+    prefillFields();
   }
 
   @OnClick(R.id.contact_save_btn)
@@ -38,5 +42,13 @@ public class ContactDetailsActivity extends ActionBarActivity {
     Intent intent = new Intent(this, HomeActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivity(intent);
+  }
+
+  private void prefillFields() {
+    User user = SharedUserConnector.getInstance().getCurrentUser();
+    firstNameEditView.setText(user.getFirstName());
+    lastNameEditView.setText(user.getLastName());
+    streetEditView.setText(user.getStreet());
+    cityEditView.setText(user.getCity());
   }
 }
