@@ -21,8 +21,7 @@ public class HomeActivity extends ActionBarActivity {
     ButterKnife.inject(this);
 
     if (!SharedUserConnector.getInstance().isUserSignedIn()) {
-      Intent intent = new Intent(this, OnboardingActivity.class);
-      startActivity(intent);
+      navigateToOnboarding();
     }
   }
 
@@ -43,6 +42,12 @@ public class HomeActivity extends ActionBarActivity {
     //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
       return true;
+    } else if (id == R.id.action_logout) {
+      SharedUserConnector.getInstance().logout(this);
+      navigateToOnboarding();
+    } else if (id == R.id.action_update_contact) {
+      Intent intent = new Intent(this, ContactDetailsActivity.class);
+      startActivity(intent);
     }
 
     return super.onOptionsItemSelected(item);
@@ -52,5 +57,12 @@ public class HomeActivity extends ActionBarActivity {
   public void onCreateRequest(View view) {
     Intent intent = new Intent(this, SelectShopperActivity.class);
     startActivity(intent);
+  }
+
+  private void navigateToOnboarding() {
+    Intent intent = new Intent(this, OnboardingActivity.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(intent);
+    finish();
   }
 }
