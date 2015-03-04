@@ -25,7 +25,6 @@ dependencies {
   compile 'com.jakewharton:butterknife:6.1.0'
   compile 'com.squareup.picasso:picasso:2.5.0'
   compile 'com.facebook.android:facebook-android-sdk:3.23.0'
-  androidTestCompile 'org.mockito:mockito-core:1.+'
-  androidTestCompile 'org.powermock:powermock-module-junit3:1.6.1'
-  androidTestCompile 'org.powermock:powermock-api-mockito:1.6.1'
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.mockito:mockito-core:1.10.19'
 }
