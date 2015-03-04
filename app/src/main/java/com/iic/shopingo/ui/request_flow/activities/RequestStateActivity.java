@@ -36,6 +36,7 @@ public class RequestStateActivity extends ActionBarActivity {
     Intent intent = new Intent(this, SelectShopperActivity.class);
     intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, request);
     startActivity(intent);
+    finish();
   }
 
   @Optional
@@ -44,6 +45,7 @@ public class RequestStateActivity extends ActionBarActivity {
     // TODO: Settle request in server
     Intent intent = new Intent(this, HomeActivity.class);
     startActivity(intent);
+    finish();
   }
 
   @Optional
@@ -53,6 +55,7 @@ public class RequestStateActivity extends ActionBarActivity {
     Intent intent = new Intent(this, SelectShopperActivity.class);
     intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, request);
     startActivity(intent);
+    finish();
   }
 
   @Optional
