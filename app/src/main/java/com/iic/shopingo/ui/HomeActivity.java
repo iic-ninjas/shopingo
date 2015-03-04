@@ -16,8 +16,7 @@ public class HomeActivity extends ActionBarActivity {
     setContentView(R.layout.activity_home);
 
     if (!SharedUserConnector.getInstance().isUserSignedIn()) {
-      Intent intent = new Intent(this, OnboardingActivity.class);
-      startActivity(intent);
+      navigateToOnboarding();
     }
   }
 
@@ -38,8 +37,21 @@ public class HomeActivity extends ActionBarActivity {
     //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
       return true;
+    } else if (id == R.id.action_logout) {
+      SharedUserConnector.getInstance().logout(this);
+      navigateToOnboarding();
+    } else if (id == R.id.action_update_contact) {
+      Intent intent = new Intent(this, ContactDetailsActivity.class);
+      startActivity(intent);
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  private void navigateToOnboarding() {
+    Intent intent = new Intent(this, OnboardingActivity.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(intent);
+    finish();
   }
 }
