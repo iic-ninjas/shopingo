@@ -56,6 +56,15 @@ public class UserConnector {
     return taskCompletionSource.getTask();
   }
 
+  public void logout() {
+    setCurrentUser(null);
+
+    Session session = Session.getActiveSession();
+    if (session != null) {
+      session.closeAndClearTokenInformation();
+    }
+  }
+
   public boolean isUserSignedIn() {
     return getCurrentUser() != null;
   }
@@ -79,13 +88,23 @@ public class UserConnector {
 
   public void setCurrentUser(User currentUser) {
     this.currentUser = currentUser;
+
     SharedPreferences.Editor editor = sharedPreferences.edit();
-    editor.putString(CURRENT_USER_UID_KEY, currentUser.getUid());
-    editor.putString(CURRENT_USER_FIRST_NAME_KEY, currentUser.getFirstName());
-    editor.putString(CURRENT_USER_LAST_NAME_KEY, currentUser.getLastName());
-    editor.putString(CURRENT_USER_STREET_KEY, currentUser.getStreet());
-    editor.putString(CURRENT_USER_CITY_KEY, currentUser.getCity());
-    editor.putString(CURRENT_USER_PHONE_KEY, currentUser.getPhoneNumber());
+    if (currentUser != null) {
+      editor.putString(CURRENT_USER_UID_KEY, currentUser.getUid());
+      editor.putString(CURRENT_USER_FIRST_NAME_KEY, currentUser.getFirstName());
+      editor.putString(CURRENT_USER_LAST_NAME_KEY, currentUser.getLastName());
+      editor.putString(CURRENT_USER_STREET_KEY, currentUser.getStreet());
+      editor.putString(CURRENT_USER_CITY_KEY, currentUser.getCity());
+      editor.putString(CURRENT_USER_PHONE_KEY, currentUser.getPhoneNumber());
+    } else {
+      editor.remove(CURRENT_USER_UID_KEY);
+      editor.remove(CURRENT_USER_FIRST_NAME_KEY);
+      editor.remove(CURRENT_USER_LAST_NAME_KEY);
+      editor.remove(CURRENT_USER_STREET_KEY);
+      editor.remove(CURRENT_USER_CITY_KEY);
+      editor.remove(CURRENT_USER_PHONE_KEY);
+    }
     editor.apply();
   }
 }

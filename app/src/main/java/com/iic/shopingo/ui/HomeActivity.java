@@ -16,8 +16,7 @@ public class HomeActivity extends ActionBarActivity {
     setContentView(R.layout.activity_home);
 
     if (!SharedUserConnector.getInstance().isUserSignedIn()) {
-      Intent intent = new Intent(this, OnboardingActivity.class);
-      startActivity(intent);
+      navigateToOnboarding();
     }
   }
 
@@ -38,8 +37,16 @@ public class HomeActivity extends ActionBarActivity {
     //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
       return true;
+    } else if (id == R.id.action_logout) {
+      SharedUserConnector.getInstance().logout();
+      navigateToOnboarding();
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  private void navigateToOnboarding() {
+    Intent intent = new Intent(this, OnboardingActivity.class);
+    startActivity(intent);
   }
 }
