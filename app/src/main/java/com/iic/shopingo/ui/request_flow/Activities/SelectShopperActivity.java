@@ -1,5 +1,6 @@
 package com.iic.shopingo.ui.request_flow.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -34,7 +35,9 @@ public class SelectShopperActivity extends ActionBarActivity {
 
   @OnItemClick(R.id.select_shopper_list)
   public void onListItemClick(int position) {
-    // TODO: Pass the selected shopper to the request creation activity
+    Intent intent = new Intent(this, CreateRequestActivity.class);
+    intent.putExtra(CreateRequestActivity.SHOPPER_EXTRA_KEY, adapter.getItem(position));
+    startActivity(intent);
   }
 
   public static class SelectShopperAdapter extends BaseAdapter {
