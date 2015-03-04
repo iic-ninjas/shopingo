@@ -5,7 +5,8 @@ package com.iic.shopingo.dal.models;
  */
 public class User {
 
-  private static final String AVATAR_URL_FORMAT = "http://graph.facebook.com/%s/picture?width=100&height=100";
+  //private static final String AVATAR_URL_FORMAT = "https://graph.facebook.com/%s/picture?width=100&height=100";
+  private static final String AVATAR_URL_FORMAT = "https://graph.facebook.com/%s/picture?type=large";
 
   private String uid;
 
@@ -18,7 +19,7 @@ public class User {
   private String city;
 
   private String phoneNumber;
-
+  
   public User(String uid, String firstName, String lastName, String street, String city, String phoneNumber) {
     this.uid = uid;
     this.firstName = firstName;

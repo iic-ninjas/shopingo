@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.EditText;
+import android.widget.ImageView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.User;
 import com.iic.shopingo.services.SharedUserConnector;
+import com.squareup.picasso.Picasso;
 
 public class ContactDetailsActivity extends ActionBarActivity {
 
@@ -27,6 +29,9 @@ public class ContactDetailsActivity extends ActionBarActivity {
 
   @InjectView(R.id.contact_phone_editview)
   EditText phoneEditView;
+
+  @InjectView(R.id.contact_avatar_imageview)
+  ImageView avatarImageView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -50,5 +55,6 @@ public class ContactDetailsActivity extends ActionBarActivity {
     lastNameEditView.setText(user.getLastName());
     streetEditView.setText(user.getStreet());
     cityEditView.setText(user.getCity());
+    Picasso.with(this).load(user.getAvatarUrl()).into(avatarImageView);
   }
 }
