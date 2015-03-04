@@ -85,7 +85,7 @@ public class OnboardingActivity extends ActionBarActivity {
       Log.d(LOG_TAG, "Logged in to facebook");
       login(session);
     } else if (sessionState.isClosed()) {
-      Log.d(LOG_TAG, "Logged out from facebook");
+      Log.d(LOG_TAG, "Facebook session is closed");
       logout();
     }
   }
