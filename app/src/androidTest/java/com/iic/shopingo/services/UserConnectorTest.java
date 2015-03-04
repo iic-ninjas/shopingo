@@ -1,6 +1,8 @@
 package com.iic.shopingo.services;
 
+import android.content.SharedPreferences;
 import android.test.AndroidTestCase;
+import org.mockito.Mockito;
 
 /**
  * Test for UserConnector
@@ -8,8 +10,19 @@ import android.test.AndroidTestCase;
  */
 public class UserConnectorTest extends AndroidTestCase {
 
-  public void testConnectWithFacebook() {
+  private UserConnector subject;
 
+  private SharedPreferences sharedPreferences;
+
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    sharedPreferences = Mockito.mock(SharedPreferences.class);
+    subject = new UserConnector(sharedPreferences);
+  }
+
+  public void testConnectWithFacebook() {
+    
   }
 
 }
