@@ -15,9 +15,9 @@ import com.iic.shopingo.ui.request_flow.views.CreateRequestListItemView;
 import java.util.Currency;
 import java.util.Locale;
 
-public class CreateRequestActivity extends ActionBarActivity implements
-    CreateRequestListItemView.OnListViewChanged {
-  public static final String REQUEST_EXTRA_KEY = "request";
+public class CreateRequestActivity extends ActionBarActivity implements CreateRequestListItemView.OnListViewChanged {
+
+  public static final String EXTRAS_REQUEST_KEY = "request";
 
   @InjectView(R.id.create_request_items_list)
   CreateRequestItemListView itemListView;
@@ -33,7 +33,7 @@ public class CreateRequestActivity extends ActionBarActivity implements
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    request = getIntent().getParcelableExtra(REQUEST_EXTRA_KEY);
+    request = getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY);
 
     setContentView(R.layout.activity_create_request);
     ButterKnife.inject(this);
@@ -64,7 +64,7 @@ public class CreateRequestActivity extends ActionBarActivity implements
       itemListView.setItem(position, value);
       if (position == itemListView.size() - 1) {
         itemListView.addItem("");
-        ((CreateRequestListItemView)itemListView.getChildAt(position + 1)).focus();
+        ((CreateRequestListItemView) itemListView.getChildAt(position + 1)).focus();
       }
     }
   }
@@ -75,7 +75,7 @@ public class CreateRequestActivity extends ActionBarActivity implements
     request.price = Integer.parseInt(priceView.getText().toString());
     // TODO: Create request on server and move to state activity
     Intent intent = new Intent(this, RequestStateActivity.class);
-    intent.putExtra(RequestStateActivity.REQUEST_EXTRA_KEY, request);
+    intent.putExtra(RequestStateActivity.EXTRAS_REQUEST_KEY, request);
     startActivity(intent);
   }
 }

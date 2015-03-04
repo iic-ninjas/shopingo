@@ -19,19 +19,20 @@ import java.util.List;
 
 public class SelectShopperActivity extends ActionBarActivity {
 
-  public static final String REQUEST_EXTRA_KEY = "request";
+  public static final String EXTRAS_REQUEST_KEY = "request";
 
   @InjectView(R.id.select_shopper_list)
   ListView shopperList;
 
   private SelectShopperAdapter.ShopRequest request;
+
   private SelectShopperAdapter adapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    request = getIntent().getParcelableExtra(REQUEST_EXTRA_KEY);
+    request = getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY);
     if (request == null) {
       request = new SelectShopperAdapter.ShopRequest();
     }
@@ -49,7 +50,7 @@ public class SelectShopperActivity extends ActionBarActivity {
   public void onListItemClick(int position) {
     Intent intent = new Intent(this, CreateRequestActivity.class);
     request.shopper = adapter.getItem(position);
-    intent.putExtra(CreateRequestActivity.REQUEST_EXTRA_KEY, request);
+    intent.putExtra(CreateRequestActivity.EXTRAS_REQUEST_KEY, request);
     startActivity(intent);
   }
 
@@ -77,7 +78,7 @@ public class SelectShopperActivity extends ActionBarActivity {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      SelectShopperListItemView itemView = (SelectShopperListItemView)convertView;
+      SelectShopperListItemView itemView = (SelectShopperListItemView) convertView;
       if (itemView == null) {
         itemView = SelectShopperListItemView.inflate(parent);
       }
@@ -87,11 +88,24 @@ public class SelectShopperActivity extends ActionBarActivity {
 
     // TODO: Move to actual model
     public static class ShopRequest implements Parcelable {
-      public static enum RequestStatus { PENDING, APPROVED, DECLINED }
+      public final static Creator<ShopRequest> CREATOR = new Creator<ShopRequest>() {
+        @Override
+        public ShopRequest createFromParcel(Parcel source) {
+          return new ShopRequest(source);
+        }
+
+        @Override
+        public ShopRequest[] newArray(int size) {
+          return new ShopRequest[size];
+        }
+      };
 
       public SelectShopperActivity.SelectShopperAdapter.Shopper shopper;
+
       public List<String> items = new ArrayList<>();
+
       public int price;
+
       public RequestStatus status = RequestStatus.PENDING;
 
       public ShopRequest() {
@@ -117,24 +131,29 @@ public class SelectShopperActivity extends ActionBarActivity {
         dest.writeInt(status.ordinal());
       }
 
-      public final static Creator<ShopRequest> CREATOR = new Creator<ShopRequest>() {
-        @Override
-        public ShopRequest createFromParcel(Parcel source) {
-          return new ShopRequest(source);
-        }
-
-        @Override
-        public ShopRequest[] newArray(int size) {
-          return new ShopRequest[size];
-        }
-      };
+      public static enum RequestStatus {PENDING, APPROVED, DECLINED}
     }
 
     // TODO: Move actual model
     public static class Shopper implements Parcelable {
+      public final static Creator<Shopper> CREATOR = new Creator<Shopper>() {
+        @Override
+        public Shopper createFromParcel(Parcel source) {
+          return new Shopper(source);
+        }
+
+        @Override
+        public Shopper[] newArray(int size) {
+          return new Shopper[size];
+        }
+      };
+
       public String photo;
+
       public String name;
+
       public Long latitude;
+
       public Long longitude;
 
       public Shopper(String photo, String name, Long latitude, Long longitude) {
@@ -163,18 +182,6 @@ public class SelectShopperActivity extends ActionBarActivity {
         dest.writeLong(latitude);
         dest.writeLong(longitude);
       }
-
-      public final static Creator<Shopper> CREATOR = new Creator<Shopper>() {
-        @Override
-        public Shopper createFromParcel(Parcel source) {
-          return new Shopper(source);
-        }
-
-        @Override
-        public Shopper[] newArray(int size) {
-          return new Shopper[size];
-        }
-      };
     }
   }
 }

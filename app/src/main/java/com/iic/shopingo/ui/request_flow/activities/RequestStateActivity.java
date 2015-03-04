@@ -11,19 +11,19 @@ import com.iic.shopingo.R;
 import com.iic.shopingo.ui.HomeActivity;
 
 public class RequestStateActivity extends ActionBarActivity {
-  private SelectShopperActivity.SelectShopperAdapter.ShopRequest request;
+  public static final String EXTRAS_REQUEST_KEY = "request";
 
-  public static final String REQUEST_EXTRA_KEY = "request";
   private static final int[] LAYOUTS = new int[] {
-    R.layout.activity_request_state_pending,
-    R.layout.activity_request_state_approved,
-    R.layout.activity_request_state_declined
+      R.layout.activity_request_state_pending, R.layout.activity_request_state_approved,
+      R.layout.activity_request_state_declined
   };
+
+  private SelectShopperActivity.SelectShopperAdapter.ShopRequest request;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    request = getIntent().getParcelableExtra(REQUEST_EXTRA_KEY);
+    request = getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY);
     setContentView(LAYOUTS[request.status.ordinal()]);
     ButterKnife.inject(this);
   }
@@ -34,7 +34,7 @@ public class RequestStateActivity extends ActionBarActivity {
     // TODO: Cancel request in server
     request.shopper = null;
     Intent intent = new Intent(this, SelectShopperActivity.class);
-    intent.putExtra(SelectShopperActivity.REQUEST_EXTRA_KEY, request);
+    intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, request);
     startActivity(intent);
   }
 
@@ -51,7 +51,7 @@ public class RequestStateActivity extends ActionBarActivity {
   public void onTryAgain(View view) {
     request.shopper = null;
     Intent intent = new Intent(this, SelectShopperActivity.class);
-    intent.putExtra(SelectShopperActivity.REQUEST_EXTRA_KEY, request);
+    intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, request);
     startActivity(intent);
   }
 
