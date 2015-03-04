@@ -31,7 +31,11 @@
 
         <activity
             android:name=".ui.request_flow.activities.SelectShopperActivity"
-            android:label="@string/title_activity_select_shopper" >
+            android:label="@string/title_activity_select_shopper"
+            android:parentActivityName=".ui.HomeActivity" >
+           <meta-data
+              android:name="android.support.PARENT_ACTIVITY"
+              android:value=".ui.HomeActivity" />
         </activity>
         <activity
             android:name=".ui.request_flow.activities.RequestStateActivity"
