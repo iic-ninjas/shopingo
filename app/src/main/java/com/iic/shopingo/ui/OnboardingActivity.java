@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import butterknife.InjectView;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.LoginButton;
 import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.User;
 import com.iic.shopingo.services.SharedUserConnector;
@@ -16,9 +14,6 @@ import com.iic.shopingo.services.SharedUserConnector;
 public class OnboardingActivity extends ActionBarActivity {
 
   private static final String LOG_TAG = OnboardingActivity.class.getSimpleName();
-
-  @InjectView(R.id.onboarding_login_btn)
-  LoginButton facebookLoginBtn;
 
   private UiLifecycleHelper facebookLifecycleHelper;
 
