@@ -66,6 +66,7 @@ public class ContactDetailsActivity extends ActionBarActivity {
     lastNameEditView.setText(user.getLastName());
     streetEditView.setText(user.getStreet());
     cityEditView.setText(user.getCity());
+    phoneEditView.setText(user.getPhoneNumber());
     Picasso.with(this).load(user.getAvatarUrl()).into(avatarImageView);
   }
 }

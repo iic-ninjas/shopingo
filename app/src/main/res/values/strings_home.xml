@@ -4,4 +4,5 @@
   <string name="home_go_shopping_btn_title">Go Shopping</string>
   <string name="home_create_request_btn_title">Make a request</string>
   <string name="action_logout">Logout</string>
+  <string name="action_update_contact">Update contact details</string>
 </resources>

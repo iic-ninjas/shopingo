@@ -40,6 +40,9 @@ public class HomeActivity extends ActionBarActivity {
     } else if (id == R.id.action_logout) {
       SharedUserConnector.getInstance().logout(this);
       navigateToOnboarding();
+    } else if (id == R.id.action_update_contact) {
+      Intent intent = new Intent(this, ContactDetailsActivity.class);
+      startActivity(intent);
     }
 
     return super.onOptionsItemSelected(item);
