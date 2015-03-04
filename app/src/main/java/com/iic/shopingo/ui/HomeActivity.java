@@ -38,7 +38,7 @@ public class HomeActivity extends ActionBarActivity {
     if (id == R.id.action_settings) {
       return true;
     } else if (id == R.id.action_logout) {
-      SharedUserConnector.getInstance().logout();
+      SharedUserConnector.getInstance().logout(this);
       navigateToOnboarding();
     }
 

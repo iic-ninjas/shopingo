@@ -1,5 +1,6 @@
 package com.iic.shopingo.services;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import bolts.Task;
 import com.facebook.Request;
@@ -56,13 +57,17 @@ public class UserConnector {
     return taskCompletionSource.getTask();
   }
 
-  public void logout() {
+  public void logout(Context context) {
     setCurrentUser(null);
 
+    // Just because getActiveSession returns null, doesn't mean there is no session.
+    // It only means that it's not cached, so we need to create the session to close and clear its token information.
     Session session = Session.getActiveSession();
-    if (session != null) {
-      session.closeAndClearTokenInformation();
+    if (session == null) {
+      session = new Session(context);
+      Session.setActiveSession(session);
     }
+    session.closeAndClearTokenInformation();
   }
 
   public boolean isUserSignedIn() {
