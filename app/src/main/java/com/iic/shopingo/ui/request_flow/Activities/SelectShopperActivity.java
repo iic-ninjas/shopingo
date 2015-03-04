@@ -18,14 +18,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectShopperActivity extends ActionBarActivity {
+
+  public static final String REQUEST_EXTRA_KEY = "request";
+
   @InjectView(R.id.select_shopper_list)
   ListView shopperList;
 
+  private SelectShopperAdapter.ShopRequest request;
   private SelectShopperAdapter adapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    request = getIntent().getParcelableExtra(REQUEST_EXTRA_KEY);
+    if (request != null) {
+      request = new SelectShopperAdapter.ShopRequest();
+    }
+
     setContentView(R.layout.activity_select_shopper);
     ButterKnife.inject(this);
 
@@ -36,7 +46,8 @@ public class SelectShopperActivity extends ActionBarActivity {
   @OnItemClick(R.id.select_shopper_list)
   public void onListItemClick(int position) {
     Intent intent = new Intent(this, CreateRequestActivity.class);
-    intent.putExtra(CreateRequestActivity.SHOPPER_EXTRA_KEY, adapter.getItem(position));
+    request.shopper = adapter.getItem(position);
+    intent.putExtra(CreateRequestActivity.REQUEST_EXTRA_KEY, request);
     startActivity(intent);
   }
 
@@ -70,6 +81,51 @@ public class SelectShopperActivity extends ActionBarActivity {
       }
       itemView.setShopper(getItem(position));
       return itemView;
+    }
+
+    // TODO: Move to actual model
+    public static class ShopRequest implements Parcelable {
+      public static enum RequestStatus { PENDING, APPROVED, DECLINED }
+
+      public SelectShopperActivity.SelectShopperAdapter.Shopper shopper;
+      public List<String> items = new ArrayList<>();
+      public int price;
+      public RequestStatus status = RequestStatus.PENDING;
+
+      public ShopRequest() {
+      }
+
+      public ShopRequest(Parcel source) {
+        shopper = source.readParcelable(SelectShopperActivity.SelectShopperAdapter.Shopper.class.getClassLoader());
+        items = source.createStringArrayList();
+        price = source.readInt();
+        status = RequestStatus.values()[source.readInt()];
+      }
+
+      @Override
+      public int describeContents() {
+        return 0;
+      }
+
+      @Override
+      public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(shopper, 0);
+        dest.writeStringList(items);
+        dest.writeInt(price);
+        dest.writeInt(status.ordinal());
+      }
+
+      public final static Creator<ShopRequest> CREATOR = new Creator<ShopRequest>() {
+        @Override
+        public ShopRequest createFromParcel(Parcel source) {
+          return new ShopRequest(source);
+        }
+
+        @Override
+        public ShopRequest[] newArray(int size) {
+          return new ShopRequest[size];
+        }
+      };
     }
 
     // TODO: Move actual model

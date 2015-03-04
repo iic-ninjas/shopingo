@@ -59,6 +59,10 @@ public class CreateRequestListItemView extends LinearLayout {
     titleView.setText(title);
   }
 
+  public String getTitle() {
+    return titleView.getText().toString();
+  }
+
   public void focus() {
     if (titleView.requestFocus()) {
       ((Activity) getContext()).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

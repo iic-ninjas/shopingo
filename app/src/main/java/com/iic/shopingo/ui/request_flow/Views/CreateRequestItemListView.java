@@ -51,6 +51,12 @@ public class CreateRequestItemListView extends LinearLayout {
     views.add(view);
   }
 
+  public void addAllItems(List<String> titles) {
+    for (int i = 0; i < titles.size(); i++) {
+      addItem(titles.get(i));
+    }
+  }
+
   public void setItem(int position, String title) {
     items.set(position, title);
     views.get(position).setTitle(title);
@@ -63,8 +69,15 @@ public class CreateRequestItemListView extends LinearLayout {
     views.remove(view);
   }
 
-  public List<String> getItems() {
-    return items;
+  public List<String> getAllItems() {
+    List<String> titles = new ArrayList<>();
+    for (int i = 0; i < views.size(); i++) {
+      String title = views.get(i).getTitle();
+      if (!title.equals("")) {
+        titles.add(title);
+      }
+    }
+    return titles;
   }
 
   private CreateRequestListItemView createListItem(String title) {

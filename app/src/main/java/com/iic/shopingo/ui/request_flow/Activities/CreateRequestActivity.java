@@ -2,8 +2,6 @@ package com.iic.shopingo.ui.request_flow.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -15,12 +13,11 @@ import com.iic.shopingo.R;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestListItemView;
 import java.util.Currency;
-import java.util.List;
 import java.util.Locale;
 
 public class CreateRequestActivity extends ActionBarActivity implements
     CreateRequestListItemView.OnListViewChanged {
-  public static final String SHOPPER_EXTRA_KEY = "shopper";
+  public static final String REQUEST_EXTRA_KEY = "request";
 
   @InjectView(R.id.create_request_items_list)
   CreateRequestItemListView itemListView;
@@ -31,17 +28,23 @@ public class CreateRequestActivity extends ActionBarActivity implements
   @InjectView(R.id.create_request_price_input)
   EditText priceView;
 
-  private SelectShopperActivity.SelectShopperAdapter.Shopper shopper;
+  private SelectShopperActivity.SelectShopperAdapter.ShopRequest request;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    shopper = getIntent().getParcelableExtra(SHOPPER_EXTRA_KEY);
+    request = getIntent().getParcelableExtra(REQUEST_EXTRA_KEY);
 
     setContentView(R.layout.activity_create_request);
     ButterKnife.inject(this);
 
+    itemListView.addAllItems(request.items);
     itemListView.addItem("");
+
+    if (request.price != 0) {
+      priceView.setText(request.price);
+    }
+
     currencyView.setText(Currency.getInstance(Locale.getDefault()).getSymbol());
   }
 
@@ -68,60 +71,11 @@ public class CreateRequestActivity extends ActionBarActivity implements
 
   @OnClick(R.id.create_request_create_button)
   public void onCreateRequest(View view) {
-    List<String> items = itemListView.getItems();
-    int price = Integer.parseInt(priceView.getText().toString());
-    Request request = new Request(shopper, items, price);
+    request.items = itemListView.getAllItems();
+    request.price = Integer.parseInt(priceView.getText().toString());
     // TODO: Create request on server and move to state activity
     Intent intent = new Intent(this, RequestStateActivity.class);
     intent.putExtra(RequestStateActivity.REQUEST_EXTRA_KEY, request);
     startActivity(intent);
-  }
-
-  public static class Request implements Parcelable {
-    public static enum RequestStatus { PENDING, APPROVED, DECLINED }
-
-    public SelectShopperActivity.SelectShopperAdapter.Shopper shopper;
-    public List<String> items;
-    public int price;
-    public RequestStatus status;
-
-    public Request(SelectShopperActivity.SelectShopperAdapter.Shopper shopper, List<String> items, int price) {
-      this.shopper = shopper;
-      this.items = items;
-      this.price = price;
-      this.status = RequestStatus.PENDING;
-    }
-
-    public Request(Parcel source) {
-      shopper = source.readParcelable(SelectShopperActivity.SelectShopperAdapter.Shopper.class.getClassLoader());
-      items = source.createStringArrayList();
-      price = source.readInt();
-      status = RequestStatus.values()[source.readInt()];
-    }
-
-    @Override
-    public int describeContents() {
-      return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-      dest.writeParcelable(shopper, 0);
-      dest.writeStringList(items);
-      dest.writeInt(price);
-      dest.writeInt(status.ordinal());
-    }
-
-    public final static Creator<Request> CREATOR = new Creator<Request>() {
-      @Override
-      public Request createFromParcel(Parcel source) {
-        return new Request(source);
-      }
-
-      @Override
-      public Request[] newArray(int size) {
-        return new Request[size];
-      }
-    };
   }
 }

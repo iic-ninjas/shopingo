@@ -1,5 +1,6 @@
 package com.iic.shopingo.ui.request_flow.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -7,9 +8,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 import com.iic.shopingo.R;
+import com.iic.shopingo.ui.HomeActivity;
 
 public class RequestStateActivity extends ActionBarActivity {
-  private CreateRequestActivity.Request request;
+  private SelectShopperActivity.SelectShopperAdapter.ShopRequest request;
 
   public static final String REQUEST_EXTRA_KEY = "request";
   private static final int[] LAYOUTS = new int[] {
@@ -29,19 +31,26 @@ public class RequestStateActivity extends ActionBarActivity {
   @Optional
   @OnClick(R.id.request_state_cancel_button)
   public void onCancelRequest(View view) {
-    // TODO: Cancel request in server and go to trippers list
+    // TODO: Cancel request in server
+    Intent intent = new Intent(this, SelectShopperActivity.class);
+    intent.putExtra(SelectShopperActivity.REQUEST_EXTRA_KEY, request);
+    startActivity(intent);
   }
 
   @Optional
   @OnClick(R.id.request_state_settle_button)
   public void onSettleRequest(View view) {
-    // TODO: Settle request in server and go home
+    // TODO: Settle request in server
+    Intent intent = new Intent(this, HomeActivity.class);
+    startActivity(intent);
   }
 
   @Optional
   @OnClick(R.id.request_state_try_again_button)
   public void onTryAgain(View view) {
-    // TODO: Go to trippers list
+    Intent intent = new Intent(this, SelectShopperActivity.class);
+    intent.putExtra(SelectShopperActivity.REQUEST_EXTRA_KEY, request);
+    startActivity(intent);
   }
 
   @Optional
