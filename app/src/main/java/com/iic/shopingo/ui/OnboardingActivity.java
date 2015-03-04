@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.widget.Toast;
 import bolts.Continuation;
 import bolts.Task;
 import butterknife.ButterKnife;
@@ -86,13 +87,19 @@ public class OnboardingActivity extends ActionBarActivity {
 
   private void login(Session session) {
     duringLogin = true;
-    SharedUserConnector.getInstance().connectWithFacebook(session).onSuccess(new Continuation<User, Void>() {
+    SharedUserConnector.getInstance().connectWithFacebook(session).continueWith(new Continuation<User, Void>() {
       @Override
       public Void then(Task<User> task) throws Exception {
-        Intent intent = new Intent(OnboardingActivity.this, ContactDetailsActivity.class);
-        startActivity(intent);
-        finish();
-        duringLogin = false;
+        if (task.isCompleted()) {
+          Intent intent = new Intent(OnboardingActivity.this, ContactDetailsActivity.class);
+          startActivity(intent);
+          finish();
+          duringLogin = false;
+        } else if (task.isFaulted()) {
+          Toast.makeText(OnboardingActivity.this, "Could not login: " + task.getError(), Toast.LENGTH_LONG).show();
+        }
+
+        // task can also be cancelled, in that case we do nothing.
         return null;
       }
     }, Task.UI_THREAD_EXECUTOR);

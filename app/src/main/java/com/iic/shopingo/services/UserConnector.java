@@ -3,6 +3,7 @@ package com.iic.shopingo.services;
 import android.content.Context;
 import android.content.SharedPreferences;
 import bolts.Task;
+import com.facebook.FacebookRequestError;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -17,10 +18,15 @@ import com.iic.shopingo.dal.models.User;
 public class UserConnector {
 
   private static final String CURRENT_USER_UID_KEY = "current_user_uid";
+
   private static final String CURRENT_USER_FIRST_NAME_KEY = "current_user_first_name";
+
   private static final String CURRENT_USER_LAST_NAME_KEY = "current_user_last_name";
+
   private static final String CURRENT_USER_STREET_KEY = "current_user_street";
+
   private static final String CURRENT_USER_CITY_KEY = "current_user_city";
+
   private static final String CURRENT_USER_PHONE_KEY = "current_user_phone";
 
   private User currentUser;
@@ -37,6 +43,11 @@ public class UserConnector {
     Request.newMeRequest(session, new Request.GraphUserCallback() {
       @Override
       public void onCompleted(GraphUser graphUser, Response response) {
+        if (response.getError() != null) {
+          taskCompletionSource.setError(new UserConnectorException(response.getError()));
+          return;
+        }
+
         String street = null;
         String city = null;
         GraphPlace place = graphUser.getLocation();
@@ -111,5 +122,19 @@ public class UserConnector {
       editor.remove(CURRENT_USER_PHONE_KEY);
     }
     editor.apply();
+  }
+
+  public static class UserConnectorException extends Exception {
+
+    private FacebookRequestError fbError;
+
+    public UserConnectorException(FacebookRequestError fbError) {
+      super(fbError.getErrorMessage());
+      this.fbError = fbError;
+    }
+
+    public FacebookRequestError getFbError() {
+      return fbError;
+    }
   }
 }
