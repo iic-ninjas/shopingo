@@ -1,6 +1,8 @@
 package com.iic.shopingo.ui.request_flow.activities;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import com.iic.shopingo.R;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestListItemView;
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 
 public class CreateRequestActivity extends ActionBarActivity implements
@@ -64,6 +67,51 @@ public class CreateRequestActivity extends ActionBarActivity implements
 
   @OnClick(R.id.create_request_create_button)
   public void onCreateRequest(View view) {
-    // TODO: Create request on go to status activity
+    List<String> items = itemListView.getItems();
+    int price = Integer.parseInt(priceView.getText().toString());
+    Request request = new Request(shopper, items, price);
+    // TODO: Create request on server and move to state activity
+  }
+
+  public static class Request implements Parcelable {
+    public SelectShopperActivity.SelectShopperAdapter.Shopper shopper;
+    public List<String> items;
+    public int price;
+
+    public Request(SelectShopperActivity.SelectShopperAdapter.Shopper shopper, List<String> items, int price) {
+      this.shopper = shopper;
+      this.items = items;
+      this.price = price;
+    }
+
+    public Request(Parcel source) {
+      shopper = source.readParcelable(SelectShopperActivity.SelectShopperAdapter.Shopper.class.getClassLoader());
+      items = source.createStringArrayList();
+      price = source.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+      return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+      dest.writeParcelable(shopper, 0);
+      dest.writeStringList(items);
+      dest.writeInt(price);
+    }
+
+    public final static Creator<Request> CREATOR = new Creator<Request>() {
+      @Override
+      public Request createFromParcel(Parcel source) {
+        return new Request(source);
+      }
+
+      @Override
+      public Request[] newArray(int size) {
+        return new Request[size];
+      }
+    };
   }
 }

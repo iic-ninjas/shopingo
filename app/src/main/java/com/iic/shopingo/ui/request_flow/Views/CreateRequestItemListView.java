@@ -63,6 +63,10 @@ public class CreateRequestItemListView extends LinearLayout {
     views.remove(view);
   }
 
+  public List<String> getItems() {
+    return items;
+  }
+
   private CreateRequestListItemView createListItem(String title) {
     CreateRequestListItemView itemView = CreateRequestListItemView.inflate(this);
     itemView.setTitle(title);
