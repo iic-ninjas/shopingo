@@ -1,4 +1,4 @@
-package com.iic.shopingo.data;
+package com.iic.shopingo.ui.trip_flow.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by asafg on 03/03/15.
  */
-public class Location implements Parcelable{
+public class Location implements Parcelable {
   public android.location.Location coords;
   public String country;
   public String city;

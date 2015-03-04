@@ -9,7 +9,7 @@ import java.util.Currency;
  */
 public class PriceHelper {
   public static String getPriceString(int cents, String symbol) {
-    return symbol + Float.toString((float)cents/100.0f);
+    return symbol + Float.toString((float)cents / 100.0f);
   }
 
   public static String getPriceString(int cents, Currency currency) {

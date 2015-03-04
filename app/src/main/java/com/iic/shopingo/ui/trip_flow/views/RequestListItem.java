@@ -1,4 +1,4 @@
-package com.iic.shopingo.ui;
+package com.iic.shopingo.ui.trip_flow.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,10 +17,10 @@ import com.iic.shopingo.R;
  */
 public class RequestListItem extends FrameLayout {
 
-  @InjectView(R.id.requester_pic) ImageView thumbnail;
-  @InjectView(R.id.requester_name) TextView name;
-  @InjectView(R.id.requested_items_count) TextView numItems;
-  @InjectView(R.id.price_offer) TextView offer;
+  @InjectView(R.id.request_list_item_requester_pic) ImageView thumbnail;
+  @InjectView(R.id.request_list_item_requester_name) TextView name;
+  @InjectView(R.id.request_list_item_requested_items_count) TextView numItems;
+  @InjectView(R.id.request_list_item_price_offer) TextView offer;
 
   public RequestListItem(Context context) {
     super(context);

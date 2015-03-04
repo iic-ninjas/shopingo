@@ -1,4 +1,4 @@
-package com.iic.shopingo.data;
+package com.iic.shopingo.ui.trip_flow.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

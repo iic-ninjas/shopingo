@@ -1,17 +1,13 @@
-package com.iic.shopingo.ui.activities;
+package com.iic.shopingo.ui.trip_flow.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import com.iic.shopingo.data.Request;
-import com.iic.shopingo.ui.RequestListItem;
+import com.iic.shopingo.ui.trip_flow.data.Request;
+import com.iic.shopingo.ui.trip_flow.views.RequestListAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +22,7 @@ public class RequestList extends Activity implements AdapterView.OnItemClickList
 
   public interface OnRequestHandledListener {
     public void onRequestAccepted(Request request);
-    public void onRequestRejected(Request request);
+    public void onRequestDeclined(Request request);
   }
 
   public void setOnRequestHandledListener(OnRequestHandledListener listener) {
@@ -85,7 +81,7 @@ public class RequestList extends Activity implements AdapterView.OnItemClickList
           if (resultCode == RequestDetails.RESULT_ACCEPT) {
             listener.onRequestAccepted(req);
           } else if (resultCode == RequestDetails.RESULT_REJECT) {
-            listener.onRequestRejected(req);
+            listener.onRequestDeclined(req);
           }
         }
       }
@@ -94,47 +90,5 @@ public class RequestList extends Activity implements AdapterView.OnItemClickList
     }
   }
 
-  public static class RequestListAdapter extends BaseAdapter {
-    private List<Request> requests = new ArrayList<>();
-    private LayoutInflater inflater;
-    private Context context;
 
-    public RequestListAdapter(Context context, List<Request> requests) {
-      this.context = context;
-      this.requests = requests;
-    }
-
-    public void removeIndex(int index) {
-      requests.remove(index);
-      notifyDataSetChanged();
-    }
-
-    @Override
-    public int getCount() {
-      return requests.size();
-    }
-
-    @Override
-    public Request getItem(int position) {
-      return requests.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-      return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-      RequestListItem item = null;
-      if (convertView != null) {
-        item = (RequestListItem)convertView;
-      } else {
-        item = new RequestListItem(context);
-      }
-      Request req = getItem(position);
-      item.setRequest(null, req.name, req.items.size(), req.offerInCents);
-      return item;
-    }
-  }
 }

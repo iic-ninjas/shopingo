@@ -8,8 +8,8 @@
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/AppTheme">
 
-    <activity android:name=".ui.activities.RequestDetails" />
-    <activity android:name=".ui.activities.RequestList" />
+    <activity android:name=".ui.trip_flow.activities.RequestDetails" />
+    <activity android:name=".ui.trip_flow.activities.RequestList" />
 
   </application>
 

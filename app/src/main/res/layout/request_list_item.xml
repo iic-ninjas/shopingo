@@ -5,9 +5,9 @@
     android:layout_height="wrap_content">
 
   <ImageView
+      android:id="@+id/request_list_item_requester_pic"
       android:layout_width="50dp"
       android:layout_height="50dp"
-      android:id="@+id/requester_pic"
       android:src="@android:drawable/btn_star_big_on"
       android:scaleType="fitCenter"
       />
@@ -20,16 +20,16 @@
       android:layout_marginLeft="5dp"
       >
     <TextView
+        android:id="@+id/request_list_item_requester_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Moshe"
-        android:id="@+id/requester_name"
         />
     <TextView
+        android:id="@+id/request_list_item_requested_items_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="50 Items"
-        android:id="@+id/requested_items_count"
         />
   </LinearLayout>
   <FrameLayout
@@ -39,10 +39,10 @@
       android:layout_weight="1"
       >
     <TextView
+        android:id="@+id/request_list_item_price_offer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$50"
-        android:id="@+id/price_offer"
         android:textSize="32sp"
         android:layout_gravity="center"
         android:layout_weight="1"

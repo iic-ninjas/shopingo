@@ -1,10 +1,9 @@
-package com.iic.shopingo.ui.activities;
+package com.iic.shopingo.ui.trip_flow.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -14,7 +13,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
-import com.iic.shopingo.data.Request;
+import com.iic.shopingo.ui.trip_flow.data.Request;
 
 /**
  * Created by asafg on 03/03/15.
@@ -28,11 +27,11 @@ public class RequestDetails extends Activity {
 
   private Request request;
 
-  @InjectView(R.id.requester_name) TextView name;
-  @InjectView(R.id.num_items) TextView numItems;
-  @InjectView(R.id.items_list) ListView itemsList;
-  @InjectView(R.id.offer) TextView offer;
-  @InjectView(R.id.address) TextView address;
+  @InjectView(R.id.request_details_requester_name) TextView name;
+  @InjectView(R.id.request_details_num_items) TextView numItems;
+  @InjectView(R.id.request_details_items_list) ListView itemsList;
+  @InjectView(R.id.request_details_offer) TextView offer;
+  @InjectView(R.id.request_details_address) TextView address;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -57,20 +56,20 @@ public class RequestDetails extends Activity {
     }
   }
 
-  @OnClick(R.id.call_button)
+  @OnClick(R.id.request_details_call_button)
   public void onCall(View view) {
     Intent intent = new Intent(Intent.ACTION_CALL);
     intent.setData(Uri.parse("tel:" + request.location.phone));
     startActivity(intent);
   }
 
-  @OnClick(R.id.accept_button)
+  @OnClick(R.id.request_details_accept_button)
   public void onAccept(View view) {
     setResult(RESULT_ACCEPT);
     finish();
   }
 
-  @OnClick(R.id.reject_button)
+  @OnClick(R.id.request_details_decline_button)
   public void onReject(View view) {
     setResult(RESULT_REJECT);
     finish();
