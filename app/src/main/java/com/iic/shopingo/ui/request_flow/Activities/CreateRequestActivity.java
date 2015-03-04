@@ -42,7 +42,7 @@ public class CreateRequestActivity extends ActionBarActivity implements
     itemListView.addItem("");
 
     if (request.price != 0) {
-      priceView.setText(request.price);
+      priceView.setText(Integer.toString(request.price));
     }
 
     currencyView.setText(Currency.getInstance(Locale.getDefault()).getSymbol());

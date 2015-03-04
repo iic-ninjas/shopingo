@@ -32,14 +32,16 @@ public class SelectShopperActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
 
     request = getIntent().getParcelableExtra(REQUEST_EXTRA_KEY);
-    if (request != null) {
+    if (request == null) {
       request = new SelectShopperAdapter.ShopRequest();
     }
 
     setContentView(R.layout.activity_select_shopper);
     ButterKnife.inject(this);
 
-    adapter = new SelectShopperAdapter(new ArrayList<SelectShopperAdapter.Shopper>());
+    List<SelectShopperAdapter.Shopper> shoppers = new ArrayList<>();
+    // TODO: Get actual shoppers
+    adapter = new SelectShopperAdapter(shoppers);
     shopperList.setAdapter(adapter);
   }
 

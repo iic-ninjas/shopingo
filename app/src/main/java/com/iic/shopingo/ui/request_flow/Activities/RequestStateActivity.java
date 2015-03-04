@@ -32,6 +32,7 @@ public class RequestStateActivity extends ActionBarActivity {
   @OnClick(R.id.request_state_cancel_button)
   public void onCancelRequest(View view) {
     // TODO: Cancel request in server
+    request.shopper = null;
     Intent intent = new Intent(this, SelectShopperActivity.class);
     intent.putExtra(SelectShopperActivity.REQUEST_EXTRA_KEY, request);
     startActivity(intent);
@@ -48,6 +49,7 @@ public class RequestStateActivity extends ActionBarActivity {
   @Optional
   @OnClick(R.id.request_state_try_again_button)
   public void onTryAgain(View view) {
+    request.shopper = null;
     Intent intent = new Intent(this, SelectShopperActivity.class);
     intent.putExtra(SelectShopperActivity.REQUEST_EXTRA_KEY, request);
     startActivity(intent);

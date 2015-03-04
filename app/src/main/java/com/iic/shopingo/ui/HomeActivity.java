@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.services.SharedUserConnector;
+import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
 
 public class HomeActivity extends ActionBarActivity {
 
@@ -14,6 +18,7 @@ public class HomeActivity extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
+    ButterKnife.inject(this);
 
     if (!SharedUserConnector.getInstance().isUserSignedIn()) {
       Intent intent = new Intent(this, OnboardingActivity.class);
@@ -41,5 +46,11 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @OnClick(R.id.home_create_request_btn)
+  public void onCreateRequest(View view) {
+    Intent intent = new Intent(this, SelectShopperActivity.class);
+    startActivity(intent);
   }
 }
