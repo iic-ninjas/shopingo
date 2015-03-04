@@ -6,6 +6,7 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphLocation;
+import com.facebook.model.GraphPlace;
 import com.facebook.model.GraphUser;
 import com.iic.shopingo.dal.models.User;
 
@@ -30,10 +31,16 @@ public class UserConnector {
     Request.newMeRequest(session, new Request.GraphUserCallback() {
       @Override
       public void onCompleted(GraphUser graphUser, Response response) {
-        GraphLocation location = graphUser.getLocation().getLocation();
+        String street = null;
+        String city = null;
+        GraphPlace place = graphUser.getLocation();
+        GraphLocation location = (place != null ? place.getLocation() : null);
+        if (location != null) {
+          street = location.getStreet();
+          city = location.getCity();
+        }
 
-        User user = new User(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), location.getStreet(),
-            location.getCountry(), null);
+        User user = new User(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), street, city, null);
 
         // TODO: Make a call create/fetch the user from the server
         SharedUserConnector.getInstance().setCurrentUser(user);

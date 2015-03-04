@@ -5,6 +5,8 @@ package com.iic.shopingo.dal.models;
  */
 public class User {
 
+  private static final String AVATAR_URL_FORMAT = "http://graph.facebook.com/%s/picture?width=100&height=100";
+
   private String uid;
 
   private String firstName;
@@ -48,5 +50,9 @@ public class User {
 
   public String getPhoneNumber() {
     return phoneNumber;
+  }
+
+  public String getAvatarUrl() {
+    return String.format(AVATAR_URL_FORMAT, getUid());
   }
 }
