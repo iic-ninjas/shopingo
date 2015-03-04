@@ -1,6 +1,8 @@
 package com.iic.shopingo.ui.request_flow.activities;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +70,7 @@ public class SelectShopperActivity extends ActionBarActivity {
     }
 
     // TODO: Move actual model
-    public static class Shopper {
+    public static class Shopper implements Parcelable {
       public String photo;
       public String name;
       public Long latitude;
@@ -80,6 +82,38 @@ public class SelectShopperActivity extends ActionBarActivity {
         this.latitude = latitude;
         this.longitude = longitude;
       }
+
+      public Shopper(Parcel source) {
+        photo = source.readString();
+        name = source.readString();
+        latitude = source.readLong();
+        longitude = source.readLong();
+      }
+
+      @Override
+      public int describeContents() {
+        return 0;
+      }
+
+      @Override
+      public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(photo);
+        dest.writeString(name);
+        dest.writeLong(latitude);
+        dest.writeLong(longitude);
+      }
+
+      public final static Creator<Shopper> CREATOR = new Creator<Shopper>() {
+        @Override
+        public Shopper createFromParcel(Parcel source) {
+          return new Shopper(source);
+        }
+
+        @Override
+        public Shopper[] newArray(int size) {
+          return new Shopper[size];
+        }
+      };
     }
   }
 }

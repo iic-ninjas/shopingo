@@ -12,11 +12,19 @@
   <string name="request_state_settle_button">Done!</string>
   <string name="request_state_try_again_button">Try someone else</string>
   <string name="request_state_go_yourself_button">Go yourself</string>
-  
+
+  <!-- Create Request -->
+  <string name="title_activity_create_request">CreateRequestActivity</string>
+  <string name="create_request_new_item_hint">Add another item</string>
+  <string name="create_request_remove_item_button">X</string>
+  <string name="create_request_price_hint">5.00</string>
+  <string name="create_request_create_button">Create Request</string>
+
   <!-- Select Shopper -->
   <string name="title_activity_select_shopper">SelectShopperActivity</string>
   <string name="select_shopper_distance_format">%.1f km</string>
 
   <string name="action_settings">Settings</string>
+  <string name="hello_world">Hello world!</string>
 
 </resources>
