@@ -1,10 +1,12 @@
-package com.iic.shopingo.ui.trip_flow.activities;
+package com.iic.shopingo.ui.trip_flow.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,33 +17,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by asafg on 04/03/15.
+ * Created by asafg on 05/03/15.
  */
-public class ShoppingListActivity extends Activity implements ShoppingListItem.OnCallListener {
-  private ListView list;
+public class ShoppingListFragment extends Fragment implements ShoppingListItem.OnCallListener {
+
+  private ListView listView;
   private ShoppingListAdapter adapter;
+  private List<ShoppingList> shoppingLists;
+
+  public ShoppingListFragment() {
+    shoppingLists = new ArrayList<>();
+  }
 
   @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    list = new ListView(this);
-    setContentView(list);
-
-    List<ShoppingList> lists = new ArrayList<>(5);
-    for (int i = 0; i < 5; ++i) {
-      ShoppingList list = new ShoppingList();
-      list.requesterName = "Moshe " + i;
-      list.phoneNumber = "12345678";
-      list.items.add(new ShoppingList.Item("1 Milk"));
-      list.items.add(new ShoppingList.Item("1 Bread"));
-      list.items.add(new ShoppingList.Item("1 Cheese"));
-      list.items.add(new ShoppingList.Item("12 Eggs"));
-      lists.add(list);
-    }
-
-    adapter = new ShoppingListAdapter(this, lists);
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    listView = new ListView(getActivity());
+    adapter = new ShoppingListAdapter(getActivity());
     adapter.setOnCallListener(this);
-    list.setAdapter(adapter);
+    for (ShoppingList sl : shoppingLists) {
+      adapter.addShoppingList(sl);
+    }
+    listView.setAdapter(adapter);
+    return listView;
+  }
+
+  public void addShoppingList(ShoppingList shoppingList) {
+    shoppingLists.add(shoppingList);
+    if (adapter != null) {
+      adapter.addShoppingList(shoppingList);
+    }
   }
 
   @Override
@@ -57,8 +61,8 @@ public class ShoppingListActivity extends Activity implements ShoppingListItem.O
 
     private ShoppingListItem.OnCallListener listener;
 
-    public ShoppingListAdapter(Context context, List<ShoppingList> shoppingLists) {
-      this.shoppingLists = shoppingLists;
+    public ShoppingListAdapter(Context context) {
+      this.shoppingLists = new ArrayList<>();
       this.context = context;
     }
 
@@ -99,6 +103,11 @@ public class ShoppingListActivity extends Activity implements ShoppingListItem.O
       if (listener != null) {
         listener.onCall(phoneNumber);
       }
+    }
+
+    public void addShoppingList(ShoppingList shoppingList) {
+      shoppingLists.add(shoppingList);
+      notifyDataSetChanged();
     }
   }
 }

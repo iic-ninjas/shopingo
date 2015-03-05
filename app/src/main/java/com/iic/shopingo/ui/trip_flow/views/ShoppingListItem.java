@@ -13,7 +13,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
-import com.iic.shopingo.ui.trip_flow.activities.ShoppingListActivity;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
 
 /**
