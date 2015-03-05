@@ -45,6 +45,14 @@ public class UserConnectorTest {
   @Test
   public void testConnectWithFacebookWhenLoginFails() {
     new Expectations() {{
+      final Request fbRequest = Request.newMeRequest(fbSession, (Request.GraphUserCallback) any);
+      result = new Delegate<Request>() {
+        Request delegate(Session session, Request.GraphUserCallback callback) {
+          fbCallback = callback;
+          return fbRequest;
+        }
+      };
+
       fbResponse.getError();
       result = new FacebookRequestError(0, "no_internet", "No internet");
 
@@ -55,15 +63,6 @@ public class UserConnectorTest {
           return null;
         }
       };
-
-      final Request fbRequest = Request.newMeRequest(fbSession, (Request.GraphUserCallback) any);
-      result = new Delegate<Request>() {
-        Request delegate(Session session, Request.GraphUserCallback callback) {
-          fbCallback = callback;
-          return fbRequest;
-        }
-      };
-
     }};
 
     Task<User> task = subject.connectWithFacebook(fbSession);
