@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by assafgelber on 3/4/15.
  */
-public class CreateRequestItemListView extends LinearLayout {
+public class CreateRequestItemListView extends LinearLayout implements CreateRequestListItemView.OnListViewChanged {
   private List<String> items = new ArrayList<>();
 
   private List<CreateRequestListItemView> views = new ArrayList<>();
@@ -83,6 +83,29 @@ public class CreateRequestItemListView extends LinearLayout {
   private CreateRequestListItemView createListItem(String title) {
     CreateRequestListItemView itemView = CreateRequestListItemView.inflate(this);
     itemView.setTitle(title);
+    itemView.setListener(this);
     return itemView;
   }
+
+  @Override
+  public void onRemoveButtonClicked(View view) {
+    removeItem(getPositionForView(view));
+  }
+
+  @Override
+  public void onItemEdited(View view, String value) {
+    int position = getPositionForView(view);
+    if (value.equals("")) {
+      if (position != size() - 1) {
+        removeItem(position);
+      }
+    } else {
+      setItem(position, value);
+      if (position == size() - 1) {
+        addItem("");
+        views.get(position + 1).focus();
+      }
+    }
+  }
+
 }

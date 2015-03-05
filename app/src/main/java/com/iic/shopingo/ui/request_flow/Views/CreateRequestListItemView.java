@@ -29,6 +29,8 @@ public class CreateRequestListItemView extends LinearLayout {
   @InjectView(R.id.create_request_remove_button)
   Button removeButton;
 
+  private OnListViewChanged listener;
+
   public CreateRequestListItemView(Context context) {
     super(context);
     init();
@@ -73,22 +75,32 @@ public class CreateRequestListItemView extends LinearLayout {
     removeButton.setEnabled(enabled);
   }
 
+  public void setListener(OnListViewChanged listener) {
+    this.listener = listener;
+  }
+
   @OnClick(R.id.create_request_remove_button)
   public void onRemoveClick(View view) {
-    ((OnListViewChanged) getContext()).onRemoveButtonClicked(this);
+    if (listener != null) {
+      listener.onRemoveButtonClicked(this);
+    }
   }
 
   @OnFocusChange(R.id.create_request_item_title)
   public void onTitleFocusChanged(EditText view, boolean hasFocus) {
     if (!hasFocus) {
-      ((OnListViewChanged) getContext()).onItemEdited(this, view.getText().toString());
+      if (listener != null) {
+        listener.onItemEdited(this, view.getText().toString());
+    }
     }
   }
 
   @OnEditorAction(R.id.create_request_item_title)
   public boolean onTitleEditorAction(EditText view, int actionId, KeyEvent event) {
     if (actionId == EditorInfo.IME_ACTION_GO) {
-      ((OnListViewChanged) getContext()).onItemEdited(this, view.getText().toString());
+      if (listener != null) {
+        listener.onItemEdited(this, view.getText().toString());
+      }
       return true;
     }
     return false;

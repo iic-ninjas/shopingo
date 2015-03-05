@@ -11,11 +11,10 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
-import com.iic.shopingo.ui.request_flow.views.CreateRequestListItemView;
 import java.util.Currency;
 import java.util.Locale;
 
-public class CreateRequestActivity extends ActionBarActivity implements CreateRequestListItemView.OnListViewChanged {
+public class CreateRequestActivity extends ActionBarActivity {
 
   public static final String EXTRAS_REQUEST_KEY = "request";
 
@@ -46,27 +45,6 @@ public class CreateRequestActivity extends ActionBarActivity implements CreateRe
     }
 
     currencyView.setText(Currency.getInstance(Locale.getDefault()).getSymbol());
-  }
-
-  @Override
-  public void onRemoveButtonClicked(View view) {
-    itemListView.removeItem(itemListView.getPositionForView(view));
-  }
-
-  @Override
-  public void onItemEdited(View view, String value) {
-    int position = itemListView.getPositionForView(view);
-    if (value.equals("")) {
-      if (position != itemListView.size() - 1) {
-        itemListView.removeItem(position);
-      }
-    } else {
-      itemListView.setItem(position, value);
-      if (position == itemListView.size() - 1) {
-        itemListView.addItem("");
-        ((CreateRequestListItemView) itemListView.getChildAt(position + 1)).focus();
-      }
-    }
   }
 
   @OnClick(R.id.create_request_create_button)
