@@ -55,5 +55,6 @@ public class CreateRequestActivity extends ActionBarActivity {
     Intent intent = new Intent(this, RequestStateActivity.class);
     intent.putExtra(RequestStateActivity.EXTRAS_REQUEST_KEY, request);
     startActivity(intent);
+    finish();
   }
 }
