@@ -42,7 +42,6 @@ public class SelectShopperActivity extends ActionBarActivity {
 
     List<SelectShopperAdapter.Shopper> shoppers = new ArrayList<>();
     // TODO: Get actual shoppers
-    shoppers.add(new SelectShopperAdapter.Shopper("http://agelber.com/images/avatar-large.png", "Assaf Gelber", 0L, 0L));
     adapter = new SelectShopperAdapter(shoppers);
     shopperList.setAdapter(adapter);
   }
