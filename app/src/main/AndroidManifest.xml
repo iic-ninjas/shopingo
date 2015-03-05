@@ -54,6 +54,7 @@
 
       <activity android:name=".ui.trip_flow.activities.RequestDetails" />
       <activity android:name=".ui.trip_flow.activities.RequestList" />
+      <activity android:name=".ui.trip_flow.activities.ShoppingListActivity" />
     </application>
 
 </manifest>

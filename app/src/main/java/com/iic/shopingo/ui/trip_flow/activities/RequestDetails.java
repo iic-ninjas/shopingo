@@ -23,7 +23,7 @@ public class RequestDetails extends Activity {
 
   public static final int RESULT_NONE = 0;
   public static final int RESULT_ACCEPT = 1;
-  public static final int RESULT_REJECT = 2;
+  public static final int RESULT_DECLINE = 2;
 
   private Request request;
 
@@ -71,7 +71,7 @@ public class RequestDetails extends Activity {
 
   @OnClick(R.id.request_details_decline_button)
   public void onReject(View view) {
-    setResult(RESULT_REJECT);
+    setResult(RESULT_DECLINE);
     finish();
   }
 }

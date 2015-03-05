@@ -74,13 +74,13 @@ public class RequestList extends Activity implements AdapterView.OnItemClickList
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode >= 0) {
-      if (resultCode == RequestDetails.RESULT_ACCEPT || resultCode == RequestDetails.RESULT_REJECT) {
+      if (resultCode == RequestDetails.RESULT_ACCEPT || resultCode == RequestDetails.RESULT_DECLINE) {
         Request req = adapter.getItem(requestCode);
         adapter.removeIndex(requestCode);
         if (listener != null) {
           if (resultCode == RequestDetails.RESULT_ACCEPT) {
             listener.onRequestAccepted(req);
-          } else if (resultCode == RequestDetails.RESULT_REJECT) {
+          } else if (resultCode == RequestDetails.RESULT_DECLINE) {
             listener.onRequestDeclined(req);
           }
         }
