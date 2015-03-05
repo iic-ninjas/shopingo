@@ -1,5 +1,6 @@
 package com.iic.shopingo.ui.request_flow.activities;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -10,15 +11,20 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import com.iic.shopingo.R;
+import com.iic.shopingo.services.CurrentLocationProvider;
 import com.iic.shopingo.ui.request_flow.views.SelectShopperListItemView;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectShopperActivity extends ActionBarActivity {
+  private final long REQUEST_INTERVAL = 5 * 1000; // 5 seconds in millisecnods
+
   @InjectView(R.id.select_shopper_list)
   ListView shopperList;
 
   private SelectShopperAdapter adapter;
+
+  private CurrentLocationProvider locationProvider;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +32,34 @@ public class SelectShopperActivity extends ActionBarActivity {
     setContentView(R.layout.activity_select_shopper);
     ButterKnife.inject(this);
 
-    adapter = new SelectShopperAdapter(new ArrayList<SelectShopperAdapter.Shopper>());
+    locationProvider = new CurrentLocationProvider(this, REQUEST_INTERVAL, new CurrentLocationProvider.LocationUpdatesListener() {
+      @Override
+      public void onLocationUpdated(Location location) {
+        adapter.setUserLocation(location);
+      }
+    });
+
+    List<SelectShopperAdapter.Shopper> shoppers = new ArrayList<>();
+    adapter = new SelectShopperAdapter(shoppers);
     shopperList.setAdapter(adapter);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    locationProvider.resume();
   }
 
   @OnItemClick(R.id.select_shopper_list)
   public void onListItemClick(int position) {
     // TODO: Pass the selected shopper to the request creation activity
+    locationProvider.stop();
   }
 
   public static class SelectShopperAdapter extends BaseAdapter {
     private List<Shopper> shoppers;
+
+    private Location userLocation;
 
     public SelectShopperAdapter(List<Shopper> shoppers) {
       this.shoppers = shoppers;
@@ -64,17 +87,25 @@ public class SelectShopperActivity extends ActionBarActivity {
         itemView = SelectShopperListItemView.inflate(parent);
       }
       itemView.setShopper(getItem(position));
+      if (userLocation != null) {
+        itemView.setUserLocation(userLocation);
+      }
       return itemView;
+    }
+
+    private void setUserLocation(Location userLocation) {
+      this.userLocation = userLocation;
+      notifyDataSetChanged();
     }
 
     // TODO: Move actual model
     public static class Shopper {
       public String photo;
       public String name;
-      public Long latitude;
-      public Long longitude;
+      public Double latitude;
+      public Double longitude;
 
-      public Shopper(String photo, String name, Long latitude, Long longitude) {
+      public Shopper(String photo, String name, Double latitude, Double longitude) {
         this.photo = photo;
         this.name = name;
         this.latitude = latitude;
