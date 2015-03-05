@@ -10,15 +10,13 @@ import android.widget.ListView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.iic.shopingo.R;
 import com.iic.shopingo.services.CurrentLocationProvider;
 import com.iic.shopingo.ui.request_flow.views.SelectShopperListItemView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectShopperActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks {
+public class SelectShopperActivity extends ActionBarActivity {
   private final long REQUEST_INTERVAL = 10 * 1000; // 10 seconds in millisecnods
 
   @InjectView(R.id.select_shopper_list)
@@ -28,19 +26,24 @@ public class SelectShopperActivity extends ActionBarActivity implements GoogleAp
 
   private CurrentLocationProvider locationProvider;
 
-  private GoogleApiClient googleApiClient;
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_select_shopper);
     ButterKnife.inject(this);
 
-    googleApiClient = new GoogleApiClient.Builder(this)
-        .addApi(LocationServices.API)
-        .addConnectionCallbacks(this)
-        .build();
-    googleApiClient.connect();
+    locationProvider = new CurrentLocationProvider(this, REQUEST_INTERVAL, new CurrentLocationProvider.LocationUpdatesListener() {
+      @Override
+      public void onLocationUpdated(Location location) {
+        adapter.setUserLocation(location);
+      }
+
+      @Override
+      public void onConnectionStop() {}
+
+      @Override
+      public void onConnectionFail() {}
+    });
 
     List<SelectShopperAdapter.Shopper> shoppers = new ArrayList<>();
     adapter = new SelectShopperAdapter(shoppers);
@@ -50,23 +53,6 @@ public class SelectShopperActivity extends ActionBarActivity implements GoogleAp
   @OnItemClick(R.id.select_shopper_list)
   public void onListItemClick(int position) {
     // TODO: Pass the selected shopper to the request creation activity
-  }
-
-  @Override
-  public void onConnected(Bundle bundle) {
-    locationProvider = new CurrentLocationProvider(googleApiClient, REQUEST_INTERVAL, new CurrentLocationProvider.LocationUpdatesListener() {
-      @Override
-      public void onLocationUpdated(Location location) {
-        adapter.setUserLocation(location);
-      }
-    });
-  }
-
-  @Override
-  public void onConnectionSuspended(int i) {
-    if (locationProvider != null) {
-      locationProvider.stop();
-    }
   }
 
   public static class SelectShopperAdapter extends BaseAdapter {

@@ -1,6 +1,9 @@
 package com.iic.shopingo.services;
 
+import android.content.Context;
 import android.location.Location;
+import android.os.Bundle;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -9,15 +12,25 @@ import com.google.android.gms.location.LocationServices;
 /**
  * Created by assafgelber on 3/5/15.
  */
-public class CurrentLocationProvider {
+public class CurrentLocationProvider implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
   private GoogleApiClient googleApiClient;
   private LocationListener internalListener;
   private LocationUpdatesListener updatesListener;
+  private long requestInterval;
 
-  public CurrentLocationProvider(GoogleApiClient client, long requestInterval, LocationUpdatesListener listener) {
-    this.googleApiClient = client;
+  public CurrentLocationProvider(Context context, long requestInterval, LocationUpdatesListener listener) {
+    this.requestInterval = requestInterval;
     this.updatesListener = listener;
 
+    googleApiClient = new GoogleApiClient.Builder(context)
+        .addApi(LocationServices.API)
+        .addConnectionCallbacks(this)
+        .build();
+    googleApiClient.connect();
+  }
+
+  @Override
+  public void onConnected(Bundle bundle) {
     LocationRequest locationRequest = new LocationRequest();
     locationRequest.setInterval(requestInterval);
     locationRequest.setFastestInterval(requestInterval);
@@ -30,7 +43,18 @@ public class CurrentLocationProvider {
       }
     };
 
-    LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest, internalListener);
+    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, internalListener);
+  }
+
+  @Override
+  public void onConnectionSuspended(int i) {
+    stop();
+    updatesListener.onConnectionStop();
+  }
+
+  @Override
+  public void onConnectionFailed(ConnectionResult connectionResult) {
+    updatesListener.onConnectionFail();
   }
 
   public void stop() {
@@ -39,5 +63,7 @@ public class CurrentLocationProvider {
 
   public interface LocationUpdatesListener {
     public void onLocationUpdated(Location location);
+    public void onConnectionStop();
+    public void onConnectionFail();
   }
 }
