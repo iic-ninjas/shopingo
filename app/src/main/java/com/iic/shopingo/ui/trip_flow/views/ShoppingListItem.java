@@ -60,8 +60,9 @@ public class ShoppingListItem extends FrameLayout {
     itemsContainer.removeAllViews();
     ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     for (ShoppingList.Item item : shoppingList.items) {
-      itemsContainer.addView(createShoppingListItemView(item), lp);
-      itemsContainer.setOnClickListener(new ShoppingListClickListener(item) {
+      View shoppingListItemView = createShoppingListItemView(item);
+      itemsContainer.addView(shoppingListItemView, lp);
+      shoppingListItemView.setOnClickListener(new ShoppingListClickListener(item) {
         @Override
         public void onClick(View v, ShoppingList.Item item) {
           listItemClicked((CheckBox)v, item);
