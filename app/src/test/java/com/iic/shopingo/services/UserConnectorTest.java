@@ -13,6 +13,7 @@ import mockit.Expectations;
 import mockit.Mocked;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test for UserConnector
@@ -29,29 +30,46 @@ public class UserConnectorTest {
   private Response fbResponse;
 
   @Mocked
+  private Request fbRequest;
+
+  @Mocked
   private Session fbSession;
+
+  private Request.GraphUserCallback fbCallback;
 
   @Before
   public void beforeEach() {
     subject = new UserConnector(sharedPreferences);
   }
 
+  @Test
   public void testConnectWithFacebookWhenLoginFails() {
     new Expectations() {{
       fbResponse.getError();
       result = new FacebookRequestError(0, "no_internet", "No internet");
 
-      Request.newMeRequest(fbSession, (Request.GraphUserCallback) any);
+      fbRequest.executeAsync();
       result = new Delegate<RequestAsyncTask>() {
-        RequestAsyncTask delegate(Session session, Request.GraphUserCallback callback) {
-          callback.onCompleted(null, fbResponse);
+        RequestAsyncTask delegate() {
+          fbCallback.onCompleted(null, fbResponse);
           return null;
         }
       };
+
+      final Request fbRequest = Request.newMeRequest(fbSession, (Request.GraphUserCallback) any);
+      result = new Delegate<Request>() {
+        Request delegate(Session session, Request.GraphUserCallback callback) {
+          fbCallback = callback;
+          return fbRequest;
+        }
+      };
+
     }};
 
     Task<User> task = subject.connectWithFacebook(fbSession);
     Assert.assertTrue("task should be faulted", task.isFaulted());
   }
+
+
 
 }
