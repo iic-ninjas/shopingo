@@ -1,49 +1,40 @@
 package com.iic.shopingo.services;
 
-import android.content.Context;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 /**
  * Created by assafgelber on 3/5/15.
  */
 public class CurrentLocationProvider {
-  private LocationManager locationManager;
+  private GoogleApiClient googleApiClient;
   private LocationListener internalListener;
   private LocationUpdatesListener updatesListener;
-  private long requestInterval;
 
-  public CurrentLocationProvider(Context context, long requestInterval, LocationUpdatesListener listener) {
-    updatesListener = listener;
-    this.requestInterval = requestInterval;
-    locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+  public CurrentLocationProvider(GoogleApiClient client, long requestInterval, LocationUpdatesListener listener) {
+    this.googleApiClient = client;
+    this.updatesListener = listener;
+
+    LocationRequest locationRequest = new LocationRequest();
+    locationRequest.setInterval(requestInterval);
+    locationRequest.setFastestInterval(requestInterval);
+    locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
     internalListener = new LocationListener() {
       @Override
       public void onLocationChanged(Location location) {
         updatesListener.onLocationUpdated(location);
       }
-
-      @Override
-      public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-      @Override
-      public void onProviderEnabled(String provider) {}
-
-      @Override
-      public void onProviderDisabled(String provider) {}
     };
 
-    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, requestInterval, 0, internalListener);
-  }
-
-  public void resume() {
-    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, requestInterval, 0, internalListener);
+    LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest, internalListener);
   }
 
   public void stop() {
-    locationManager.removeUpdates(internalListener);
+    LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, internalListener);
   }
 
   public interface LocationUpdatesListener {
