@@ -15,6 +15,7 @@ import mockit.Delegate;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +46,11 @@ public class UserConnectorTest {
   public void beforeEach() {
     subject = new UserConnector(sharedPreferences);
     SharedUserConnector.setInstance(subject);
+  }
+
+  @After
+  public void afterEach() {
+    SharedUserConnector.setInstance(null);
   }
 
   @Test
