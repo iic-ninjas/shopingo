@@ -121,6 +121,9 @@ public class UserConnectorTest {
     Assert.assertEquals(user, SharedUserConnector.getInstance().getCurrentUser());
   }
 
+  /**
+   * It should set the currentUser to null and close and clear the fb session information
+   */
   @Test
   public void testLogout(@Injectable Context context, @Mocked final Session anySession) {
     User user = new User("1", "Bozaglo", "Blat", "Iban Gvirol", "Tel Aviv", "054-1234567");
