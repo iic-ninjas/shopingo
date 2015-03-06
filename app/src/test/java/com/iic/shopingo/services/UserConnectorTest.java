@@ -15,6 +15,7 @@ import mockit.Delegate;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
+import mockit.NonStrictExpectations;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -46,6 +47,19 @@ public class UserConnectorTest {
   public void beforeEach() {
     subject = new UserConnector(sharedPreferences);
     SharedUserConnector.setInstance(subject);
+
+    // we want this behavior to occur in all the tests that exercise the Request.newMeRequest static method.
+    // Basically what we want it do is to return a mocked instance of Request and store the callback in
+    // a member variable, so we can later call methods on it.
+    new NonStrictExpectations() {{
+      Request.newMeRequest(fbSession, (Request.GraphUserCallback) any);
+      result = new Delegate<Request>() {
+        Request delegate(Session session, Request.GraphUserCallback callback) {
+          fbCallback = callback;
+          return anyFbRequest;
+        }
+      };
+    }};
   }
 
   @After
@@ -56,14 +70,6 @@ public class UserConnectorTest {
   @Test
   public void testConnectWithFacebookWhenLoginFails() {
     new Expectations() {{
-      Request.newMeRequest(fbSession, (Request.GraphUserCallback) any);
-      result = new Delegate<Request>() {
-        Request delegate(Session session, Request.GraphUserCallback callback) {
-          fbCallback = callback;
-          return anyFbRequest;
-        }
-      };
-
       fbResponse.getError();
       result = new FacebookRequestError(0, "no_internet", "No internet");
 
@@ -98,14 +104,6 @@ public class UserConnectorTest {
       graphLocation.getCity(); result = "Tel Aviv";
 
       fbResponse.getError(); result = null;
-
-      Request.newMeRequest(fbSession, (Request.GraphUserCallback) any);
-      result = new Delegate<Request>() {
-        Request delegate(Session session, Request.GraphUserCallback callback) {
-          fbCallback = callback;
-          return anyFbRequest;
-        }
-      };
 
       anyFbRequest.executeAsync();
       result = new Delegate<RequestAsyncTask>() {
