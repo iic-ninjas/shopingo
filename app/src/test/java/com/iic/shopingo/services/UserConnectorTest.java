@@ -1,5 +1,6 @@
 package com.iic.shopingo.services;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import bolts.Task;
 import com.facebook.FacebookRequestError;
@@ -14,6 +15,7 @@ import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
 import mockit.NonStrictExpectations;
+import mockit.Verifications;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -117,6 +119,23 @@ public class UserConnectorTest {
     Assert.assertEquals("Iban Gvirol", user.getStreet());
     Assert.assertEquals("Tel Aviv", user.getCity());
     Assert.assertEquals(user, SharedUserConnector.getInstance().getCurrentUser());
+  }
+
+  @Test
+  public void testLogout(@Injectable Context context, @Mocked final Session anySession) {
+    User user = new User("1", "Bozaglo", "Blat", "Iban Gvirol", "Tel Aviv", "054-1234567");
+    subject.setCurrentUser(user);
+    new Expectations() {{
+      Session.getActiveSession();
+      result = anySession;
+    }};
+
+    subject.logout(context);
+
+    new Verifications() {{
+      anySession.closeAndClearTokenInformation();
+    }};
+    Assert.assertNull(subject.getCurrentUser());
   }
   
 }
