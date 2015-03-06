@@ -10,6 +10,7 @@ import com.facebook.Session;
 import com.iic.shopingo.dal.models.User;
 import mockit.Delegate;
 import mockit.Expectations;
+import mockit.Injectable;
 import mockit.Mocked;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,17 +24,17 @@ public class UserConnectorTest {
 
   private UserConnector subject;
 
-  @Mocked
+  @Injectable
   private SharedPreferences sharedPreferences;
 
-  @Mocked
-  private Response fbResponse;
-
-  @Mocked
-  private Request fbRequest;
-
-  @Mocked
+  @Injectable
   private Session fbSession;
+
+  @Mocked
+  private Request anyFbRequest;
+
+  @Injectable
+  private Response fbResponse;
 
   private Request.GraphUserCallback fbCallback;
 
@@ -45,18 +46,18 @@ public class UserConnectorTest {
   @Test
   public void testConnectWithFacebookWhenLoginFails() {
     new Expectations() {{
-      final Request fbRequest = Request.newMeRequest(fbSession, (Request.GraphUserCallback) any);
+      Request.newMeRequest(fbSession, (Request.GraphUserCallback) any);
       result = new Delegate<Request>() {
         Request delegate(Session session, Request.GraphUserCallback callback) {
           fbCallback = callback;
-          return fbRequest;
+          return anyFbRequest;
         }
       };
 
       fbResponse.getError();
       result = new FacebookRequestError(0, "no_internet", "No internet");
 
-      fbRequest.executeAsync();
+      anyFbRequest.executeAsync();
       result = new Delegate<RequestAsyncTask>() {
         RequestAsyncTask delegate() {
           fbCallback.onCompleted(null, fbResponse);
@@ -68,7 +69,5 @@ public class UserConnectorTest {
     Task<User> task = subject.connectWithFacebook(fbSession);
     Assert.assertTrue("task should be faulted", task.isFaulted());
   }
-
-
 
 }
