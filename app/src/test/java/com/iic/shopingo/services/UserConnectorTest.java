@@ -7,8 +7,6 @@ import com.facebook.Request;
 import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.model.GraphLocation;
-import com.facebook.model.GraphPlace;
 import com.facebook.model.GraphUser;
 import com.iic.shopingo.dal.models.User;
 import mockit.Delegate;
@@ -90,18 +88,14 @@ public class UserConnectorTest {
    * It should return a promise that resolves a new User, and set it as the current user.
    */
   @Test
-  public void testConnectWithFacebookWhenLoginSucceeds(
-      @Injectable final GraphUser graphUser,
-      @Injectable final GraphPlace graphPlace,
-      @Injectable final GraphLocation graphLocation) {
+  public void testConnectWithFacebookWhenLoginSucceeds(@Injectable final GraphUser graphUser) {
     new Expectations() {{
       graphUser.getId(); result = "fb-id-1";
       graphUser.getFirstName(); result = "Bozaglo";
       graphUser.getLastName(); result = "Blat";
-      graphUser.getLocation(); result = graphPlace;
-      graphPlace.getLocation(); result = graphLocation;
-      graphLocation.getStreet(); result = "Iban Gvirol";
-      graphLocation.getCity(); result = "Tel Aviv";
+      // graphUser.getLocation() returns a cascaded mock, and so does the other chained methods.
+      graphUser.getLocation().getLocation().getStreet(); result = "Iban Gvirol";
+      graphUser.getLocation().getLocation().getCity(); result = "Tel Aviv";
 
       fbResponse.getError(); result = null;
 
@@ -124,5 +118,5 @@ public class UserConnectorTest {
     Assert.assertEquals("Tel Aviv", user.getCity());
     Assert.assertEquals(user, SharedUserConnector.getInstance().getCurrentUser());
   }
-
+  
 }
