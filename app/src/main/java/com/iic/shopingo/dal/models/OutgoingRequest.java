@@ -22,8 +22,9 @@ public class OutgoingRequest extends BaseRequest {
     super();
   }
 
-  public OutgoingRequest(ShoppingList shoppingList) {
-    super(shoppingList, null);
+  public OutgoingRequest(Contact shopper, ShoppingList shoppingList) {
+    super(shoppingList);
+    this.shopper = shopper;
   }
 
   public OutgoingRequest(Contact shopper, ShoppingList shoppingList, RequestStatus status) {

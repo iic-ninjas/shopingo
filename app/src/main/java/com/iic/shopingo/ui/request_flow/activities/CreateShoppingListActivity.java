@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
-import com.iic.shopingo.dal.models.BaseRequest;
+import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.dal.models.OutgoingRequest;
 import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class CreateShoppingListActivity extends ActionBarActivity {
 
-  public static final String EXTRAS_REQUEST_KEY = "request";
+  public static final String EXTRAS_SHOPPER_KEY = "shopper";
 
   @InjectView(R.id.create_request_items_list)
   CreateRequestItemListView itemListView;
@@ -30,20 +30,20 @@ public class CreateShoppingListActivity extends ActionBarActivity {
   @InjectView(R.id.create_request_price_input)
   EditText priceView;
 
-  private OutgoingRequest request;
+  private Contact shopper;
 
   private ShoppingList shoppingList;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    request = getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY);
-    shoppingList = request.getShoppingList();
-
     setContentView(R.layout.activity_create_request);
     ButterKnife.inject(this);
 
-    itemListView.addAllItems(request.getShoppingList().getItems());
+    shopper = getIntent().getParcelableExtra(EXTRAS_SHOPPER_KEY);
+    shoppingList = new ShoppingList(); // TODO: Load persisted shopping list from somewhere
+
+    itemListView.addAllItems(shoppingList.getItems());
     itemListView.addItem("");
 
     if (shoppingList.getOffer() != 0) {
@@ -57,8 +57,7 @@ public class CreateShoppingListActivity extends ActionBarActivity {
   public void onCreateRequest(View view) {
     shoppingList.setItems(itemListView.getAllItems());
     shoppingList.setOffer(Integer.parseInt(priceView.getText().toString()));
-    request.setShoppingList(shoppingList);
-    request.setStatus(BaseRequest.RequestStatus.PENDING);
+    OutgoingRequest request = new OutgoingRequest(shopper, shoppingList);
     // TODO: Create request on server and move to state activity
     Intent intent = new Intent(this, RequestStateActivity.class);
     intent.putExtra(RequestStateActivity.EXTRAS_REQUEST_KEY, request);

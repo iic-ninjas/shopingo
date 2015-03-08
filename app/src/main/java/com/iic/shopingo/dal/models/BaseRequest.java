@@ -16,6 +16,10 @@ public abstract class BaseRequest implements Parcelable {
     this.shoppingList = new ShoppingList();
   }
 
+  public BaseRequest(ShoppingList shoppingList) {
+    this.shoppingList = shoppingList;
+  }
+
   public BaseRequest(ShoppingList shoppingList, RequestStatus status) {
     this.shoppingList = shoppingList;
     this.status = status;

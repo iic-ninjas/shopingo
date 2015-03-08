@@ -35,11 +35,7 @@ public class RequestStateActivity extends ActionBarActivity {
   public void onCancelRequest(View view) {
     request.setStatus(BaseRequest.RequestStatus.CANCELED);
     // TODO: Cancel request in server
-    OutgoingRequest newRequest = new OutgoingRequest(request.getShoppingList());
-    Intent intent = new Intent(this, SelectShopperActivity.class);
-    intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, newRequest);
-    startActivity(intent);
-    finish();
+    goToActivity(SelectShopperActivity.class);
   }
 
   @Optional
@@ -47,24 +43,24 @@ public class RequestStateActivity extends ActionBarActivity {
   public void onSettleRequest(View view) {
     request.setStatus(BaseRequest.RequestStatus.SETTLED);
     // TODO: Settle request in server
-    Intent intent = new Intent(this, HomeActivity.class);
-    startActivity(intent);
-    finish();
+    goToActivity(HomeActivity.class);
   }
 
   @Optional
   @OnClick(R.id.request_state_try_again_button)
   public void onTryAgain(View view) {
-    OutgoingRequest newRequest = new OutgoingRequest(request.getShoppingList());
-    Intent intent = new Intent(this, SelectShopperActivity.class);
-    intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, newRequest);
-    startActivity(intent);
-    finish();
+    goToActivity(SelectShopperActivity.class);
   }
 
   @Optional
   @OnClick(R.id.request_state_go_yourself_button)
   public void onGoYourself(View view) {
     // TODO: Create trip and go to trip activity
+  }
+
+  private void goToActivity(Class<?> cls) {
+    Intent intent = new Intent(this, cls);
+    startActivity(intent);
+    finish();
   }
 }

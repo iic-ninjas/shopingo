@@ -1,7 +1,7 @@
 package com.iic.shopingo.ui.request_flow.activities;
 
-import android.location.Location;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -13,7 +13,6 @@ import butterknife.InjectView;
 import butterknife.OnItemClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.Contact;
-import com.iic.shopingo.dal.models.OutgoingRequest;
 import com.iic.shopingo.services.location.CurrentLocationProvider;
 import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
 import com.iic.shopingo.ui.request_flow.views.SelectShopperListItemView;
@@ -27,8 +26,6 @@ public class SelectShopperActivity extends ActionBarActivity {
   @InjectView(R.id.select_shopper_list)
   ListView shopperList;
 
-  private OutgoingRequest request;
-
   private SelectShopperAdapter adapter;
 
   private CurrentLocationProvider locationProvider;
@@ -36,11 +33,6 @@ public class SelectShopperActivity extends ActionBarActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    request = getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY);
-    if (request == null) {
-      request = new OutgoingRequest();
-    }
 
     setContentView(R.layout.activity_select_shopper);
     ButterKnife.inject(this);
@@ -61,8 +53,7 @@ public class SelectShopperActivity extends ActionBarActivity {
   @OnItemClick(R.id.select_shopper_list)
   public void onListItemClick(int position) {
     Intent intent = new Intent(this, CreateShoppingListActivity.class);
-    request.setShopper(adapter.getItem(position));
-    intent.putExtra(CreateShoppingListActivity.EXTRAS_REQUEST_KEY, request);
+    intent.putExtra(CreateShoppingListActivity.EXTRAS_SHOPPER_KEY, adapter.getItem(position));
     startActivity(intent);
   }
 
