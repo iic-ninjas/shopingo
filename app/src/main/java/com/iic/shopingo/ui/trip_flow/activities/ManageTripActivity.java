@@ -2,9 +2,9 @@ package com.iic.shopingo.ui.trip_flow.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by asafg on 05/03/15.
  */
-public class ManageTripActivity extends FragmentActivity implements RequestListFragment.RequestListListener {
+public class ManageTripActivity extends ActionBarActivity implements RequestListFragment.RequestListListener {
 
   @InjectView(R.id.manage_trip_pager)
   ViewPager pager;

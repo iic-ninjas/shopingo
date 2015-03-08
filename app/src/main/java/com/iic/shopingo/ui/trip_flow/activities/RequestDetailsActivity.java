@@ -18,7 +18,7 @@ import com.iic.shopingo.ui.trip_flow.data.Request;
 /**
  * Created by asafg on 03/03/15.
  */
-public class RequestDetails extends Activity {
+public class RequestDetailsActivity extends Activity {
   public static final String EXTRA_REQUEST = "request";
 
   public static final int RESULT_NONE = 0;
@@ -42,7 +42,7 @@ public class RequestDetails extends Activity {
     } else {
       request = intent.getParcelableExtra(EXTRA_REQUEST);
 
-      setContentView(R.layout.request_details);
+      setContentView(R.layout.activity_request_details);
       ButterKnife.inject(this);
 
       name.setText(request.name);

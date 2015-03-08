@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.iic.shopingo.ui.trip_flow.activities.RequestDetails;
+import com.iic.shopingo.ui.trip_flow.activities.RequestDetailsActivity;
 import com.iic.shopingo.ui.trip_flow.data.Request;
 import com.iic.shopingo.ui.trip_flow.views.RequestListAdapter;
 import java.util.List;
@@ -58,8 +58,8 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
     Request req = adapter.getItem(position);
 
     if (req.status == Request.STATUS_PENDING) {
-      Intent intent = new Intent(getActivity(), RequestDetails.class);
-      intent.putExtra(RequestDetails.EXTRA_REQUEST, req);
+      Intent intent = new Intent(getActivity(), RequestDetailsActivity.class);
+      intent.putExtra(RequestDetailsActivity.EXTRA_REQUEST, req);
       startActivityForResult(intent, position);
     } else if (req.status == Request.STATUS_ACCEPTED) {
       if (listener != null) {
@@ -72,14 +72,14 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode >= 0) {
       Request req = adapter.getItem(requestCode);
-      if (resultCode == RequestDetails.RESULT_ACCEPT) {
+      if (resultCode == RequestDetailsActivity.RESULT_ACCEPT) {
         req.status = Request.STATUS_ACCEPTED;
         adapter.notifyDataSetChanged();
         if (listener != null) {
             listener.onRequestAccepted(req);
         }
       }
-      if (resultCode == RequestDetails.RESULT_DECLINE) {
+      if (resultCode == RequestDetailsActivity.RESULT_DECLINE) {
         req.status = Request.STATUS_DECLINED;
         adapter.notifyDataSetChanged();
         if (listener != null) {
