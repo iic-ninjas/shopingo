@@ -39,7 +39,6 @@ public class UserConnector {
 
   public Task<User> connectWithFacebook(Session session) {
     final Task<User>.TaskCompletionSource taskCompletionSource = Task.create();
-
     Request.newMeRequest(session, new Request.GraphUserCallback() {
       @Override
       public void onCompleted(GraphUser graphUser, Response response) {
@@ -59,12 +58,11 @@ public class UserConnector {
 
         User user = new User(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), street, city, null);
 
-        // TODO: Make a call create/fetch the user from the server
+        // TODO: Make a call to create/fetch the user from the server
         SharedUserConnector.getInstance().setCurrentUser(user);
         taskCompletionSource.setResult(user);
       }
     }).executeAsync();
-
     return taskCompletionSource.getTask();
   }
 
