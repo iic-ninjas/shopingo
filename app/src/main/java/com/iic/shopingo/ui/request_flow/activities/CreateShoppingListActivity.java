@@ -57,8 +57,8 @@ public class CreateShoppingListActivity extends ActionBarActivity {
   public void onCreateRequest(View view) {
     shoppingList.setItems(itemListView.getAllItems());
     shoppingList.setOffer(Integer.parseInt(priceView.getText().toString()));
-    OutgoingRequest request = new OutgoingRequest(shopper, shoppingList);
-    // TODO: Create request on server and move to state activity
+    // TODO: Send `shopper` and `shoppingList` to server and get an `OutgoingRequest` back
+    OutgoingRequest request = null; // Will be populated from server
     Intent intent = new Intent(this, RequestStateActivity.class);
     intent.putExtra(RequestStateActivity.EXTRAS_REQUEST_KEY, request);
     startActivity(intent);
