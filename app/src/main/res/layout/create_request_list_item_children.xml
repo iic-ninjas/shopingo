@@ -1,0 +1,22 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+  <EditText
+      android:id="@+id/create_request_item_title"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:hint="@string/create_request_new_item_hint"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:imeOptions="actionGo"
+      />
+  <Button
+      android:id="@+id/create_request_remove_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/create_request_remove_item_button"
+      />
+</merge>
