@@ -31,6 +31,10 @@ public abstract class BaseRequest implements Parcelable {
     return status;
   }
 
+  public void setStatus(RequestStatus status) {
+    this.status = status;
+  }
+
   @Override
   public int describeContents() {
     return 0;

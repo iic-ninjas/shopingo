@@ -47,7 +47,7 @@ public class ShoppingList implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    dest.writeList(this.items);
+    dest.writeStringList(this.items);
     dest.writeInt(this.offer);
   }
 }
