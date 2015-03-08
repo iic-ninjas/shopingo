@@ -5,7 +5,7 @@ import android.os.Parcel;
 /**
  * Created by assafgelber on 3/8/15.
  */
-public class OutgoingRequest extends BaseRequest implements android.os.Parcelable {
+public class OutgoingRequest extends BaseRequest {
   public static final Creator<OutgoingRequest> CREATOR = new Creator<OutgoingRequest>() {
     public OutgoingRequest createFromParcel(Parcel source) {
       return new OutgoingRequest(source);
