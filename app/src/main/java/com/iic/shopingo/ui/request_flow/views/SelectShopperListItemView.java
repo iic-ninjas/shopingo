@@ -44,15 +44,15 @@ public class SelectShopperListItemView extends LinearLayout {
     init();
   }
 
-  private void init() {
-    LayoutInflater.from(getContext()).inflate(R.layout.select_shopper_list_item_children, this, true);
-    ButterKnife.inject(this);
-  }
-
   public static SelectShopperListItemView inflate(ViewGroup parent) {
     SelectShopperListItemView itemView = (SelectShopperListItemView) LayoutInflater.from(parent.getContext())
         .inflate(R.layout.select_shopper_list_item, parent, false);
     return itemView;
+  }
+
+  private void init() {
+    LayoutInflater.from(getContext()).inflate(R.layout.select_shopper_list_item_children, this, true);
+    ButterKnife.inject(this);
   }
 
   public void setShopper(SelectShopperActivity.SelectShopperAdapter.Shopper shopper) {
