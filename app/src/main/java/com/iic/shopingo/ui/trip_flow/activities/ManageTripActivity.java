@@ -1,13 +1,9 @@
 package com.iic.shopingo.ui.trip_flow.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -15,7 +11,7 @@ import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.Request;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
 import com.iic.shopingo.ui.trip_flow.fragments.RequestListFragment;
-import com.iic.shopingo.ui.trip_flow.fragments.ShoppingListFragment;
+import com.iic.shopingo.ui.trip_flow.fragments.UnifiedShoppingListFragment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +24,7 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
   ViewPager pager;
 
   RequestListFragment requestListFragment;
-  ShoppingListFragment shoppingListFragment;
+  UnifiedShoppingListFragment unifiedShoppingListFragment;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +57,7 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
     requestListFragment.setRequestListListener(this);
     requestListFragment.setRequests(requests);
 
-    shoppingListFragment = new ShoppingListFragment();
+    unifiedShoppingListFragment = new UnifiedShoppingListFragment();
 
     pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
       @Override
@@ -70,7 +66,7 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
           case 0:
             return requestListFragment;
           case 1:
-            return shoppingListFragment;
+            return unifiedShoppingListFragment;
           default:
             throw new IllegalStateException("Can't have more than 2 fragments in trip manager");
         }
@@ -104,7 +100,7 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
       sl.items.add(new ShoppingList.Item(itemTitle));
     }
 
-    shoppingListFragment.addShoppingList(sl);
+    unifiedShoppingListFragment.addShoppingList(sl);
   }
 
   @Override

@@ -18,7 +18,7 @@ import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
 /**
  * Created by asafg on 04/03/15.
  */
-public class ShoppingListItem extends FrameLayout {
+public class ShoppingListView extends FrameLayout {
 
   public interface OnCallListener {
     public void onCall(String phoneNumber);
@@ -34,17 +34,17 @@ public class ShoppingListItem extends FrameLayout {
 
   private ShoppingList shoppingList;
 
-  public ShoppingListItem(Context context) {
+  public ShoppingListView(Context context) {
     super(context);
     init();
   }
 
-  public ShoppingListItem(Context context, AttributeSet attrs) {
+  public ShoppingListView(Context context, AttributeSet attrs) {
     super(context, attrs);
     init();
   }
 
-  public ShoppingListItem(Context context, AttributeSet attrs, int defStyleAttr) {
+  public ShoppingListView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     init();
   }

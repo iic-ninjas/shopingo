@@ -12,20 +12,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
-import com.iic.shopingo.ui.trip_flow.views.ShoppingListItem;
+import com.iic.shopingo.ui.trip_flow.views.ShoppingListView;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by asafg on 05/03/15.
  */
-public class ShoppingListFragment extends Fragment implements ShoppingListItem.OnCallListener {
+public class UnifiedShoppingListFragment extends Fragment implements ShoppingListView.OnCallListener {
 
   private ListView listView;
   private ShoppingListAdapter adapter;
   private List<ShoppingList> shoppingLists;
 
-  public ShoppingListFragment() {
+  public UnifiedShoppingListFragment() {
     shoppingLists = new ArrayList<>();
   }
 
@@ -55,18 +55,18 @@ public class ShoppingListFragment extends Fragment implements ShoppingListItem.O
     startActivity(intent);
   }
 
-  class ShoppingListAdapter extends BaseAdapter implements ShoppingListItem.OnCallListener {
+  static class ShoppingListAdapter extends BaseAdapter implements ShoppingListView.OnCallListener {
     private Context context;
     private List<ShoppingList> shoppingLists;
 
-    private ShoppingListItem.OnCallListener listener;
+    private ShoppingListView.OnCallListener listener;
 
     public ShoppingListAdapter(Context context) {
       this.shoppingLists = new ArrayList<>();
       this.context = context;
     }
 
-    public void setOnCallListener(ShoppingListItem.OnCallListener listener) {
+    public void setOnCallListener(ShoppingListView.OnCallListener listener) {
       this.listener = listener;
     }
 
@@ -87,11 +87,11 @@ public class ShoppingListFragment extends Fragment implements ShoppingListItem.O
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      ShoppingListItem itemView;
+      ShoppingListView itemView;
       if (convertView != null) {
-        itemView = (ShoppingListItem)convertView;
+        itemView = (ShoppingListView)convertView;
       } else {
-        itemView = new ShoppingListItem(context);
+        itemView = new ShoppingListView(context);
         itemView.setOnCallListener(this);
       }
       itemView.setShoppingList(getItem(position));
