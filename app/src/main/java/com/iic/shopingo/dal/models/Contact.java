@@ -64,6 +64,10 @@ public class Contact implements Parcelable {
     return lastName;
   }
 
+  public String getName() {
+    return this.firstName + " " + this.lastName;
+  }
+
   public String getAvatar() {
     return avatar;
   }

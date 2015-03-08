@@ -38,7 +38,7 @@
           android:value=".ui.HomeActivity" />
     </activity>
     <activity
-        android:name=".ui.request_flow.activities.CreateRequestActivity"
+        android:name=".ui.request_flow.activities.CreateShoppingListActivity"
         android:label="@string/title_activity_create_request"
         android:parentActivityName=".ui.request_flow.activities.SelectShopperActivity" >
       <meta-data

@@ -8,6 +8,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 import com.iic.shopingo.R;
+import com.iic.shopingo.dal.models.BaseRequest;
+import com.iic.shopingo.dal.models.OutgoingRequest;
 import com.iic.shopingo.ui.HomeActivity;
 
 public class RequestStateActivity extends ActionBarActivity {
@@ -18,23 +20,24 @@ public class RequestStateActivity extends ActionBarActivity {
       R.layout.activity_request_state_declined
   };
 
-  private SelectShopperActivity.SelectShopperAdapter.ShopRequest request;
+  private OutgoingRequest request;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     request = getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY);
-    setContentView(LAYOUTS[request.status.ordinal()]);
+    setContentView(LAYOUTS[request.getStatus().ordinal()]);
     ButterKnife.inject(this);
   }
 
   @Optional
   @OnClick(R.id.request_state_cancel_button)
   public void onCancelRequest(View view) {
+    request.setStatus(BaseRequest.RequestStatus.CANCELED);
     // TODO: Cancel request in server
-    request.shopper = null;
+    OutgoingRequest newRequest = new OutgoingRequest(request.getShoppingList());
     Intent intent = new Intent(this, SelectShopperActivity.class);
-    intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, request);
+    intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, newRequest);
     startActivity(intent);
     finish();
   }
@@ -42,6 +45,7 @@ public class RequestStateActivity extends ActionBarActivity {
   @Optional
   @OnClick(R.id.request_state_settle_button)
   public void onSettleRequest(View view) {
+    request.setStatus(BaseRequest.RequestStatus.SETTLED);
     // TODO: Settle request in server
     Intent intent = new Intent(this, HomeActivity.class);
     startActivity(intent);
@@ -51,9 +55,9 @@ public class RequestStateActivity extends ActionBarActivity {
   @Optional
   @OnClick(R.id.request_state_try_again_button)
   public void onTryAgain(View view) {
-    request.shopper = null;
+    OutgoingRequest newRequest = new OutgoingRequest(request.getShoppingList());
     Intent intent = new Intent(this, SelectShopperActivity.class);
-    intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, request);
+    intent.putExtra(SelectShopperActivity.EXTRAS_REQUEST_KEY, newRequest);
     startActivity(intent);
     finish();
   }

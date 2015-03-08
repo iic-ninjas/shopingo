@@ -22,6 +22,8 @@ public class ShoppingList implements Parcelable {
 
   private int offer;
 
+  public ShoppingList() {}
+
   public ShoppingList(List<String> items, int offer) {
     this.items = items;
     this.offer = offer;
@@ -36,8 +38,16 @@ public class ShoppingList implements Parcelable {
     return items;
   }
 
+  public void setItems(List<String> items) {
+    this.items = items;
+  }
+
   public int getOffer() {
     return offer;
+  }
+
+  public void setOffer(int offer) {
+    this.offer = offer;
   }
 
   @Override

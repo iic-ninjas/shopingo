@@ -10,11 +10,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
+import com.iic.shopingo.dal.models.BaseRequest;
+import com.iic.shopingo.dal.models.OutgoingRequest;
+import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
 import java.util.Currency;
 import java.util.Locale;
 
-public class CreateRequestActivity extends ActionBarActivity {
+public class CreateShoppingListActivity extends ActionBarActivity {
 
   public static final String EXTRAS_REQUEST_KEY = "request";
 
@@ -27,21 +30,27 @@ public class CreateRequestActivity extends ActionBarActivity {
   @InjectView(R.id.create_request_price_input)
   EditText priceView;
 
-  private SelectShopperActivity.SelectShopperAdapter.ShopRequest request;
+  private OutgoingRequest request;
+
+  private ShoppingList shoppingList;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     request = getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY);
+    if (request.getShoppingList() == null) {
+      request.setShoppingList(new ShoppingList());
+    }
+    shoppingList = request.getShoppingList();
 
     setContentView(R.layout.activity_create_request);
     ButterKnife.inject(this);
 
-    itemListView.addAllItems(request.items);
+    itemListView.addAllItems(request.getShoppingList().getItems());
     itemListView.addItem("");
 
-    if (request.price != 0) {
-      priceView.setText(Integer.toString(request.price));
+    if (shoppingList.getOffer() != 0) {
+      priceView.setText(Integer.toString(shoppingList.getOffer()));
     }
 
     currencyView.setText(Currency.getInstance(Locale.getDefault()).getSymbol());
@@ -49,8 +58,10 @@ public class CreateRequestActivity extends ActionBarActivity {
 
   @OnClick(R.id.create_request_create_button)
   public void onCreateRequest(View view) {
-    request.items = itemListView.getAllItems();
-    request.price = Integer.parseInt(priceView.getText().toString());
+    shoppingList.setItems(itemListView.getAllItems());
+    shoppingList.setOffer(Integer.parseInt(priceView.getText().toString()));
+    request.setShoppingList(shoppingList);
+    request.setStatus(BaseRequest.RequestStatus.PENDING);
     // TODO: Create request on server and move to state activity
     Intent intent = new Intent(this, RequestStateActivity.class);
     intent.putExtra(RequestStateActivity.EXTRAS_REQUEST_KEY, request);
