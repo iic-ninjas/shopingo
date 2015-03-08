@@ -37,6 +37,8 @@ public class UserConnectorTest {
 
   private static final String USER_CITY = "Tel Aviv";
 
+  public static final String USER_PHONE = "054-1234567";
+
   private UserConnector subject;
 
   @Injectable
@@ -130,10 +132,10 @@ public class UserConnectorTest {
 
     User user = task.getResult();
     Assert.assertEquals(USER_UID, user.getUid());
-    Assert.assertEquals("Bozaglo", user.getFirstName());
-    Assert.assertEquals("Blat", user.getLastName());
-    Assert.assertEquals("Iban Gvirol", user.getStreet());
-    Assert.assertEquals("Tel Aviv", user.getCity());
+    Assert.assertEquals(USER_FIRST_NAME, user.getFirstName());
+    Assert.assertEquals(USER_LAST_NAME, user.getLastName());
+    Assert.assertEquals(USER_STREET, user.getStreet());
+    Assert.assertEquals(USER_CITY, user.getCity());
     Assert.assertEquals(user, SharedUserConnector.getInstance().getCurrentUser());
   }
 
@@ -142,7 +144,7 @@ public class UserConnectorTest {
    */
   @Test
   public void testLogout(@Injectable Context context, @Mocked final Session anySession) {
-    User user = new User("1", "Bozaglo", "Blat", "Iban Gvirol", "Tel Aviv", "054-1234567");
+    User user = new User(USER_UID, USER_FIRST_NAME, USER_LAST_NAME, USER_STREET, USER_CITY, USER_PHONE);
     subject.setCurrentUser(user);
     new Expectations() {{
       Session.getActiveSession();
