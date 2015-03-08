@@ -29,19 +29,19 @@ public class Contact implements Parcelable {
 
   private String city;
 
-  private double latitiude;
+  private double latitude;
 
   private double longitude;
 
   public Contact(String firstName, String lastName, String avatar, String phoneNumber, String streetAddress,
-      String city, double latitiude, double longitude) {
+      String city, double latitude, double longitude) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.avatar = avatar;
     this.phoneNumber = phoneNumber;
     this.streetAddress = streetAddress;
     this.city = city;
-    this.latitiude = latitiude;
+    this.latitude = latitude;
     this.longitude = longitude;
   }
 
@@ -52,7 +52,7 @@ public class Contact implements Parcelable {
     this.phoneNumber = in.readString();
     this.streetAddress = in.readString();
     this.city = in.readString();
-    this.latitiude = in.readDouble();
+    this.latitude = in.readDouble();
     this.longitude = in.readDouble();
   }
 
@@ -62,6 +62,10 @@ public class Contact implements Parcelable {
 
   public String getLastName() {
     return lastName;
+  }
+
+  public String getName() {
+    return this.firstName + " " + this.lastName;
   }
 
   public String getAvatar() {
@@ -80,8 +84,8 @@ public class Contact implements Parcelable {
     return city;
   }
 
-  public double getLatitiude() {
-    return latitiude;
+  public double getLatitude() {
+    return latitude;
   }
 
   public double getLongitude() {
@@ -101,7 +105,7 @@ public class Contact implements Parcelable {
     dest.writeString(this.phoneNumber);
     dest.writeString(this.streetAddress);
     dest.writeString(this.city);
-    dest.writeDouble(this.latitiude);
+    dest.writeDouble(this.latitude);
     dest.writeDouble(this.longitude);
   }
 }
