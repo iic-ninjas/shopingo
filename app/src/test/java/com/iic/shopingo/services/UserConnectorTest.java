@@ -27,6 +27,16 @@ import org.junit.Test;
  */
 public class UserConnectorTest {
 
+  private static final String USER_UID = "fb-id-1";
+
+  private static final String USER_FIRST_NAME = "Bozaglo";
+
+  private static final String USER_LAST_NAME = "Blat";
+
+  private static final String USER_STREET = "Iban Gvirol";
+
+  private static final String USER_CITY = "Tel Aviv";
+
   private UserConnector subject;
 
   @Injectable
@@ -92,14 +102,20 @@ public class UserConnectorTest {
   @Test
   public void testConnectWithFacebookWhenLoginSucceeds(@Injectable final GraphUser graphUser) {
     new Expectations() {{
-      graphUser.getId(); result = "fb-id-1";
-      graphUser.getFirstName(); result = "Bozaglo";
-      graphUser.getLastName(); result = "Blat";
+      graphUser.getId();
+      result = USER_UID;
+      graphUser.getFirstName();
+      result = USER_FIRST_NAME;
+      graphUser.getLastName();
+      result = USER_LAST_NAME;
       // graphUser.getLocation() returns a cascaded mock, and so does the other chained methods.
-      graphUser.getLocation().getLocation().getStreet(); result = "Iban Gvirol";
-      graphUser.getLocation().getLocation().getCity(); result = "Tel Aviv";
+      graphUser.getLocation().getLocation().getStreet();
+      result = USER_STREET;
+      graphUser.getLocation().getLocation().getCity();
+      result = USER_CITY;
 
-      fbResponse.getError(); result = null;
+      fbResponse.getError();
+      result = null;
 
       anyFbRequest.executeAsync();
       result = new Delegate<RequestAsyncTask>() {
@@ -113,7 +129,7 @@ public class UserConnectorTest {
     Task<User> task = subject.connectWithFacebook(fbSession);
 
     User user = task.getResult();
-    Assert.assertEquals("fb-id-1", user.getUid());
+    Assert.assertEquals(USER_UID, user.getUid());
     Assert.assertEquals("Bozaglo", user.getFirstName());
     Assert.assertEquals("Blat", user.getLastName());
     Assert.assertEquals("Iban Gvirol", user.getStreet());
@@ -140,5 +156,4 @@ public class UserConnectorTest {
     }};
     Assert.assertNull(subject.getCurrentUser());
   }
-  
 }
