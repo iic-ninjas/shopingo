@@ -20,11 +20,6 @@ public class RequestListAdapter extends BaseAdapter {
     this.requests = requests;
   }
 
-  public void removeIndex(int index) {
-    requests.remove(index);
-    notifyDataSetChanged();
-  }
-
   @Override
   public int getCount() {
     return requests.size();
@@ -49,7 +44,7 @@ public class RequestListAdapter extends BaseAdapter {
       item = new RequestListItem(context);
     }
     Request req = getItem(position);
-    item.setRequest(null, req.name, req.items.size(), req.offerInCents);
+    item.setRequest(null, req.name, req.items.size(), req.offerInCents, req.status);
     return item;
   }
 }

@@ -9,16 +9,24 @@ import java.util.List;
  * Created by asafg on 03/03/15.
  */
 public class Request implements Parcelable {
+  public final static int STATUS_PENDING = 0;
+  public final static int STATUS_ACCEPTED = 1;
+  public final static int STATUS_DECLINED = 2;
+  public final static int STATUS_PAID = 3;
+
+
   public String photoUrl;
   public String name;
   public int offerInCents;
   public Location location;
   public List<String> items;
+  public int status;
 
 
   public Request() {
     location = new Location();
     items = new ArrayList<>();
+    status = STATUS_PENDING;
   }
 
   public Request(Parcel source) {
@@ -28,6 +36,7 @@ public class Request implements Parcelable {
     location = source.readParcelable(Location.class.getClassLoader());
     items = new ArrayList<>();
     source.readStringList(items);
+    status = source.readInt();
   }
 
   @Override
@@ -42,6 +51,7 @@ public class Request implements Parcelable {
     dest.writeInt(offerInCents);
     dest.writeParcelable(location, 0);
     dest.writeStringList(items);
+    dest.writeInt(status);
   }
 
   public static final Creator<Request> CREATOR = new Creator<Request>() {
