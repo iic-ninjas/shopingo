@@ -11,7 +11,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.Contact;
-import com.iic.shopingo.dal.models.OutgoingRequest;
 import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
 import java.util.Currency;
@@ -57,10 +56,9 @@ public class CreateShoppingListActivity extends ActionBarActivity {
   public void onCreateRequest(View view) {
     shoppingList.setItems(itemListView.getAllItems());
     shoppingList.setOffer(Integer.parseInt(priceView.getText().toString()));
-    // TODO: Send `shopper` and `shoppingList` to server and get an `OutgoingRequest` back
-    OutgoingRequest request = null; // Will be populated from server
-    Intent intent = new Intent(this, RequestStateActivity.class);
-    intent.putExtra(RequestStateActivity.EXTRAS_REQUEST_KEY, request);
+    Intent intent = new Intent(this, SaveRequestActivity.class);
+    intent.putExtra(SaveRequestActivity.EXTRAS_SHOPPER_KEY, shopper);
+    intent.putExtra(SaveRequestActivity.EXTRAS_SHOPPING_LIST_KEY, shoppingList);
     startActivity(intent);
     finish();
   }

@@ -56,7 +56,7 @@ public class SelectShopperListItemView extends LinearLayout {
   }
 
   public void setShopper(Contact shopper) {
-    shopperLocation.setLatitude(shopper.getLatitiude());
+    shopperLocation.setLatitude(shopper.getLatitude());
     shopperLocation.setLongitude(shopper.getLongitude());
     Picasso.with(getContext()).load(shopper.getAvatar()).into(photoView);
     nameView.setText(shopper.getName());
