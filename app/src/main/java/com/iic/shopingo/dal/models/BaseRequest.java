@@ -8,6 +8,7 @@ public class BaseRequest {
     PENDING,
     ACCEPTED,
     DECLINED,
+    SETTLED,
     CANCELED
   }
 
