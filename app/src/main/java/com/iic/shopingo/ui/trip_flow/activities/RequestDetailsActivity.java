@@ -1,9 +1,9 @@
 package com.iic.shopingo.ui.trip_flow.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -18,7 +18,7 @@ import com.iic.shopingo.ui.trip_flow.data.Request;
 /**
  * Created by asafg on 03/03/15.
  */
-public class RequestDetailsActivity extends Activity {
+public class RequestDetailsActivity extends ActionBarActivity {
   public static final String EXTRA_REQUEST = "request";
 
   public static final int RESULT_NONE = 0;

@@ -59,7 +59,8 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".ui.trip_flow.activities.RequestDetailsActivity" />
+    <activity android:name=".ui.trip_flow.activities.RequestDetailsActivity"
+        android:parentActivityName=".ui.trip_flow.activities.ManageTripActivity"/>
     <activity android:name=".ui.trip_flow.activities.ManageTripActivity"
         android:label="@string/title_activity_manage_trip"/>
   </application>
