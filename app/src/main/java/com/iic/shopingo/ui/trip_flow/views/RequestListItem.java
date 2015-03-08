@@ -43,7 +43,7 @@ public class RequestListItem extends FrameLayout {
       this.thumbnail.setImageBitmap(thumbnail);
     }
     this.name.setText(name);
-    this.numItems.setText(Integer.toString(numItems));
+    this.numItems.setText(String.format("%d items", numItems));
     this.offer.setText(PriceHelper.getUSDPriceString(offerInCents));
     switch (status) {
       case Request.STATUS_ACCEPTED:
