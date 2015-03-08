@@ -11,17 +11,19 @@ import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.services.SharedUserConnector;
 import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
+import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
 
 public class HomeActivity extends ActionBarActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_home);
-    ButterKnife.inject(this);
-
     if (!SharedUserConnector.getInstance().isUserSignedIn()) {
       navigateToOnboarding();
+    } else {
+      // TODO: check user state and go to the correct screen directly.
+      setContentView(R.layout.activity_home);
+      ButterKnife.inject(this);
     }
   }
 
@@ -57,6 +59,14 @@ public class HomeActivity extends ActionBarActivity {
   public void onCreateRequest(View view) {
     Intent intent = new Intent(this, SelectShopperActivity.class);
     startActivity(intent);
+  }
+
+  @OnClick(R.id.home_go_shopping_btn)
+  public void onGoShopping(View view) {
+    Intent intent = new Intent(this, ManageTripActivity.class);
+    startActivity(intent);
+    // TODO: transition to `shopping` state
+    finish();
   }
 
   private void navigateToOnboarding() {
