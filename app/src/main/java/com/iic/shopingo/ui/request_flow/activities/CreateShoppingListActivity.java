@@ -38,9 +38,6 @@ public class CreateShoppingListActivity extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     request = getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY);
-    if (request.getShoppingList() == null) {
-      request.setShoppingList(new ShoppingList());
-    }
     shoppingList = request.getShoppingList();
 
     setContentView(R.layout.activity_create_request);
