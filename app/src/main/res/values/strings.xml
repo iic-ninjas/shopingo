@@ -6,5 +6,6 @@
   <string name="action_settings">Settings</string>
   <string name="hello_world">Hello world!</string>
   <string name="title_activity_manage_trip">Plan your shopping trip</string>
+  <string name="action_call_requester">Call requester</string>
 
 </resources>

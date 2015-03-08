@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -56,11 +58,22 @@ public class RequestDetailsActivity extends ActionBarActivity {
     }
   }
 
-  @OnClick(R.id.request_details_call_button)
-  public void onCall(View view) {
-    Intent intent = new Intent(Intent.ACTION_CALL);
-    intent.setData(Uri.parse("tel:" + request.location.phone));
-    startActivity(intent);
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_request_details, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+    if (id == R.id.action_call_requester) {
+      Intent intent = new Intent(Intent.ACTION_CALL);
+      intent.setData(Uri.parse("tel:" + request.location.phone));
+      startActivity(intent);
+    }
+
+    return super.onOptionsItemSelected(item);
   }
 
   @OnClick(R.id.request_details_accept_button)
