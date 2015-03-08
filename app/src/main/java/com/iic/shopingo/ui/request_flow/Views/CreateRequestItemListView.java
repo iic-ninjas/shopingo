@@ -52,8 +52,8 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
   }
 
   public void addAllItems(List<String> titles) {
-    for (int i = 0; i < titles.size(); i++) {
-      addItem(titles.get(i));
+    for (String title : titles) {
+      addItem(title);
     }
   }
 
@@ -71,8 +71,8 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
 
   public List<String> getAllItems() {
     List<String> titles = new ArrayList<>();
-    for (int i = 0; i < views.size(); i++) {
-      String title = views.get(i).getTitle();
+    for (CreateRequestListItemView view : views) {
+      String title = view.getTitle();
       if (!title.equals("")) {
         titles.add(title);
       }
