@@ -5,7 +5,7 @@ package com.iic.shopingo.dal.models;
  */
 public class Contact {
   private String firstName;
-  private String lasttName;
+  private String lastName;
   private String avatar;
   private String phoneNumber;
   private String streetAddress;
@@ -13,10 +13,10 @@ public class Contact {
   private double latitiude;
   private double longitude;
 
-  public Contact(String firstName, String lasttName, String avatar, String phoneNumber, String streetAddress,
+  public Contact(String firstName, String lastName, String avatar, String phoneNumber, String streetAddress,
       String city, double latitiude, double longitude) {
     this.firstName = firstName;
-    this.lasttName = lasttName;
+    this.lastName = lastName;
     this.avatar = avatar;
     this.phoneNumber = phoneNumber;
     this.streetAddress = streetAddress;
@@ -29,8 +29,8 @@ public class Contact {
     return firstName;
   }
 
-  public String getLasttName() {
-    return lasttName;
+  public String getLastName() {
+    return lastName;
   }
 
   public String getAvatar() {
