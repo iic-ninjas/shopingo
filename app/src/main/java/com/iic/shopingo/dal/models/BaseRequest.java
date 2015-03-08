@@ -11,18 +11,12 @@ public class BaseRequest {
     CANCELED
   }
 
-  private Contact contact;
   private ShoppingList shoppingList;
   private RequestStatus status;
 
-  public BaseRequest(Contact contact, ShoppingList shoppingList, RequestStatus status) {
-    this.contact = contact;
+  public BaseRequest(ShoppingList shoppingList, RequestStatus status) {
     this.shoppingList = shoppingList;
     this.status = status;
-  }
-
-  public Contact getContact() {
-    return contact;
   }
 
   public ShoppingList getShoppingList() {
