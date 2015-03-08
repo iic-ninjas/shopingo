@@ -39,7 +39,30 @@ public class UserConnector {
 
   public Task<User> connectWithFacebook(Session session) {
     final Task<User>.TaskCompletionSource taskCompletionSource = Task.create();
-    fetchUserDetails(session, taskCompletionSource);
+    Request.newMeRequest(session, new Request.GraphUserCallback() {
+      @Override
+      public void onCompleted(GraphUser graphUser, Response response) {
+        if (response.getError() != null) {
+          taskCompletionSource.setError(new UserConnectorException(response.getError()));
+          return;
+        }
+
+        String street = null;
+        String city = null;
+        GraphPlace place = graphUser.getLocation();
+        GraphLocation location = (place != null ? place.getLocation() : null);
+        if (location != null) {
+          street = location.getStreet();
+          city = location.getCity();
+        }
+
+        User user = new User(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), street, city, null);
+
+        // TODO: Make a call to create/fetch the user from the server
+        SharedUserConnector.getInstance().setCurrentUser(user);
+        taskCompletionSource.setResult(user);
+      }
+    }).executeAsync();
     return taskCompletionSource.getTask();
   }
 
@@ -97,38 +120,6 @@ public class UserConnector {
       editor.remove(CURRENT_USER_PHONE_KEY);
     }
     editor.apply();
-  }
-
-  void fetchUserDetails(Session session, final Task<User>.TaskCompletionSource taskCompletionSource) {
-    Request.newMeRequest(session, new Request.GraphUserCallback() {
-      @Override
-      public void onCompleted(GraphUser graphUser, Response response) {
-        handleFacebookFetchResult(graphUser, response, taskCompletionSource);
-      }
-    }).executeAsync();
-  }
-
-  void handleFacebookFetchResult(GraphUser graphUser, Response response,
-      Task<User>.TaskCompletionSource taskCompletionSource) {
-    if (response.getError() != null) {
-      taskCompletionSource.setError(new UserConnectorException(response.getError()));
-      return;
-    }
-
-    String street = null;
-    String city = null;
-    GraphPlace place = graphUser.getLocation();
-    GraphLocation location = (place != null ? place.getLocation() : null);
-    if (location != null) {
-      street = location.getStreet();
-      city = location.getCity();
-    }
-
-    User user = new User(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), street, city, null);
-
-    // TODO: Make a call to create/fetch the user from the server
-    SharedUserConnector.getInstance().setCurrentUser(user);
-    taskCompletionSource.setResult(user);
   }
 
   public static class UserConnectorException extends Exception {
