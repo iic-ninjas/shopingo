@@ -11,7 +11,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import com.iic.shopingo.R;
-import com.iic.shopingo.services.CurrentLocationProvider;
+import com.iic.shopingo.services.location.CurrentLocationProvider;
+import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
 import com.iic.shopingo.ui.request_flow.views.SelectShopperListItemView;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +33,11 @@ public class SelectShopperActivity extends ActionBarActivity {
     setContentView(R.layout.activity_select_shopper);
     ButterKnife.inject(this);
 
-    locationProvider = new CurrentLocationProvider(this, REQUEST_INTERVAL, new CurrentLocationProvider.LocationUpdatesListener() {
+    locationProvider = new CurrentLocationProvider(this, REQUEST_INTERVAL, new LocationUpdatesListenerAdapter() {
       @Override
       public void onLocationUpdated(Location location) {
         adapter.setUserLocation(location);
       }
-
-      @Override
-      public void onConnectionStop() {}
-
-      @Override
-      public void onConnectionFail() {}
     });
 
     List<SelectShopperAdapter.Shopper> shoppers = new ArrayList<>();

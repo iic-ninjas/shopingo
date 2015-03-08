@@ -1,4 +1,4 @@
-package com.iic.shopingo.services;
+package com.iic.shopingo.services.location;
 
 import android.content.Context;
 import android.location.Location;
@@ -12,9 +12,8 @@ import com.google.android.gms.location.LocationServices;
 /**
  * Created by assafgelber on 3/5/15.
  */
-public class CurrentLocationProvider implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class CurrentLocationProvider implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
   private GoogleApiClient googleApiClient;
-  private LocationListener internalListener;
   private LocationUpdatesListener updatesListener;
   private long requestInterval;
 
@@ -36,14 +35,7 @@ public class CurrentLocationProvider implements GoogleApiClient.ConnectionCallba
     locationRequest.setFastestInterval(requestInterval);
     locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-    internalListener = new LocationListener() {
-      @Override
-      public void onLocationChanged(Location location) {
-        updatesListener.onLocationUpdated(location);
-      }
-    };
-
-    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, internalListener);
+    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
   }
 
   @Override
@@ -57,8 +49,13 @@ public class CurrentLocationProvider implements GoogleApiClient.ConnectionCallba
     updatesListener.onConnectionFail();
   }
 
+  @Override
+  public void onLocationChanged(Location location) {
+    updatesListener.onLocationUpdated(location);
+  }
+
   public void stop() {
-    LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, internalListener);
+    LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
   }
 
   public interface LocationUpdatesListener {
