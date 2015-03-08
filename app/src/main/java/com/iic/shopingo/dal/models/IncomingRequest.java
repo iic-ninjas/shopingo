@@ -24,10 +24,8 @@ public class IncomingRequest extends BaseRequest implements android.os.Parcelabl
   }
 
   private IncomingRequest(Parcel in) {
+    super(in);
     this.requester = in.readParcelable(Contact.class.getClassLoader());
-    this.shoppingList = in.readParcelable(ShoppingList.class.getClassLoader());
-    int tmpStatus = in.readInt();
-    this.status = tmpStatus == -1 ? null : RequestStatus.values()[tmpStatus];
   }
 
   public Contact getRequester() {
@@ -41,8 +39,7 @@ public class IncomingRequest extends BaseRequest implements android.os.Parcelabl
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
+    super.writeToParcel(dest, flags);
     dest.writeParcelable(this.requester, 0);
-    dest.writeParcelable(this.shoppingList, 0);
-    dest.writeInt(this.status == null ? -1 : this.status.ordinal());
   }
 }

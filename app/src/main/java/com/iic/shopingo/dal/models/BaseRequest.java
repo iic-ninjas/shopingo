@@ -6,20 +6,18 @@ import android.os.Parcelable;
 /**
  * Created by assafgelber on 3/8/15.
  */
-public class BaseRequest implements Parcelable {
+public abstract class BaseRequest implements Parcelable {
 
   protected ShoppingList shoppingList;
 
   protected RequestStatus status;
-
-  protected BaseRequest() {}
 
   public BaseRequest(ShoppingList shoppingList, RequestStatus status) {
     this.shoppingList = shoppingList;
     this.status = status;
   }
 
-  private BaseRequest(Parcel in) {
+  protected BaseRequest(Parcel in) {
     this.shoppingList = in.readParcelable(ShoppingList.class.getClassLoader());
     int tmpStatus = in.readInt();
     this.status = tmpStatus == -1 ? null : RequestStatus.values()[tmpStatus];
