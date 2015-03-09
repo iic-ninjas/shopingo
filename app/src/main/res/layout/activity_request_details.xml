@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_accept_request"
-        android:drawableLeft="@drawable/ic_action_accept"
+        android:drawableLeft="@drawable/ic_action_accept_green"
         android:layout_weight="1"
         />
     <Button
@@ -84,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_decline_request"
-        android:drawableLeft="@drawable/ic_action_cancel"
+        android:drawableLeft="@drawable/ic_action_cancel_red"
         android:layout_weight="1"
         />
   </LinearLayout>
