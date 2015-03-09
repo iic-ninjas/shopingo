@@ -70,10 +70,18 @@ public class RequestDetailsActivity extends ActionBarActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
-    if (id == R.id.action_call_requester) {
-      Intent intent = new Intent(Intent.ACTION_CALL);
-      intent.setData(Uri.parse("tel:" + request.location.phone));
-      startActivity(intent);
+    switch (id) {
+      case R.id.action_call_requester:
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + request.location.phone));
+        startActivity(intent);
+        break;
+      case R.id.action_accept_request:
+        onAccept(null);
+        break;
+      case R.id.action_decline_request:
+        onReject(null);
+        break;
     }
 
     return super.onOptionsItemSelected(item);
