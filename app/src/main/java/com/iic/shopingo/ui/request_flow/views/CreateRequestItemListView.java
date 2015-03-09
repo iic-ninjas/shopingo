@@ -98,7 +98,7 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
 
   private void notifyListener() {
     if (listener != null) {
-      listener.onItemListChanged(this);
+      listener.onItemListChanged();
     }
   }
 
@@ -124,7 +124,6 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
   }
 
   public interface OnRequestItemListChanged {
-    public void onItemListChanged(View view);
+    public void onItemListChanged();
   }
-
 }

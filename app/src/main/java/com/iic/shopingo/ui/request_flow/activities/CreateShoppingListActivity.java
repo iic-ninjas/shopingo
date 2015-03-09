@@ -65,7 +65,7 @@ public class CreateShoppingListActivity extends ActionBarActivity implements
   }
 
   @Override
-  public void onItemListChanged(View view) {
+  public void onItemListChanged() {
     setCreateButtonEnabled();
   }
 
