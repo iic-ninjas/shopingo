@@ -46,6 +46,18 @@ public class SelectShopperActivity extends ActionBarActivity {
 
     List<Contact> shoppers = new ArrayList<>();
     // TODO: Get actual shoppers
+    for (int i = 0; i < 10; i++) {
+      shoppers.add(new Contact(
+          "Moshe",
+          Integer.toString(i),
+          "AVATAR",
+          "12345",
+          "13 Rothschild Ave.",
+          "Tel Aviv",
+          32.063146,
+          34.770706
+      ));
+    }
     adapter = new SelectShopperAdapter(shoppers);
     shopperList.setAdapter(adapter);
   }

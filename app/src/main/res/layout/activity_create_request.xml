@@ -27,7 +27,7 @@
           android:layout_height="match_parent"
           />
       <EditText
-          android:id="@+id/create_request_price_input"
+          android:id="@+id/create_request_offer_input"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:inputType="number"
@@ -39,6 +39,7 @@
         android:id="@+id/create_request_create_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="@string/create_request_create_button"
         />
   </LinearLayout>
