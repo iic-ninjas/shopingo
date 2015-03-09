@@ -1,7 +1,5 @@
 package com.iic.shopingo.ui.trip_flow.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,6 +12,7 @@ import butterknife.InjectView;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.Request;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
+import com.iic.shopingo.ui.trip_flow.fragments.DiscardTripDialogFragment;
 import com.iic.shopingo.ui.trip_flow.fragments.RequestListFragment;
 import com.iic.shopingo.ui.trip_flow.fragments.UnifiedShoppingListFragment;
 import java.util.ArrayList;
@@ -22,12 +21,20 @@ import java.util.List;
 /**
  * Created by asafg on 05/03/15.
  */
-public class ManageTripActivity extends ActionBarActivity implements RequestListFragment.RequestListListener {
+public class ManageTripActivity extends ActionBarActivity
+    implements RequestListFragment.RequestListListener, DiscardTripDialogFragment.DiscardTripDialogListener {
+
+  private static final String DISCARD_TRIP_DIALOG_TAG = "DISCARD_TRIP_DIALOG";
+
+  private boolean backPressed;
+
+  private boolean upPressed;
 
   @InjectView(R.id.manage_trip_pager)
   ViewPager pager;
 
   RequestListFragment requestListFragment;
+
   UnifiedShoppingListFragment unifiedShoppingListFragment;
 
   @Override
@@ -42,7 +49,7 @@ public class ManageTripActivity extends ActionBarActivity implements RequestList
       Request req = new Request();
       req.photoUrl = "";
       req.name = "Moshe " + i;
-      req.offerInCents = 100*i;
+      req.offerInCents = 100 * i;
       req.location.coords.setLatitude(32.063146);
       req.location.coords.setLongitude(34.770706);
       req.location.city = "Tel Aviv";
@@ -99,6 +106,7 @@ public class ManageTripActivity extends ActionBarActivity implements RequestList
   public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
     if (id == android.R.id.home) {
+      upPressed = true;
       promptDiscardTrip();
       return true;
     }
@@ -106,30 +114,14 @@ public class ManageTripActivity extends ActionBarActivity implements RequestList
     return super.onOptionsItemSelected(item);
   }
 
-  private void promptDiscardTrip() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.
-        setTitle("Discard trip?").
-        setMessage("This will cancel your trip, preventing any requests coming in.").
-        setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            discardTrip();
-            NavUtils.navigateUpFromSameTask(ManageTripActivity.this);
-          }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-
-      }
-    });
-
-    AlertDialog alertDialog = builder.create();
-    alertDialog.show();
+  @Override
+  public void onBackPressed() {
+    backPressed = true;
+    promptDiscardTrip();
   }
 
-  private void discardTrip() {
-
+  private void promptDiscardTrip() {
+    new DiscardTripDialogFragment().show(getSupportFragmentManager(), DISCARD_TRIP_DIALOG_TAG);
   }
 
   @Override
@@ -153,5 +145,23 @@ public class ManageTripActivity extends ActionBarActivity implements RequestList
   public void onRequestSelected(Request request) {
     pager.setCurrentItem(1, true);
     // TODO: scroll to correct shopping list
+  }
+
+  @Override
+  public void onDiscardTripDialogOK() {
+    if (backPressed) {
+      super.onBackPressed();
+    } else {
+      NavUtils.navigateUpFromSameTask(this);
+    }
+
+    backPressed = false;
+    upPressed = false;
+  }
+
+  @Override
+  public void onDiscardTripDialogCancel() {
+    backPressed = false;
+    upPressed = false;
   }
 }
