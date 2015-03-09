@@ -1,7 +1,6 @@
 package com.iic.shopingo.ui.trip_flow.views;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
+import com.iic.shopingo.ui.utils.AvatarUriGenerator;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -63,8 +63,7 @@ public class ShoppingListView extends FrameLayout {
   public void setShoppingList(ShoppingList shoppingList) {
     this.shoppingList = shoppingList;
     requesterName.setText(shoppingList.requesterName);
-    Uri avatarUri = Uri.parse("http://robohash.org").buildUpon().appendPath(shoppingList.requesterName).build();
-    Picasso.with(getContext()).load(avatarUri).into(requesterAvatar);
+    Picasso.with(getContext()).load(AvatarUriGenerator.generateAvatarUri(shoppingList.requesterName)).into(requesterAvatar);
     itemsContainer.removeAllViews();
 
     ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

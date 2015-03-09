@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.Request;
+import com.iic.shopingo.ui.utils.AvatarUriGenerator;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -49,8 +50,7 @@ public class RequestDetailsActivity extends ActionBarActivity {
       setContentView(R.layout.activity_request_details);
       ButterKnife.inject(this);
 
-      Uri avatarUri = Uri.parse("http://robohash.org").buildUpon().appendPath(request.name).build();
-      Picasso.with(this).load(avatarUri).into(avatarImageView);
+      Picasso.with(this).load(AvatarUriGenerator.generateAvatarUri(request.name)).into(avatarImageView);
       name.setText(request.name);
       offer.setText(getString(R.string.format_offered_price, PriceHelper.getUSDPriceString(request.offerInCents)));
       address.setText(getString(R.string.format_delivery_address, request.location.toAddressString()));

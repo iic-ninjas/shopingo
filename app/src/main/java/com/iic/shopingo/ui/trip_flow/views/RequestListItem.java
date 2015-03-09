@@ -2,7 +2,6 @@ package com.iic.shopingo.ui.trip_flow.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -13,6 +12,7 @@ import butterknife.InjectView;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.Request;
+import com.iic.shopingo.ui.utils.AvatarUriGenerator;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -45,8 +45,7 @@ public class RequestListItem extends FrameLayout {
       this.thumbnail.setImageBitmap(thumbnail);
     } else {
       // TODO: remove this code
-      Uri avatarUri = Uri.parse("http://robohash.org").buildUpon().appendPath(name).build();
-      Picasso.with(getContext()).load(avatarUri).into(this.thumbnail);
+      Picasso.with(getContext()).load(AvatarUriGenerator.generateAvatarUri(name)).into(this.thumbnail);
     }
 
     this.name.setText(name);
