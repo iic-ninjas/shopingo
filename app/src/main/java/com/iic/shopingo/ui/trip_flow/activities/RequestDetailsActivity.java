@@ -52,8 +52,8 @@ public class RequestDetailsActivity extends ActionBarActivity {
       Uri avatarUri = Uri.parse("http://robohash.org").buildUpon().appendPath(request.name).build();
       Picasso.with(this).load(avatarUri).into(avatarImageView);
       name.setText(request.name);
-      offer.setText(PriceHelper.getUSDPriceString(request.offerInCents));
-      address.setText(request.location.toAddressString());
+      offer.setText(getString(R.string.format_offered_price, PriceHelper.getUSDPriceString(request.offerInCents)));
+      address.setText(getString(R.string.format_delivery_address, request.location.toAddressString()));
 
       ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
       adapter.addAll(request.items);

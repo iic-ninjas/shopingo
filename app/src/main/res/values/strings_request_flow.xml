@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/apk/res/android">
   <!-- Select Shopper -->
   <string name="title_activity_select_shopper">SelectShopperActivity</string>
   <string name="select_shopper_distance_format">%.1f km</string>
@@ -20,4 +20,7 @@
   <string name="request_state_settle_button">Done!</string>
   <string name="request_state_try_again_button">Try someone else</string>
   <string name="request_state_go_yourself_button">Go yourself</string>
+  
+  <string name="format_offered_price">Offered price: <xliff:g id="price">%1$s</xliff:g></string>
+  <string name="format_delivery_address">Deliver to: <xliff:g id="address">%1$s</xliff:g></string>
 </resources>
