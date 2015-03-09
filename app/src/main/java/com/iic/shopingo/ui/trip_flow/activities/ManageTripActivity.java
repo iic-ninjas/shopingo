@@ -8,7 +8,9 @@ import android.support.v4.view.ViewPager;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
-import com.iic.shopingo.ui.trip_flow.data.Request;
+import com.iic.shopingo.dal.models.BaseRequest;
+import com.iic.shopingo.dal.models.Contact;
+import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
 import com.iic.shopingo.ui.trip_flow.fragments.RequestListFragment;
 import com.iic.shopingo.ui.trip_flow.fragments.UnifiedShoppingListFragment;
@@ -32,24 +34,28 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
     setContentView(R.layout.manage_trip);
     ButterKnife.inject(this);
 
-    List<Request> requests = new ArrayList<>(10);
+    List<IncomingRequest> requests = new ArrayList<>(10);
 
     for (int i = 0; i < 10; ++i) {
-      Request req = new Request();
-      req.photoUrl = "";
-      req.name = "Moshe " + i;
-      req.offerInCents = 100*i;
-      req.location.coords.setLatitude(32.063146);
-      req.location.coords.setLongitude(34.770706);
-      req.location.city = "Tel Aviv";
-      req.location.country = "Israel";
-      req.location.address = "13 Rothschild Ave.";
-      req.location.zipcode = "12345";
-      req.location.phone = "12345";
-      req.items.add("1 Milk");
-      req.items.add("1 Bread");
-      req.items.add("1 Cheese");
-      req.items.add("12 Eggs");
+      List<String> items = new ArrayList<>(4);
+      items.add("1 Milk");
+      items.add("1 Bread");
+      items.add("1 Cheese");
+      items.add("12 Eggs");
+      IncomingRequest req = new IncomingRequest(
+          new Contact(
+              "Moshe",
+              Integer.toString(i),
+              "AVATAR",
+              "12345",
+              "13 Rothschild Ave.",
+              "Tel Aviv",
+              32.063146,
+              34.770706
+          ),
+          new com.iic.shopingo.dal.models.ShoppingList(items, 500),
+          BaseRequest.RequestStatus.PENDING
+      );
       requests.add(req);
     }
 
@@ -92,11 +98,11 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
   }
 
   @Override
-  public void onRequestAccepted(Request request) {
+  public void onRequestAccepted(IncomingRequest request) {
     ShoppingList sl = new ShoppingList();
-    sl.requesterName = request.name;
-    sl.phoneNumber = request.location.phone;
-    for (String itemTitle : request.items) {
+    sl.requesterName = request.getRequester().getFirstName();
+    sl.phoneNumber = request.getRequester().getPhoneNumber();
+    for (String itemTitle : request.getShoppingList().getItems()) {
       sl.items.add(new ShoppingList.Item(itemTitle));
     }
 
@@ -104,12 +110,12 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
   }
 
   @Override
-  public void onRequestDeclined(Request request) {
+  public void onRequestDeclined(IncomingRequest request) {
     // TODO: nothing?
   }
 
   @Override
-  public void onRequestSelected(Request request) {
+  public void onRequestSelected(IncomingRequest request) {
     pager.setCurrentItem(1, true);
     // TODO: scroll to correct shopping list
   }

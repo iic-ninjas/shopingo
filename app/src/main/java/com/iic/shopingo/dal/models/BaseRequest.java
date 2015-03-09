@@ -35,12 +35,12 @@ public abstract class BaseRequest implements Parcelable {
     return shoppingList;
   }
 
-  public RequestStatus getStatus() {
-    return status;
-  }
-
   public void setShoppingList(ShoppingList shoppingList) {
     this.shoppingList = shoppingList;
+  }
+
+  public RequestStatus getStatus() {
+    return status;
   }
 
   public void setStatus(RequestStatus status) {

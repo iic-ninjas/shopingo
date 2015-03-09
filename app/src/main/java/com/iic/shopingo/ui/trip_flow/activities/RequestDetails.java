@@ -13,7 +13,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
-import com.iic.shopingo.ui.trip_flow.data.Request;
+import com.iic.shopingo.dal.models.IncomingRequest;
 
 /**
  * Created by asafg on 03/03/15.
@@ -25,7 +25,7 @@ public class RequestDetails extends Activity {
   public static final int RESULT_ACCEPT = 1;
   public static final int RESULT_DECLINE = 2;
 
-  private Request request;
+  private IncomingRequest request;
 
   @InjectView(R.id.request_details_requester_name) TextView name;
   @InjectView(R.id.request_details_num_items) TextView numItems;
@@ -45,13 +45,13 @@ public class RequestDetails extends Activity {
       setContentView(R.layout.request_details);
       ButterKnife.inject(this);
 
-      name.setText(request.name);
-      numItems.setText(request.items.size() + " Items");
-      offer.setText(PriceHelper.getUSDPriceString(request.offerInCents));
-      address.setText(request.location.toAddressString());
+      name.setText(request.getRequester().getFirstName());
+      numItems.setText(request.getShoppingList().getItems().size() + " Items");
+      offer.setText(PriceHelper.getUSDPriceString(request.getShoppingList().getOffer()));
+      address.setText(request.getRequester().getStreetAddress());
 
       ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
-      adapter.addAll(request.items);
+      adapter.addAll(request.getShoppingList().getItems());
       itemsList.setAdapter(adapter);
     }
   }
@@ -59,7 +59,7 @@ public class RequestDetails extends Activity {
   @OnClick(R.id.request_details_call_button)
   public void onCall(View view) {
     Intent intent = new Intent(Intent.ACTION_CALL);
-    intent.setData(Uri.parse("tel:" + request.location.phone));
+    intent.setData(Uri.parse("tel:" + request.getRequester().getPhoneNumber()));
     startActivity(intent);
   }
 
