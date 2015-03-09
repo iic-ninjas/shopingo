@@ -2,6 +2,7 @@ package com.iic.shopingo.ui.trip_flow.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -12,6 +13,7 @@ import butterknife.InjectView;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.Request;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by asafg on 03/03/15.
@@ -41,7 +43,12 @@ public class RequestListItem extends FrameLayout {
   public void setRequest(Bitmap thumbnail, String name, int numItems, int offerInCents, int status) {
     if (thumbnail != null) {
       this.thumbnail.setImageBitmap(thumbnail);
+    } else {
+      // TODO: remove this code
+      Uri avatarUri = Uri.parse("http://robohash.org").buildUpon().appendPath(name).build();
+      Picasso.with(getContext()).load(avatarUri).into(this.thumbnail);
     }
+
     this.name.setText(name);
     this.numItems.setText(String.format("%d items", numItems));
     this.offer.setText(PriceHelper.getUSDPriceString(offerInCents));

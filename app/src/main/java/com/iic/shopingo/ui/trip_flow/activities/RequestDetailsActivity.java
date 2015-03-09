@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -16,6 +17,7 @@ import butterknife.OnClick;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.Request;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by asafg on 03/03/15.
@@ -30,10 +32,10 @@ public class RequestDetailsActivity extends ActionBarActivity {
   private Request request;
 
   @InjectView(R.id.request_details_requester_name) TextView name;
-  @InjectView(R.id.request_details_num_items) TextView numItems;
   @InjectView(R.id.request_details_items_list) ListView itemsList;
   @InjectView(R.id.request_details_offer) TextView offer;
   @InjectView(R.id.request_details_address) TextView address;
+  @InjectView(R.id.request_details_avatar_icon) ImageView avatarImageView;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,9 @@ public class RequestDetailsActivity extends ActionBarActivity {
       setContentView(R.layout.activity_request_details);
       ButterKnife.inject(this);
 
+      Uri avatarUri = Uri.parse("http://robohash.org").buildUpon().appendPath(request.name).build();
+      Picasso.with(this).load(avatarUri).into(avatarImageView);
       name.setText(request.name);
-      numItems.setText(request.items.size() + " Items");
       offer.setText(PriceHelper.getUSDPriceString(request.offerInCents));
       address.setText(request.location.toAddressString());
 
