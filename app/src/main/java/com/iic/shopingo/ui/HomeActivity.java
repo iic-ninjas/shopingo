@@ -66,7 +66,6 @@ public class HomeActivity extends ActionBarActivity {
     Intent intent = new Intent(this, ManageTripActivity.class);
     startActivity(intent);
     // TODO: transition to `shopping` state
-    finish();
   }
 
   private void navigateToOnboarding() {

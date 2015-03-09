@@ -1,10 +1,14 @@
 package com.iic.shopingo.ui.trip_flow.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
@@ -89,6 +93,43 @@ public class ManageTripActivity extends ActionBarActivity implements RequestList
         return 2;
       }
     });
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+    if (id == android.R.id.home) {
+      promptDiscardTrip();
+      return true;
+    }
+
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void promptDiscardTrip() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.
+        setTitle("Discard trip?").
+        setMessage("This will cancel your trip, preventing any requests coming in.").
+        setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            discardTrip();
+            NavUtils.navigateUpFromSameTask(ManageTripActivity.this);
+          }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+
+      }
+    });
+
+    AlertDialog alertDialog = builder.create();
+    alertDialog.show();
+  }
+
+  private void discardTrip() {
+
   }
 
   @Override
