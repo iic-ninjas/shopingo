@@ -29,7 +29,7 @@ public class ManageTripActivity extends ActionBarActivity implements RequestList
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.manage_trip);
+    setContentView(R.layout.activity_manage_trip);
     ButterKnife.inject(this);
 
     List<Request> requests = new ArrayList<>(10);
