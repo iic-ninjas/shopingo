@@ -7,5 +7,7 @@
   <string name="hello_world">Hello world!</string>
   <string name="title_activity_manage_trip">Plan your shopping trip</string>
   <string name="action_call_requester">Call requester</string>
+  <string name="action_accept_request">Accept</string>
+  <string name="action_decline_request">Decline</string>
 
 </resources>
