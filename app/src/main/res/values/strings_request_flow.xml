@@ -9,7 +9,7 @@
   <string name="create_request_new_item_hint">Add another item</string>
   <string name="create_request_remove_item_button">X</string>
   <string name="create_request_price_hint">5.00</string>
-  <string name="create_request_create_button">Create Request</string>
+  <string name="create_request_create_button">Send Request</string>
 
   <!-- Request States -->
   <string name="title_activity_request_state">RequestState</string>

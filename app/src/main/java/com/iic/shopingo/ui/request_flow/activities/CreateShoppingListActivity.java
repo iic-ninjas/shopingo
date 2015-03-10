@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -13,8 +12,6 @@ import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
-import java.util.Currency;
-import java.util.Locale;
 
 public class CreateShoppingListActivity extends ActionBarActivity {
 
@@ -22,9 +19,6 @@ public class CreateShoppingListActivity extends ActionBarActivity {
 
   @InjectView(R.id.create_request_items_list)
   CreateRequestItemListView itemListView;
-
-  @InjectView(R.id.create_request_currency_symbol)
-  TextView currencyView;
 
   @InjectView(R.id.create_request_price_input)
   EditText priceView;
@@ -49,7 +43,7 @@ public class CreateShoppingListActivity extends ActionBarActivity {
       priceView.setText(Integer.toString(shoppingList.getOffer()));
     }
 
-    currencyView.setText(Currency.getInstance(Locale.getDefault()).getSymbol());
+    //currencyView.setText(Currency.getInstance(Locale.getDefault()).getSymbol());
   }
 
   @OnClick(R.id.create_request_create_button)

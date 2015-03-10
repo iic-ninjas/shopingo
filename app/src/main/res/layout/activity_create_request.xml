@@ -7,39 +7,60 @@
     >
   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       android:orientation="vertical"
+      android:paddingTop="16dp"
+      android:paddingBottom="16dp"
       >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shopping list"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        />
+
     <com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView
         android:id="@+id/create_request_items_list"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         />
-    <LinearLayout
+
+    <View
         android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-      <TextView
-          android:id="@+id/create_request_currency_symbol"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          />
-      <EditText
-          android:id="@+id/create_request_price_input"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:inputType="number"
-          android:layout_weight="1"
-          android:hint="@string/create_request_price_hint"
-          />
-    </LinearLayout>
+        android:text="Max. price"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        />
+    <EditText
+        android:id="@+id/create_request_price_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:inputType="number"
+        android:hint="@string/create_request_price_hint"
+        />
     <Button
         android:id="@+id/create_request_create_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_request_create_button"
+        android:layout_gravity="center_horizontal"
         />
   </LinearLayout>
 </ScrollView>
