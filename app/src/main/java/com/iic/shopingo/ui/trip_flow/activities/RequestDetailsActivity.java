@@ -50,7 +50,7 @@ public class RequestDetailsActivity extends ActionBarActivity {
       setContentView(R.layout.activity_request_details);
       ButterKnife.inject(this);
 
-      Picasso.with(this).load(AvatarUriGenerator.generateAvatarUri(request.name)).into(avatarImageView);
+      Picasso.with(this).load(AvatarUriGenerator.generateAvatarUri(request.getRequester().getFirstName())).into(avatarImageView);
       name.setText(request.getRequester().getFirstName());
       offer.setText(getString(R.string.format_offered_price, PriceHelper.getUSDPriceString(request.getShoppingList().getOffer())));
       address.setText(getString(R.string.format_delivery_address, request.getRequester().getStreetAddress()));
