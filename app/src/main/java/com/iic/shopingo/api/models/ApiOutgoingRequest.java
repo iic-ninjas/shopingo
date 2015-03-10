@@ -10,7 +10,7 @@ public class ApiOutgoingRequest extends ApiSimpleResponse {
 
   public ApiContact shopper;
 
-  public int status;
+  public String status;
 
   public List<String> items;
 

@@ -5,6 +5,7 @@ import com.iic.shopingo.api.models.ApiIncomingRequest;
 import com.iic.shopingo.api.models.ApiUserInfo;
 import com.iic.shopingo.api.models.converters.IncomingRequestConverter;
 import com.iic.shopingo.api.models.converters.OutgoingRequestConverter;
+import com.iic.shopingo.api.models.converters.StatusConverter;
 import com.iic.shopingo.api.models.converters.UserInfoConverter;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.dal.models.OutgoingRequest;
@@ -72,7 +73,7 @@ public class User {
     public UserAPIResult(ApiUserInfo apiUserInfo) {
       super();
       this.userContactInfo = UserInfoConverter.convert(apiUserInfo);
-      this.userState = CurrentUser.State.values()[apiUserInfo.state];
+      this.userState = StatusConverter.UserState.convert(apiUserInfo.state);
     }
 
     public UserAPIResult(String errorMessage) {
@@ -87,7 +88,7 @@ public class User {
 
     public CurrentStateAPIResult(ApiCurrentState apiCurrentState) {
       super();
-      this.userState = CurrentUser.State.values()[apiCurrentState.state];
+      this.userState = StatusConverter.UserState.convert(apiCurrentState.state);
       List<IncomingRequest> tempRequests = new ArrayList<>();
       for (ApiIncomingRequest apiRequest : apiCurrentState.activeTripRequests) {
         tempRequests.add(IncomingRequestConverter.convert(apiRequest));

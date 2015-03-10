@@ -7,7 +7,7 @@ import java.util.List;
  * Created by assafgelber on 3/10/15.
  */
 public class ApiCurrentState {
-  public int state;
+  public String state;
 
   @SerializedName("active_trip")
   public List<ApiIncomingRequest> activeTripRequests;

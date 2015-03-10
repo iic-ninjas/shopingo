@@ -1,7 +1,6 @@
 package com.iic.shopingo.api.models.converters;
 
 import com.iic.shopingo.api.models.ApiIncomingRequest;
-import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.dal.models.ShoppingList;
 
@@ -17,7 +16,7 @@ public class IncomingRequestConverter {
             apiRequest.items,
             apiRequest.offer
         ),
-        BaseRequest.RequestStatus.values()[apiRequest.status]
+        StatusConverter.RequestStatus.convert(apiRequest.status)
     );
   }
 }

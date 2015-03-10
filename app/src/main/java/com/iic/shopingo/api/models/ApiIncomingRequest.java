@@ -10,7 +10,7 @@ public class ApiIncomingRequest extends ApiSimpleResponse {
 
   public ApiContact requester;
 
-  public int status;
+  public String status;
 
   public List<String> items;
 
