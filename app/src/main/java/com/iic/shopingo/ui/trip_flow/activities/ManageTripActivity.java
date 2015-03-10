@@ -48,7 +48,6 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
               "12345",
               "Moshe",
               Integer.toString(i),
-              "AVATAR",
               "12345",
               "13 Rothschild Ave.",
               "Tel Aviv",

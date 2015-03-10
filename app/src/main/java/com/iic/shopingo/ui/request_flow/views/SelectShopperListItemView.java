@@ -58,7 +58,7 @@ public class SelectShopperListItemView extends LinearLayout {
   public void setShopper(Contact shopper) {
     shopperLocation.setLatitude(shopper.getLatitude());
     shopperLocation.setLongitude(shopper.getLongitude());
-    Picasso.with(getContext()).load(shopper.getAvatar()).into(photoView);
+    Picasso.with(getContext()).load(shopper.getAvatarUrl()).into(photoView);
     nameView.setText(shopper.getName());
     distanceView.setText(
         String.format(getContext().getString(R.string.select_shopper_distance_format), 0f));
