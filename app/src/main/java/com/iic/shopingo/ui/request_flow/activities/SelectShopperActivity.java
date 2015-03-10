@@ -56,8 +56,8 @@ public class SelectShopperActivity extends ActionBarActivity {
 
   @OnItemClick(R.id.select_shopper_list)
   public void onListItemClick(int position) {
-    Intent intent = new Intent(this, com.iic.shopingo.ui.request_flow.activities.CreateShoppingListActivity.class);
-    intent.putExtra(com.iic.shopingo.ui.request_flow.activities.CreateShoppingListActivity.EXTRAS_SHOPPER_KEY, adapter.getItem(position));
+    Intent intent = new Intent(this, CreateShoppingListActivity.class);
+    intent.putExtra(CreateShoppingListActivity.EXTRAS_SHOPPER_KEY, adapter.getItem(position));
     startActivity(intent);
   }
 
