@@ -16,9 +16,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Shopping list"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        style="@style/SectionHeader"
         />
 
     <com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView
@@ -42,9 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Max. price"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        style="@style/SectionHeader"
         />
     <EditText
         android:id="@+id/create_request_price_input"

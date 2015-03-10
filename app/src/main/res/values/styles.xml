@@ -1,13 +1,23 @@
 <resources>
 
-  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+  <style name="AppTheme"
+      parent="Theme.AppCompat.Light.DarkActionBar">
     <item name="actionBarStyle">@style/ActionBar.Solid.Shopingo</item>
   </style>
 
-  <style name="ActionBar.Solid.Shopingo" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+  <style name="ActionBar.Solid.Shopingo"
+      parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
     <item name="displayOptions">useLogo|showHome</item>
     <item name="logo">@drawable/ic_logo</item>
     <item name="background">@drawable/action_bar_bg</item>
   </style>
+
+  <style name="SectionHeader">
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">@color/textColorSectionHeader</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:layout_marginBottom">16dp</item>
+  </style>
+
 
 </resources>
