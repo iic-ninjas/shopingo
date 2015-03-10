@@ -54,7 +54,7 @@ public class CreateShoppingListActivity extends ActionBarActivity implements Tex
   @OnClick(R.id.create_request_create_button)
   public void onCreateRequest(View view) {
     shoppingList.setItems(itemListView.getAllItems());
-    shoppingList.setOffer(Integer.parseInt(priceView.getText().toString()));
+    shoppingList.setOffer(Integer.parseInt(priceView.getText().toString().substring(1)));
     Intent intent = new Intent(this, SaveRequestActivity.class);
     intent.putExtra(SaveRequestActivity.EXTRAS_SHOPPER_KEY, shopper);
     intent.putExtra(SaveRequestActivity.EXTRAS_SHOPPING_LIST_KEY, shoppingList);
