@@ -61,6 +61,8 @@
         android:layout_height="wrap_content"
         android:text="@string/create_request_create_button"
         android:layout_gravity="center_horizontal"
+        android:drawableLeft="@drawable/ic_action_send_now"
+        android:paddingLeft="16dp"
         />
   </LinearLayout>
 </ScrollView>
