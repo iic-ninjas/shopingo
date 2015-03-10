@@ -72,12 +72,21 @@ public class Server {
   }
 
   private <T> T executeRequest(HttpUriRequest request, Class<T> responseClass) throws IOException {
-    HttpResponse response = client.execute(request);
-    InputStream content = response.getEntity().getContent();
-    Reader reader = new InputStreamReader(content);
-    Gson gson = new GsonBuilder().create();
-    T result = gson.fromJson(reader, responseClass);
-    content.close();
-    return result;
+    InputStream content = null;
+    try {
+      HttpResponse response = client.execute(request);
+      content = response.getEntity().getContent();
+      Reader reader = new InputStreamReader(content);
+      Gson gson = new GsonBuilder().create();
+      T result = gson.fromJson(reader, responseClass);
+      content.close();
+      return result;
+    } catch (IOException e) {
+      throw e;
+    } finally {
+      if (content != null) {
+        content.close();
+      }
+    }
   }
 }
