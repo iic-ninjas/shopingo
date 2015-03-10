@@ -9,10 +9,10 @@ import com.iic.shopingo.dal.models.UserInfo;
 public class CurrentUser {
 
   public enum State {
-    LOGGED_OUT,
-    LOGGED_IN,
-    SHOPPING,
-    REQUESTING
+    IDLE,
+    TRIPPING,
+    REQUESTING,
+    LOGGED_OUT
   }
 
   public UserInfo userInfo;

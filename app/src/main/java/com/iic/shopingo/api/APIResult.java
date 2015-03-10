@@ -16,4 +16,9 @@ public class APIResult {
     success = false;
     this.errorMessage = errorMessage;
   }
+
+  public APIResult(boolean success, String errorMessage) {
+    this.success = success;
+    this.errorMessage = errorMessage;
+  }
 }
