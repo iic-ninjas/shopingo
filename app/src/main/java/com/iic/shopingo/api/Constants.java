@@ -7,6 +7,7 @@ public class Constants {
   public static class Routes {
     public static final String USERS_LOGIN_PATH = "/users/login";
     public static final String USERS_UPDATE_PATH = "/users/update";
+    public static final String USERS_STATE_PATH = "/users/state";
 
     public static final String TRIPS_INDEX_PATH = "/trips/";
     public static final String TRIPS_START_PATH = "/trips/start";
