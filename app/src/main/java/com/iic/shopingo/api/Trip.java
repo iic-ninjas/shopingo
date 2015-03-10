@@ -19,7 +19,7 @@ public class Trip {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       ApiSimpleResponse response = server.post(Constants.Routes.TRIPS_START_PATH, ApiSimpleResponse.class);
-      return new APIResult(response.success, response.errorMessage);
+      return new APIResult(response);
     } catch (IOException e) {
       return new APIResult(e.getMessage());
     }
@@ -41,7 +41,7 @@ public class Trip {
       HashMap<String, Object> params = new HashMap<>();
       String path = String.format(Constants.Routes.REQUESTS_ACCEPT_PATH_TEMPLATE, requestId);
       ApiSimpleResponse response = server.post(path, ApiSimpleResponse.class, params);
-      return new APIResult(response.success, response.errorMessage);
+      return new APIResult(response);
     } catch (IOException e) {
       return new APIResult(e.getMessage());
     }
@@ -53,7 +53,7 @@ public class Trip {
       HashMap<String, Object> params = new HashMap<>();
       String path = String.format(Constants.Routes.REQUESTS_DECLINE_PATH_TEMPLATE, requestId);
       ApiSimpleResponse response = server.post(path, ApiSimpleResponse.class, params);
-      return new APIResult(response.success, response.errorMessage);
+      return new APIResult(response);
     } catch (IOException e) {
       return new APIResult(e.getMessage());
     }
@@ -63,7 +63,7 @@ public class Trip {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       ApiSimpleResponse response = server.post(Constants.Routes.TRIPS_END_PATH, ApiSimpleResponse.class);
-      return new APIResult(response.success, response.errorMessage);
+      return new APIResult(response);
     } catch (IOException e) {
       return new APIResult(e.getMessage());
     }

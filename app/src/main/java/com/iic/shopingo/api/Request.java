@@ -36,9 +36,9 @@ public class Request {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       ApiSimpleResponse response = server.post(Constants.Routes.REQUESTS_CANCEL_PATH, ApiSimpleResponse.class);
-      return new APIResult(response.success, response.errorMessage);
+      return new APIResult(response);
     } catch (IOException e) {
-      return new APIResult(false, e.getMessage());
+      return new APIResult(e.getMessage());
     }
   }
 
@@ -46,9 +46,9 @@ public class Request {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       ApiSimpleResponse response = server.post(Constants.Routes.REQUESTS_SETTLE_PATH, ApiSimpleResponse.class);
-      return new APIResult(response.success, response.errorMessage);
+      return new APIResult(response);
     } catch (IOException e) {
-      return new APIResult(false, e.getMessage());
+      return new APIResult(e.getMessage());
     }
   }
 

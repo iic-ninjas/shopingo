@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by assafgelber on 3/10/15.
  */
 public class ApiSimpleResponse {
-  public boolean success;
+  public boolean success = true;
 
   @SerializedName("error")
   public String errorMessage;
