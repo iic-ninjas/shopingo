@@ -8,7 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.internal.ListenerClass;
 import com.iic.shopingo.R;
+import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.SharedUserConnector;
 import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
@@ -18,38 +20,43 @@ public class HomeActivity extends ActionBarActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (!SharedUserConnector.getInstance().isUserSignedIn()) {
-      navigateToOnboarding();
-    } else {
-      // TODO: check user state and go to the correct screen directly.
-      setContentView(R.layout.activity_home);
-      ButterKnife.inject(this);
+
+    switch (CurrentUser.getInstance().state) {
+      case LOGGED_OUT:
+        navigateToOnboarding();
+        break;
+      case LOGGED_IN:
+        setContentView(R.layout.activity_home);
+        ButterKnife.inject(this);
+        break;
+      case SHOPPING:
+        // TODO: go to shopping experience.
+        break;
+      case REQUESTING:
+        // TODO: go to request screen.
+        break;
     }
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_home, menu);
     return true;
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    } else if (id == R.id.action_logout) {
-      SharedUserConnector.getInstance().logout(this);
-      navigateToOnboarding();
-    } else if (id == R.id.action_update_contact) {
-      Intent intent = new Intent(this, ContactDetailsActivity.class);
-      startActivity(intent);
+    switch (id) {
+      case R.id.action_logout:
+        SharedUserConnector.getInstance().logout(this);
+        navigateToOnboarding();
+        break;
+      case R.id.action_update_contact:
+        Intent intent = new Intent(this, ContactDetailsActivity.class);
+        startActivity(intent);
+        break;
     }
 
     return super.onOptionsItemSelected(item);

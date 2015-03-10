@@ -18,17 +18,17 @@ public class OutgoingRequest extends BaseRequest {
 
   private Contact shopper;
 
-  public OutgoingRequest() {
-    super();
+  public OutgoingRequest(String id) {
+    super(id);
   }
 
-  public OutgoingRequest(Contact shopper, ShoppingList shoppingList) {
-    super(shoppingList);
+  public OutgoingRequest(String id, Contact shopper, ShoppingList shoppingList) {
+    super(id, shoppingList);
     this.shopper = shopper;
   }
 
-  public OutgoingRequest(Contact shopper, ShoppingList shoppingList, RequestStatus status) {
-    super(shoppingList, status);
+  public OutgoingRequest(String id, Contact shopper, ShoppingList shoppingList, RequestStatus status) {
+    super(id, shoppingList, status);
     this.shopper = shopper;
   }
 

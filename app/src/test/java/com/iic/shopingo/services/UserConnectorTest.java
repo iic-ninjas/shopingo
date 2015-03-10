@@ -9,7 +9,7 @@ import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
-import com.iic.shopingo.dal.models.User;
+import com.iic.shopingo.dal.models.UserInfo;
 import mockit.Delegate;
 import mockit.Expectations;
 import mockit.Injectable;
@@ -94,7 +94,7 @@ public class UserConnectorTest {
       };
     }};
 
-    Task<User> task = subject.connectWithFacebook(fbSession);
+    Task<UserInfo> task = subject.connectWithFacebook(fbSession);
     Assert.assertTrue("task should be faulted", task.isFaulted());
   }
 
@@ -128,9 +128,9 @@ public class UserConnectorTest {
       };
     }};
 
-    Task<User> task = subject.connectWithFacebook(fbSession);
+    Task<UserInfo> task = subject.connectWithFacebook(fbSession);
 
-    User user = task.getResult();
+    UserInfo user = task.getResult();
     Assert.assertEquals(USER_UID, user.getUid());
     Assert.assertEquals(USER_FIRST_NAME, user.getFirstName());
     Assert.assertEquals(USER_LAST_NAME, user.getLastName());
@@ -144,7 +144,7 @@ public class UserConnectorTest {
    */
   @Test
   public void testLogout(@Injectable Context context, @Mocked final Session anySession) {
-    User user = new User(USER_UID, USER_FIRST_NAME, USER_LAST_NAME, USER_STREET, USER_CITY, USER_PHONE);
+    UserInfo user = new UserInfo(USER_UID, USER_FIRST_NAME, USER_LAST_NAME, USER_STREET, USER_CITY, USER_PHONE);
     subject.setCurrentUser(user);
     new Expectations() {{
       Session.getActiveSession();

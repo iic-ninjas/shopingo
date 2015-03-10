@@ -18,8 +18,8 @@ public class IncomingRequest extends BaseRequest {
 
   private Contact requester;
 
-  public IncomingRequest(Contact requester, ShoppingList shoppingList, RequestStatus status) {
-    super(shoppingList, status);
+  public IncomingRequest(String id, Contact requester, ShoppingList shoppingList, RequestStatus status) {
+    super(id, shoppingList, status);
     this.requester = requester;
   }
 

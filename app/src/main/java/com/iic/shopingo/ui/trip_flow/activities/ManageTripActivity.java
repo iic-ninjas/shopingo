@@ -43,7 +43,9 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
       items.add("1 Cheese");
       items.add("12 Eggs");
       IncomingRequest req = new IncomingRequest(
+          "123",
           new Contact(
+              "12345",
               "Moshe",
               Integer.toString(i),
               "AVATAR",

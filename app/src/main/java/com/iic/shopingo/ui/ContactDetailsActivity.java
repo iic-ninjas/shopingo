@@ -9,7 +9,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
-import com.iic.shopingo.dal.models.User;
+import com.iic.shopingo.dal.models.UserInfo;
 import com.iic.shopingo.services.SharedUserConnector;
 import com.squareup.picasso.Picasso;
 
@@ -53,7 +53,7 @@ public class ContactDetailsActivity extends ActionBarActivity {
 
   private void updateUser() {
     // TODO: add input validation
-    User user = SharedUserConnector.getInstance().getCurrentUser();
+    UserInfo user = SharedUserConnector.getInstance().getCurrentUser();
     user.setFirstName(firstNameEditView.getText().toString());
     user.setLastName(lastNameEditView.getText().toString());
     user.setStreet(streetEditView.getText().toString());
@@ -63,7 +63,7 @@ public class ContactDetailsActivity extends ActionBarActivity {
   }
 
   private void prefillFields() {
-    User user = SharedUserConnector.getInstance().getCurrentUser();
+    UserInfo user = SharedUserConnector.getInstance().getCurrentUser();
     firstNameEditView.setText(user.getFirstName());
     lastNameEditView.setText(user.getLastName());
     streetEditView.setText(user.getStreet());

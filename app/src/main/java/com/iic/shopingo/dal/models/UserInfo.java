@@ -1,25 +1,21 @@
 package com.iic.shopingo.dal.models;
 
+import butterknife.internal.ListenerClass;
+
 /**
  * Created by ifeins on 3/3/15.
  */
-public class User {
-
+public class UserInfo {
   private static final String AVATAR_URL_FORMAT = "https://graph.facebook.com/%s/picture?width=300";
 
   private String uid;
-
   private String firstName;
-
   private String lastName;
-
   private String street;
-
   private String city;
-
   private String phoneNumber;
 
-  public User(String uid, String firstName, String lastName, String street, String city, String phoneNumber) {
+  public UserInfo(String uid, String firstName, String lastName, String street, String city, String phoneNumber) {
     this.uid = uid;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -75,4 +71,5 @@ public class User {
   public String getAvatarUrl() {
     return String.format(AVATAR_URL_FORMAT, getUid());
   }
+
 }

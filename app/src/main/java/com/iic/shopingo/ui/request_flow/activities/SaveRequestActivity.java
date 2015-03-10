@@ -31,6 +31,6 @@ public class SaveRequestActivity extends ActionBarActivity {
   // TODO: Move this to somewhere more fitting
   private OutgoingRequest saveRequest(Contact shopper, ShoppingList shoppingList) {
     // TODO: Send `shopper` and `shoppingList` to server and get an `OutgoingRequest` back
-    return new OutgoingRequest(shopper, shoppingList, BaseRequest.RequestStatus.PENDING);
+    return new OutgoingRequest("123", shopper, shoppingList, BaseRequest.RequestStatus.PENDING);
   }
 }

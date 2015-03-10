@@ -17,6 +17,8 @@ public class Contact implements Parcelable {
     }
   };
 
+  private String id;
+
   private String firstName;
 
   private String lastName;
@@ -33,8 +35,9 @@ public class Contact implements Parcelable {
 
   private double longitude;
 
-  public Contact(String firstName, String lastName, String avatar, String phoneNumber, String streetAddress,
+  public Contact(String id, String firstName, String lastName, String avatar, String phoneNumber, String streetAddress,
       String city, double latitude, double longitude) {
+    this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.avatar = avatar;
@@ -46,6 +49,7 @@ public class Contact implements Parcelable {
   }
 
   private Contact(Parcel in) {
+    this.id = in.readString();
     this.firstName = in.readString();
     this.lastName = in.readString();
     this.avatar = in.readString();
@@ -55,6 +59,8 @@ public class Contact implements Parcelable {
     this.latitude = in.readDouble();
     this.longitude = in.readDouble();
   }
+
+  public String getId() { return id; }
 
   public String getFirstName() {
     return firstName;
@@ -99,6 +105,7 @@ public class Contact implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(this.id);
     dest.writeString(this.firstName);
     dest.writeString(this.lastName);
     dest.writeString(this.avatar);

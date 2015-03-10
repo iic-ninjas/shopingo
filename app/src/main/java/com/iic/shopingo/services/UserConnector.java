@@ -10,35 +10,21 @@ import com.facebook.Session;
 import com.facebook.model.GraphLocation;
 import com.facebook.model.GraphPlace;
 import com.facebook.model.GraphUser;
-import com.iic.shopingo.dal.models.User;
+import com.iic.shopingo.dal.models.UserInfo;
 
 /**
  * Created by ifeins on 3/3/15.
  */
 public class UserConnector {
-
-  private static final String CURRENT_USER_UID_KEY = "current_user_uid";
-
-  private static final String CURRENT_USER_FIRST_NAME_KEY = "current_user_first_name";
-
-  private static final String CURRENT_USER_LAST_NAME_KEY = "current_user_last_name";
-
-  private static final String CURRENT_USER_STREET_KEY = "current_user_street";
-
-  private static final String CURRENT_USER_CITY_KEY = "current_user_city";
-
-  private static final String CURRENT_USER_PHONE_KEY = "current_user_phone";
-
-  private User currentUser;
-
-  private SharedPreferences sharedPreferences;
+  private UserInfo currentUser;
+  private UserStorage userStorage;
 
   public UserConnector(SharedPreferences sharedPreferences) {
-    this.sharedPreferences = sharedPreferences;
+    userStorage = new UserStorage(sharedPreferences);
   }
 
-  public Task<User> connectWithFacebook(Session session) {
-    final Task<User>.TaskCompletionSource taskCompletionSource = Task.create();
+  public Task<UserInfo> connectWithFacebook(Session session) {
+    final Task<UserInfo>.TaskCompletionSource taskCompletionSource = Task.create();
     Request.newMeRequest(session, new Request.GraphUserCallback() {
       @Override
       public void onCompleted(GraphUser graphUser, Response response) {
@@ -56,7 +42,8 @@ public class UserConnector {
           city = location.getCity();
         }
 
-        User user = new User(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), street, city, null);
+        UserInfo
+            user = new UserInfo(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), street, city, null);
 
         // TODO: Make a call to create/fetch the user from the server
         SharedUserConnector.getInstance().setCurrentUser(user);
@@ -83,43 +70,17 @@ public class UserConnector {
     return getCurrentUser() != null;
   }
 
-  public User getCurrentUser() {
+  public UserInfo getCurrentUser() {
     if (currentUser == null) {
-      String uid = sharedPreferences.getString(CURRENT_USER_UID_KEY, null);
-      if (uid != null) {
-        // TODO: fetch from local db
-        String firstName = sharedPreferences.getString(CURRENT_USER_FIRST_NAME_KEY, null);
-        String lastName = sharedPreferences.getString(CURRENT_USER_LAST_NAME_KEY, null);
-        String street = sharedPreferences.getString(CURRENT_USER_STREET_KEY, null);
-        String city = sharedPreferences.getString(CURRENT_USER_CITY_KEY, null);
-        String phone = sharedPreferences.getString(CURRENT_USER_PHONE_KEY, null);
-        currentUser = new User(uid, firstName, lastName, street, city, phone);
-      }
+      currentUser = userStorage.getUserInfo();
     }
 
     return currentUser;
   }
 
-  public void setCurrentUser(User currentUser) {
+  public void setCurrentUser(UserInfo currentUser) {
     this.currentUser = currentUser;
-
-    SharedPreferences.Editor editor = sharedPreferences.edit();
-    if (currentUser != null) {
-      editor.putString(CURRENT_USER_UID_KEY, currentUser.getUid());
-      editor.putString(CURRENT_USER_FIRST_NAME_KEY, currentUser.getFirstName());
-      editor.putString(CURRENT_USER_LAST_NAME_KEY, currentUser.getLastName());
-      editor.putString(CURRENT_USER_STREET_KEY, currentUser.getStreet());
-      editor.putString(CURRENT_USER_CITY_KEY, currentUser.getCity());
-      editor.putString(CURRENT_USER_PHONE_KEY, currentUser.getPhoneNumber());
-    } else {
-      editor.remove(CURRENT_USER_UID_KEY);
-      editor.remove(CURRENT_USER_FIRST_NAME_KEY);
-      editor.remove(CURRENT_USER_LAST_NAME_KEY);
-      editor.remove(CURRENT_USER_STREET_KEY);
-      editor.remove(CURRENT_USER_CITY_KEY);
-      editor.remove(CURRENT_USER_PHONE_KEY);
-    }
-    editor.apply();
+    userStorage.storeUserInfo(currentUser);
   }
 
   public static class UserConnectorException extends Exception {

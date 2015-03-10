@@ -14,7 +14,7 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.iic.shopingo.R;
-import com.iic.shopingo.dal.models.User;
+import com.iic.shopingo.dal.models.UserInfo;
 import com.iic.shopingo.services.SharedUserConnector;
 
 public class OnboardingActivity extends ActionBarActivity {
@@ -87,9 +87,9 @@ public class OnboardingActivity extends ActionBarActivity {
 
   private void login(Session session) {
     duringLogin = true;
-    SharedUserConnector.getInstance().connectWithFacebook(session).continueWith(new Continuation<User, Void>() {
+    SharedUserConnector.getInstance().connectWithFacebook(session).continueWith(new Continuation<UserInfo, Void>() {
       @Override
-      public Void then(Task<User> task) throws Exception {
+      public Void then(Task<UserInfo> task) throws Exception {
         if (task.isCompleted()) {
           Intent intent = new Intent(OnboardingActivity.this, ContactDetailsActivity.class);
           startActivity(intent);
