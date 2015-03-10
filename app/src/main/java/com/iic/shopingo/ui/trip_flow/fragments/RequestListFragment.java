@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.IncomingRequest;
+import com.iic.shopingo.ui.trip_flow.activities.RequestDetails;
 import com.iic.shopingo.ui.trip_flow.views.RequestListAdapter;
 import java.util.List;
 
