@@ -6,7 +6,7 @@
 
   <style name="ActionBar.Solid.Shopingo" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
     <item name="displayOptions">useLogo|showHome</item>
-    <item name="logo">@mipmap/ic_launcher</item>
+    <item name="logo">@drawable/ic_logo</item>
     <item name="background">@drawable/action_bar_bg</item>
   </style>
 
