@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by assafgelber on 3/10/15.
  */
-public class ApiContact {
+public class ApiContact extends ApiSimpleResponse {
   @SerializedName("facebook_id")
   public String facebookId;
 
@@ -28,16 +28,6 @@ public class ApiContact {
   public double longitude;
 
   public ApiContact() {
-  }
-
-  public ApiContact(String facebookId, String firstName, String lastName, String streetAddress, String city, String phoneNumber, double latitude, double longitude) {
-    this.facebookId = facebookId;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.streetAddress = streetAddress;
-    this.city = city;
-    this.phoneNumber = phoneNumber;
-    this.latitude = latitude;
-    this.longitude = longitude;
+    super();
   }
 }

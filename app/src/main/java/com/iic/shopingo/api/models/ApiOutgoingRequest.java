@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by assafgelber on 3/10/15.
  */
-public class ApiOutgoingRequest {
+public class ApiOutgoingRequest extends ApiSimpleResponse {
   public String id;
 
   public ApiContact shopper;
@@ -17,13 +17,6 @@ public class ApiOutgoingRequest {
   public int offer;
 
   public ApiOutgoingRequest() {
-  }
-
-  public ApiOutgoingRequest(String id, ApiContact shopper, int status, List<String> items, int offer) {
-    this.id = id;
-    this.shopper = shopper;
-    this.status = status;
-    this.items = items;
-    this.offer = offer;
+    super();
   }
 }
