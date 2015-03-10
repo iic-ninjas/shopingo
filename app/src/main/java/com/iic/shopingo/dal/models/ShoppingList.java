@@ -2,6 +2,7 @@ package com.iic.shopingo.dal.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,10 @@ public class ShoppingList implements Parcelable {
 
   private int offer;
 
+  public ShoppingList() {
+    this.items = new ArrayList<>();
+  }
+
   public ShoppingList(List<String> items, int offer) {
     this.items = items;
     this.offer = offer;
@@ -36,8 +41,16 @@ public class ShoppingList implements Parcelable {
     return items;
   }
 
+  public void setItems(List<String> items) {
+    this.items = items;
+  }
+
   public int getOffer() {
     return offer;
+  }
+
+  public void setOffer(int offer) {
+    this.offer = offer;
   }
 
   @Override
@@ -47,7 +60,7 @@ public class ShoppingList implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    dest.writeList(this.items);
+    dest.writeStringList(this.items);
     dest.writeInt(this.offer);
   }
 }

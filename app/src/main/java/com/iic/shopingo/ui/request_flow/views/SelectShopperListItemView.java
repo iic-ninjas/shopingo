@@ -11,7 +11,7 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
-import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
+import com.iic.shopingo.dal.models.Contact;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -55,11 +55,11 @@ public class SelectShopperListItemView extends LinearLayout {
     ButterKnife.inject(this);
   }
 
-  public void setShopper(SelectShopperActivity.SelectShopperAdapter.Shopper shopper) {
-    shopperLocation.setLatitude(shopper.latitude);
-    shopperLocation.setLongitude(shopper.longitude);
-    Picasso.with(getContext()).load(shopper.photo).into(photoView);
-    nameView.setText(shopper.name);
+  public void setShopper(Contact shopper) {
+    shopperLocation.setLatitude(shopper.getLatitude());
+    shopperLocation.setLongitude(shopper.getLongitude());
+    Picasso.with(getContext()).load(shopper.getAvatar()).into(photoView);
+    nameView.setText(shopper.getName());
     distanceView.setText(
         String.format(getContext().getString(R.string.select_shopper_distance_format), 0f));
   }

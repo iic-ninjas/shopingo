@@ -18,6 +18,15 @@ public class OutgoingRequest extends BaseRequest {
 
   private Contact shopper;
 
+  public OutgoingRequest() {
+    super();
+  }
+
+  public OutgoingRequest(Contact shopper, ShoppingList shoppingList) {
+    super(shoppingList);
+    this.shopper = shopper;
+  }
+
   public OutgoingRequest(Contact shopper, ShoppingList shoppingList, RequestStatus status) {
     super(shoppingList, status);
     this.shopper = shopper;
@@ -30,6 +39,10 @@ public class OutgoingRequest extends BaseRequest {
 
   public Contact getShopper() {
     return shopper;
+  }
+
+  public void setShopper(Contact shopper) {
+    this.shopper = shopper;
   }
 
   @Override

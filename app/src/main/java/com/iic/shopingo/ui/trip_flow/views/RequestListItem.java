@@ -11,9 +11,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
-import com.iic.shopingo.ui.trip_flow.data.Request;
 import com.iic.shopingo.ui.utils.AvatarUriGenerator;
 import com.squareup.picasso.Picasso;
+import com.iic.shopingo.dal.models.BaseRequest;
 
 /**
  * Created by asafg on 03/03/15.
@@ -40,7 +40,7 @@ public class RequestListItem extends FrameLayout {
     init();
   }
 
-  public void setRequest(Bitmap thumbnail, String name, int numItems, int offerInCents, int status) {
+  public void setRequest(Bitmap thumbnail, String name, int numItems, int offerInCents, BaseRequest.RequestStatus status) {
     if (thumbnail != null) {
       this.thumbnail.setImageBitmap(thumbnail);
     } else {
@@ -52,10 +52,10 @@ public class RequestListItem extends FrameLayout {
     this.numItems.setText(String.format("%d items", numItems));
     this.offer.setText(PriceHelper.getUSDPriceString(offerInCents));
     switch (status) {
-      case Request.STATUS_ACCEPTED:
+      case ACCEPTED:
         this.setBackgroundResource(android.R.color.holo_green_light);
         break;
-      case Request.STATUS_DECLINED:
+      case DECLINED:
         this.setBackgroundResource(android.R.color.holo_red_light);
         break;
       default:

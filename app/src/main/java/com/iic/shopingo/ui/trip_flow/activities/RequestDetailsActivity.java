@@ -16,9 +16,9 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
-import com.iic.shopingo.ui.trip_flow.data.Request;
 import com.iic.shopingo.ui.utils.AvatarUriGenerator;
 import com.squareup.picasso.Picasso;
+import com.iic.shopingo.dal.models.IncomingRequest;
 
 /**
  * Created by asafg on 03/03/15.
@@ -30,7 +30,7 @@ public class RequestDetailsActivity extends ActionBarActivity {
   public static final int RESULT_ACCEPT = 1;
   public static final int RESULT_DECLINE = 2;
 
-  private Request request;
+  private IncomingRequest request;
 
   @InjectView(R.id.request_details_requester_name) TextView name;
   @InjectView(R.id.request_details_items_list) ListView itemsList;
@@ -51,12 +51,12 @@ public class RequestDetailsActivity extends ActionBarActivity {
       ButterKnife.inject(this);
 
       Picasso.with(this).load(AvatarUriGenerator.generateAvatarUri(request.name)).into(avatarImageView);
-      name.setText(request.name);
-      offer.setText(getString(R.string.format_offered_price, PriceHelper.getUSDPriceString(request.offerInCents)));
-      address.setText(getString(R.string.format_delivery_address, request.location.toAddressString()));
+      name.setText(request.getRequester().getFirstName());
+      offer.setText(getString(R.string.format_offered_price, PriceHelper.getUSDPriceString(request.getShoppingList().getOffer())));
+      address.setText(getString(R.string.format_delivery_address, request.getRequester().getStreetAddress()));
 
       ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
-      adapter.addAll(request.items);
+      adapter.addAll(request.getShoppingList().getItems());
       itemsList.setAdapter(adapter);
     }
   }
@@ -72,9 +72,7 @@ public class RequestDetailsActivity extends ActionBarActivity {
     int id = item.getItemId();
     switch (id) {
       case R.id.action_call_requester:
-        Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse("tel:" + request.location.phone));
-        startActivity(intent);
+        onCall();
         break;
       case R.id.action_accept_request:
         onAccept(null);
@@ -85,6 +83,12 @@ public class RequestDetailsActivity extends ActionBarActivity {
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  public void onCall() {
+    Intent intent = new Intent(Intent.ACTION_CALL);
+    intent.setData(Uri.parse("tel:" + request.getRequester().getPhoneNumber()));
+    startActivity(intent);
   }
 
   @OnClick(R.id.request_details_accept_button)
