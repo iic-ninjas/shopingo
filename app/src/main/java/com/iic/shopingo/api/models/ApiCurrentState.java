@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by assafgelber on 3/10/15.
  */
-public class ApiCurrentState {
+public class ApiCurrentState extends ApiSimpleResponse {
   public String state;
 
   @SerializedName("active_trip")
@@ -16,5 +16,6 @@ public class ApiCurrentState {
   public ApiOutgoingRequest activeOutgoingRequest;
 
   public ApiCurrentState() {
+    super();
   }
 }
