@@ -3,6 +3,9 @@ package com.iic.shopingo.ui.request_flow.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.Selection;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import butterknife.ButterKnife;
@@ -12,8 +15,10 @@ import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
+import java.util.Currency;
+import java.util.Locale;
 
-public class CreateShoppingListActivity extends ActionBarActivity {
+public class CreateShoppingListActivity extends ActionBarActivity implements TextWatcher {
 
   public static final String EXTRAS_SHOPPER_KEY = "shopper";
 
@@ -43,7 +48,7 @@ public class CreateShoppingListActivity extends ActionBarActivity {
       priceView.setText(Integer.toString(shoppingList.getOffer()));
     }
 
-    //currencyView.setText(Currency.getInstance(Locale.getDefault()).getSymbol());
+    priceView.addTextChangedListener(this);
   }
 
   @OnClick(R.id.create_request_create_button)
@@ -55,5 +60,26 @@ public class CreateShoppingListActivity extends ActionBarActivity {
     intent.putExtra(SaveRequestActivity.EXTRAS_SHOPPING_LIST_KEY, shoppingList);
     startActivity(intent);
     finish();
+  }
+
+  @Override
+  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+  }
+
+  @Override
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
+  }
+
+  @Override
+  public void afterTextChanged(Editable s) {
+    String symbol = Currency.getInstance(Locale.getDefault()).getSymbol();
+
+    String text = s.toString();
+    if (!text.contains("$")) {
+      priceView.removeTextChangedListener(this);
+      priceView.setTextKeepState(symbol + text);
+      Selection.setSelection(priceView.getText(), text.length() + 1);
+      priceView.addTextChangedListener(this);
+    }
   }
 }
