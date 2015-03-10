@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Shopping list"
+        android:text="What do you want to buy?"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         style="@style/SectionHeader"
@@ -41,7 +41,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Max. price"
+        android:text="How much are you willing to pay?"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         style="@style/SectionHeader"
