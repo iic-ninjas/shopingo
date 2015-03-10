@@ -29,8 +29,7 @@ public class Server {
 
   private String authToken;
 
-  public Server() {
-  }
+  public Server() {}
 
   public Server(String authToken) {
     this.authToken = authToken;

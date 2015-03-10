@@ -22,7 +22,7 @@ public class User {
 
   public static UserAPIResult login(String facebookId, String firstName, String lastName, String streetAddress, String city, String phoneNumber) {
     try {
-      Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
+      Server server = new Server();
       HashMap<String, Object> params = new HashMap<>();
       params.put(Constants.Parameters.USERS_FACEBOOK_ID, facebookId);
       params.put(Constants.Parameters.USERS_FIRST_NAME, firstName);
