@@ -9,5 +9,6 @@
   <string name="action_call_requester">Call requester</string>
   <string name="action_accept_request">Accept</string>
   <string name="action_decline_request">Decline</string>
+  <string name="title_activity_save_request">SaveRequestActivity</string>
 
 </resources>
