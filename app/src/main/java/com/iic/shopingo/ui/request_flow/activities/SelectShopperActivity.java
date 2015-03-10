@@ -16,6 +16,7 @@ import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.services.location.CurrentLocationProvider;
 import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
 import com.iic.shopingo.ui.request_flow.views.SelectShopperListItemView;
+import com.iic.shopingo.ui.utils.AvatarUriGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,9 @@ public class SelectShopperActivity extends ActionBarActivity {
     });
 
     List<Contact> shoppers = new ArrayList<>();
+    String avatarUrl = AvatarUriGenerator.generateAvatarUri("default").toString();
+    shoppers.add(new Contact("Robo", "Hash", avatarUrl, "054-1234567", "22 Ibn Gvirol", "Tel Aviv", 32.0738986, 34.7818578));
+
     // TODO: Get actual shoppers
     adapter = new SelectShopperAdapter(shoppers);
     shopperList.setAdapter(adapter);
