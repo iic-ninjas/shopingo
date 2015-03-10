@@ -85,7 +85,7 @@ public class CreateRequestListItemView extends LinearLayout {
       listener.onRemoveButtonClicked(this);
     }
   }
-  
+
   @OnFocusChange(R.id.create_request_item_title)
   public void onTitleFocusChanged(EditText view, boolean hasFocus) {
     if (!hasFocus) {
