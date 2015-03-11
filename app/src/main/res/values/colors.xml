@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <color name="textColorSectionHeader">#757575</color>
+  <color name="actionBarStartColor">#a3b835</color>
+  <color name="actionBarEndColor">#83a223</color>
 </resources>
