@@ -8,7 +8,7 @@ import com.iic.shopingo.dal.models.Contact;
  */
 public class ContactConverter {
   public static Contact convert(ApiContact apiContact) {
-    return  new Contact(
+    return new Contact(
         apiContact.facebookId,
         apiContact.firstName,
         apiContact.lastName,
