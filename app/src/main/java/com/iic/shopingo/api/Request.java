@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asafg on 09/03/15.
@@ -21,7 +22,7 @@ public class Request {
   public static OutgoingRequestApiResult makeRequest(List<String> shoppingItems, int offer, String shopperId) {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
-      HashMap<String, Object> params = new HashMap<>();
+      Map<String, Object> params = new HashMap<>();
       params.put(Constants.Parameters.REQUESTS_SHOPPER_ID, shopperId);
       params.put(Constants.Parameters.REQUESTS_OFFER, offer);
       params.put(Constants.Parameters.REQUESTS_ITEMS, shoppingItems);

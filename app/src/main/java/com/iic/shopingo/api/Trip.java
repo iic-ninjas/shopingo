@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asafg on 09/03/15.
@@ -38,7 +39,7 @@ public class Trip {
   public static ApiResult acceptRequest(int requestId) {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
-      HashMap<String, Object> params = new HashMap<>();
+      Map<String, Object> params = new HashMap<>();
       String path = String.format(Constants.Routes.REQUESTS_ACCEPT_PATH_TEMPLATE, requestId);
       ApiSimpleResponse response = server.post(path, ApiSimpleResponse.class, params);
       return new ApiResult(response);
@@ -50,7 +51,7 @@ public class Trip {
   public static ApiResult declineRequest(int requestId) {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
-      HashMap<String, Object> params = new HashMap<>();
+      Map<String, Object> params = new HashMap<>();
       String path = String.format(Constants.Routes.REQUESTS_DECLINE_PATH_TEMPLATE, requestId);
       ApiSimpleResponse response = server.post(path, ApiSimpleResponse.class, params);
       return new ApiResult(response);

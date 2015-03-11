@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asafg on 09/03/15.
@@ -24,7 +25,7 @@ public class User {
   public static UserApiResult login(String facebookId, String firstName, String lastName, String streetAddress, String city, String phoneNumber) {
     try {
       Server server = new Server();
-      HashMap<String, Object> params = new HashMap<>();
+      Map<String, Object> params = new HashMap<>();
       params.put(Constants.Parameters.USERS_FACEBOOK_ID, facebookId);
       params.put(Constants.Parameters.USERS_FIRST_NAME, firstName);
       params.put(Constants.Parameters.USERS_LAST_NAME, lastName);
@@ -41,7 +42,7 @@ public class User {
   public static UserApiResult updateDetails(String facebookId, String firstName, String lastName, String streetAddress, String city, String phoneNumber) {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
-      HashMap<String, Object> params = new HashMap<>();
+      Map<String, Object> params = new HashMap<>();
       params.put(Constants.Parameters.USERS_FACEBOOK_ID, facebookId);
       params.put(Constants.Parameters.USERS_FACEBOOK_ID, facebookId);
       params.put(Constants.Parameters.USERS_FIRST_NAME, firstName);
