@@ -19,7 +19,8 @@
         android:layout_gravity="center_vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif-light"
         />
   </LinearLayout>
 
@@ -30,7 +31,8 @@
       android:layout_gravity="center_horizontal"
       android:layout_marginTop="16dp"
       android:text="Button text"
-      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:textSize="22sp"
+      android:fontFamily="sans-serif-condensed-light"
       android:textAllCaps="true"
       />
 
