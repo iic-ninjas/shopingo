@@ -35,7 +35,7 @@
       android:elevation="2dp"
       app:cardDescription="Ask friends to buy you what you need and have them deliver it to your place."
       app:cardButtonText="@string/home_create_request_btn_title"
-      app:cardIcon="@mipmap/ic_launcher"
+      app:cardIcon="@drawable/ic_delivery"
       />
 
 </LinearLayout>
