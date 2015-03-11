@@ -7,6 +7,8 @@ import android.os.Parcelable;
  * Created by assafgelber on 3/8/15.
  */
 public class Contact implements Parcelable {
+  private static final String AVATAR_URL_FORMAT = "https://graph.facebook.com/%s/picture?width=300";
+
   public static final Parcelable.Creator<Contact> CREATOR = new Parcelable.Creator<Contact>() {
     public Contact createFromParcel(Parcel source) {
       return new Contact(source);
@@ -23,8 +25,6 @@ public class Contact implements Parcelable {
 
   private String lastName;
 
-  private String avatar;
-
   private String phoneNumber;
 
   private String streetAddress;
@@ -35,12 +35,11 @@ public class Contact implements Parcelable {
 
   private double longitude;
 
-  public Contact(String id, String firstName, String lastName, String avatar, String phoneNumber, String streetAddress,
+  public Contact(String id, String firstName, String lastName, String phoneNumber, String streetAddress,
       String city, double latitude, double longitude) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.avatar = avatar;
     this.phoneNumber = phoneNumber;
     this.streetAddress = streetAddress;
     this.city = city;
@@ -52,7 +51,6 @@ public class Contact implements Parcelable {
     this.id = in.readString();
     this.firstName = in.readString();
     this.lastName = in.readString();
-    this.avatar = in.readString();
     this.phoneNumber = in.readString();
     this.streetAddress = in.readString();
     this.city = in.readString();
@@ -72,10 +70,6 @@ public class Contact implements Parcelable {
 
   public String getName() {
     return this.firstName + " " + this.lastName;
-  }
-
-  public String getAvatar() {
-    return avatar;
   }
 
   public String getPhoneNumber() {
@@ -98,6 +92,10 @@ public class Contact implements Parcelable {
     return longitude;
   }
 
+  public String getAvatarUrl() {
+    return String.format(AVATAR_URL_FORMAT, getId());
+  }
+
   @Override
   public int describeContents() {
     return 0;
@@ -108,7 +106,6 @@ public class Contact implements Parcelable {
     dest.writeString(this.id);
     dest.writeString(this.firstName);
     dest.writeString(this.lastName);
-    dest.writeString(this.avatar);
     dest.writeString(this.phoneNumber);
     dest.writeString(this.streetAddress);
     dest.writeString(this.city);

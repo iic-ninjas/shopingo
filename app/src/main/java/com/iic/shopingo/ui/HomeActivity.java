@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.internal.ListenerClass;
 import com.iic.shopingo.R;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.SharedUserConnector;
@@ -25,11 +24,11 @@ public class HomeActivity extends ActionBarActivity {
       case LOGGED_OUT:
         navigateToOnboarding();
         break;
-      case LOGGED_IN:
+      case IDLE:
         setContentView(R.layout.activity_home);
         ButterKnife.inject(this);
         break;
-      case SHOPPING:
+      case TRIPPING:
         // TODO: go to shopping experience.
         break;
       case REQUESTING:

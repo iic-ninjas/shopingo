@@ -1,76 +1,88 @@
 package com.iic.shopingo.api;
 
-import com.iic.shopingo.dal.models.BaseRequest;
-import com.iic.shopingo.dal.models.Contact;
+import com.iic.shopingo.api.models.ApiIncomingRequest;
+import com.iic.shopingo.api.models.ApiSimpleResponse;
+import com.iic.shopingo.api.models.converters.IncomingRequestConverter;
 import com.iic.shopingo.dal.models.IncomingRequest;
+import com.iic.shopingo.services.CurrentUser;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asafg on 09/03/15.
  */
 public class Trip {
-  public static APIResult startTrip() {
-    ServerSim.simulateRequest();
-    return new APIResult();
-  }
-
-  public static PendingRequestsAPIResult getPendingRequests() {
-    // TODO: use the user's current position instead of his address?
-    ServerSim.simulateRequest();
-    List<IncomingRequest> requests = new ArrayList<>(10);
-
-    for (int i = 0; i < 10; ++i) {
-      List<String> items = new ArrayList<>(4);
-      items.add("1 Milk");
-      items.add("1 Bread");
-      items.add("1 Cheese");
-      items.add("12 Eggs");
-      IncomingRequest req = new IncomingRequest(
-          "12345",
-          new Contact(
-              "12345",
-              "Moshe",
-              Integer.toString(i),
-              "AVATAR",
-              "12345",
-              "13 Rothschild Ave.",
-              "Tel Aviv",
-              32.063146,
-              34.770706
-          ),
-          new com.iic.shopingo.dal.models.ShoppingList(items, 500),
-          BaseRequest.RequestStatus.PENDING
-      );
-      requests.add(req);
+  public static ApiResult startTrip() {
+    try {
+      Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
+      ApiSimpleResponse response = server.post(Constants.Routes.TRIPS_START_PATH, ApiSimpleResponse.class);
+      return new ApiResult(response);
+    } catch (IOException e) {
+      return new ApiResult(e.getMessage());
     }
-    return new PendingRequestsAPIResult(requests);
   }
 
-  public static APIResult acceptRequest(int requestId) {
-    ServerSim.simulateRequest();
-    return new APIResult();
+  public static PendingRequestsApiResult getPendingRequests() {
+    try {
+      Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
+      ApiIncomingRequest[] response = server.get(Constants.Routes.REQUESTS_INDEX_PATH, ApiIncomingRequest[].class);
+      return new PendingRequestsApiResult(Arrays.asList(response));
+    } catch (IOException e) {
+      return new PendingRequestsApiResult(e.getMessage());
+    }
   }
 
-  public static APIResult declineRequest(int requestId) {
-    ServerSim.simulateRequest();
-    return new APIResult();
+  public static ApiResult acceptRequest(int requestId) {
+    try {
+      Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
+      Map<String, Object> params = new HashMap<>();
+      String path = String.format(Constants.Routes.REQUESTS_ACCEPT_PATH_TEMPLATE, requestId);
+      ApiSimpleResponse response = server.post(path, ApiSimpleResponse.class, params);
+      return new ApiResult(response);
+    } catch (IOException e) {
+      return new ApiResult(e.getMessage());
+    }
   }
 
-  public static APIResult endTrip() {
-    ServerSim.simulateRequest();
-    return new APIResult();
+  public static ApiResult declineRequest(int requestId) {
+    try {
+      Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
+      Map<String, Object> params = new HashMap<>();
+      String path = String.format(Constants.Routes.REQUESTS_DECLINE_PATH_TEMPLATE, requestId);
+      ApiSimpleResponse response = server.post(path, ApiSimpleResponse.class, params);
+      return new ApiResult(response);
+    } catch (IOException e) {
+      return new ApiResult(e.getMessage());
+    }
   }
 
-  public static class PendingRequestsAPIResult extends APIResult {
+  public static ApiResult endTrip() {
+    try {
+      Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
+      ApiSimpleResponse response = server.post(Constants.Routes.TRIPS_END_PATH, ApiSimpleResponse.class);
+      return new ApiResult(response);
+    } catch (IOException e) {
+      return new ApiResult(e.getMessage());
+    }
+  }
+
+  public static class PendingRequestsApiResult extends ApiResult {
     public List<IncomingRequest> requests;
 
-    public PendingRequestsAPIResult(List<IncomingRequest> requests) {
+    public PendingRequestsApiResult(List<ApiIncomingRequest> requests) {
       super();
-      this.requests = requests;
+      List<IncomingRequest> tempRequests = new ArrayList<>();
+      for (ApiIncomingRequest apiRequest : requests) {
+        tempRequests.add(IncomingRequestConverter.convert(apiRequest));
+      }
+      this.requests = tempRequests;
     }
 
-    public PendingRequestsAPIResult(String errorMessage) {
+    public PendingRequestsApiResult(String errorMessage) {
       super(errorMessage);
     }
   }

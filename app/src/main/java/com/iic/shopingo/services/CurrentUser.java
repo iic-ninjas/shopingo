@@ -10,8 +10,8 @@ public class CurrentUser {
 
   public enum State {
     LOGGED_OUT,
-    LOGGED_IN,
-    SHOPPING,
+    IDLE,
+    TRIPPING,
     REQUESTING
   }
 
