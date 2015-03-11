@@ -5,20 +5,20 @@ import com.iic.shopingo.api.models.ApiSimpleResponse;
 /**
  * Created by asafg on 09/03/15.
  */
-public class APIResult {
+public class ApiResult {
   public boolean success;
   public String errorMessage;
 
-  public APIResult() {
+  public ApiResult() {
     success = true;
     errorMessage = null;
   }
 
-  public APIResult(String error) {
+  public ApiResult(String error) {
     errorMessage = error;
   }
 
-  public APIResult(ApiSimpleResponse response) {
+  public ApiResult(ApiSimpleResponse response) {
     if (response.success && response.errorMessage != null) {
       throw new IllegalArgumentException("Response can not be marked as successful and contain an error message");
     }

@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class User {
 
-  public static UserAPIResult login(String facebookId, String firstName, String lastName, String streetAddress, String city, String phoneNumber) {
+  public static UserApiResult login(String facebookId, String firstName, String lastName, String streetAddress, String city, String phoneNumber) {
     try {
       Server server = new Server();
       HashMap<String, Object> params = new HashMap<>();
@@ -32,13 +32,13 @@ public class User {
       params.put(Constants.Parameters.USERS_CITY, city);
       params.put(Constants.Parameters.USERS_PHONE_NUMBER, phoneNumber);
       ApiUserInfo response = server.post(Constants.Routes.USERS_LOGIN_PATH, ApiUserInfo.class, params);
-      return new UserAPIResult(response);
+      return new UserApiResult(response);
     } catch (IOException e) {
-      return new UserAPIResult(e.getMessage());
+      return new UserApiResult(e.getMessage());
     }
   }
 
-  public static UserAPIResult updateDetails(String facebookId, String firstName, String lastName, String streetAddress, String city, String phoneNumber) {
+  public static UserApiResult updateDetails(String facebookId, String firstName, String lastName, String streetAddress, String city, String phoneNumber) {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       HashMap<String, Object> params = new HashMap<>();
@@ -50,43 +50,43 @@ public class User {
       params.put(Constants.Parameters.USERS_CITY, city);
       params.put(Constants.Parameters.USERS_PHONE_NUMBER, phoneNumber);
       ApiUserInfo response = server.post(Constants.Routes.USERS_UPDATE_PATH, ApiUserInfo.class, params);
-      return new UserAPIResult(response);
+      return new UserApiResult(response);
     } catch (IOException e) {
-      return new UserAPIResult(e.getMessage());
+      return new UserApiResult(e.getMessage());
     }
   }
 
-  public static CurrentStateAPIResult getCurrentState() {
+  public static CurrentStateApiResult getCurrentState() {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       ApiCurrentState response = server.get(Constants.Routes.USERS_STATE_PATH, ApiCurrentState.class);
-      return new CurrentStateAPIResult(response);
+      return new CurrentStateApiResult(response);
     } catch (IOException e) {
-      return new CurrentStateAPIResult(e.getMessage());
+      return new CurrentStateApiResult(e.getMessage());
     }
   }
 
-  public static class UserAPIResult extends APIResult {
+  public static class UserApiResult extends ApiResult {
     public UserInfo userContactInfo;
     public CurrentUser.State userState;
 
-    public UserAPIResult(ApiUserInfo apiUserInfo) {
+    public UserApiResult(ApiUserInfo apiUserInfo) {
       super();
       this.userContactInfo = UserInfoConverter.convert(apiUserInfo);
       this.userState = StatusConverter.UserState.convert(apiUserInfo.state);
     }
 
-    public UserAPIResult(String errorMessage) {
+    public UserApiResult(String errorMessage) {
       super(errorMessage);
     }
   }
 
-  public static class CurrentStateAPIResult extends APIResult {
+  public static class CurrentStateApiResult extends ApiResult {
     public CurrentUser.State userState;
     public List<IncomingRequest> activeTripRequests;
     public OutgoingRequest activeOutgoingRequest;
 
-    public CurrentStateAPIResult(ApiCurrentState apiCurrentState) {
+    public CurrentStateApiResult(ApiCurrentState apiCurrentState) {
       super();
       this.userState = StatusConverter.UserState.convert(apiCurrentState.state);
       List<IncomingRequest> tempRequests = new ArrayList<>();
@@ -97,7 +97,7 @@ public class User {
       this.activeOutgoingRequest = OutgoingRequestConverter.convert(apiCurrentState.activeOutgoingRequest);
     }
 
-    public CurrentStateAPIResult(String errorMessage) {
+    public CurrentStateApiResult(String errorMessage) {
       super(errorMessage);
     }
   }

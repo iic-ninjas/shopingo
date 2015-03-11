@@ -18,7 +18,7 @@ import java.util.List;
  * Created by asafg on 09/03/15.
  */
 public class Request {
-  public static OutgoingRequestAPIResult makeRequest(List<String> shoppingItems, int offer, String shopperId) {
+  public static OutgoingRequestApiResult makeRequest(List<String> shoppingItems, int offer, String shopperId) {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       HashMap<String, Object> params = new HashMap<>();
@@ -26,60 +26,60 @@ public class Request {
       params.put(Constants.Parameters.REQUESTS_OFFER, offer);
       params.put(Constants.Parameters.REQUESTS_ITEMS, shoppingItems);
       ApiOutgoingRequest response = server.post(Constants.Routes.REQUESTS_CREATE_PATH, ApiOutgoingRequest.class, params);
-      return new OutgoingRequestAPIResult(response);
+      return new OutgoingRequestApiResult(response);
     } catch (IOException e) {
-      return new OutgoingRequestAPIResult(e.getMessage());
+      return new OutgoingRequestApiResult(e.getMessage());
     }
   }
 
-  public static APIResult cancelRequest() {
+  public static ApiResult cancelRequest() {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       ApiSimpleResponse response = server.post(Constants.Routes.REQUESTS_CANCEL_PATH, ApiSimpleResponse.class);
-      return new APIResult(response);
+      return new ApiResult(response);
     } catch (IOException e) {
-      return new APIResult(e.getMessage());
+      return new ApiResult(e.getMessage());
     }
   }
 
-  public static APIResult settleRequest() {
+  public static ApiResult settleRequest() {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       ApiSimpleResponse response = server.post(Constants.Routes.REQUESTS_SETTLE_PATH, ApiSimpleResponse.class);
-      return new APIResult(response);
+      return new ApiResult(response);
     } catch (IOException e) {
-      return new APIResult(e.getMessage());
+      return new ApiResult(e.getMessage());
     }
   }
 
-  public static ShoppersAPIResult getNearbyShoppers() {
+  public static ShoppersApiResult getNearbyShoppers() {
     try {
       Server server = new Server(CurrentUser.getInstance().userInfo.getUid());
       ApiContact[] response = server.get(Constants.Routes.TRIPS_INDEX_PATH, ApiContact[].class);
-      return new ShoppersAPIResult(Arrays.asList(response));
+      return new ShoppersApiResult(Arrays.asList(response));
     } catch (IOException e) {
-      return new ShoppersAPIResult(e.getMessage());
+      return new ShoppersApiResult(e.getMessage());
     }
   }
 
-  public static class OutgoingRequestAPIResult extends APIResult {
+  public static class OutgoingRequestApiResult extends ApiResult {
 
     public OutgoingRequest request;
 
-    public OutgoingRequestAPIResult(ApiOutgoingRequest request) {
+    public OutgoingRequestApiResult(ApiOutgoingRequest request) {
       super();
       this.request = OutgoingRequestConverter.convert(request);
     }
 
-    public OutgoingRequestAPIResult(String errorMessage) {
+    public OutgoingRequestApiResult(String errorMessage) {
       super(errorMessage);
     }
   }
 
-  private static class ShoppersAPIResult extends APIResult {
+  private static class ShoppersApiResult extends ApiResult {
     public List<Contact> shoppers;
 
-    public ShoppersAPIResult(List<ApiContact> shoppers) {
+    public ShoppersApiResult(List<ApiContact> shoppers) {
       super();
       List<Contact> tempShoppers = new ArrayList<>();
       for (ApiContact apiShopper : shoppers) {
@@ -88,7 +88,7 @@ public class Request {
       this.shoppers = tempShoppers;
     }
 
-    public ShoppersAPIResult(String errorMessage) {
+    public ShoppersApiResult(String errorMessage) {
       super(errorMessage);
     }
   }
