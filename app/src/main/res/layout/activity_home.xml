@@ -14,6 +14,7 @@
 
   <com.iic.shopingo.ui.home.ActionCardView
       android:id="@+id/home_action_card_shopping"
+      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       app:cardDescription="Notify your friends that you're going shopping and take incoming requests for money!"
@@ -23,6 +24,7 @@
 
   <com.iic.shopingo.ui.home.ActionCardView
       android:id="@+id/home_action_card_make_request"
+      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       app:cardDescription="Ask friends to buy you what you need"

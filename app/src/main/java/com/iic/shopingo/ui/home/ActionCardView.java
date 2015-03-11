@@ -7,7 +7,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,10 +51,6 @@ public class ActionCardView extends LinearLayout {
   public ActionCardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     init(attrs);
-  }
-
-  public static ActionCardView inflate(ViewGroup parent) {
-    return (ActionCardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.view_action_card, parent, false);
   }
 
   private void init(AttributeSet attrs) {
