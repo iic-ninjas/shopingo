@@ -10,6 +10,7 @@
     <item name="displayOptions">useLogo|showHome</item>
     <item name="logo">@drawable/ic_logo</item>
     <item name="background">@drawable/action_bar_bg</item>
+    <item name="elevation">0dp</item>
   </style>
 
   <style name="SectionHeader">
