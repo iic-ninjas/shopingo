@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -39,7 +40,7 @@ public class Server {
     return get(path, responseClass, new HashMap<String, Object>());
   }
 
-  public <T> T get(String path, Class<T> responseClass, HashMap<String, Object> params) throws IOException {
+  public <T> T get(String path, Class<T> responseClass, Map<String, Object> params) throws IOException {
     Uri.Builder requestUriBuilder = BASE_URI.buildUpon().appendPath(path);
     for (String key : params.keySet()) {
       requestUriBuilder.appendQueryParameter(key, params.get(key).toString());
@@ -53,7 +54,7 @@ public class Server {
     return post(path, responseClass, new HashMap<String, Object>());
   }
 
-  public <T> T post(String path, Class<T> responseClass, HashMap<String, Object> params) throws IOException {
+  public <T> T post(String path, Class<T> responseClass, Map<String, Object> params) throws IOException {
     Uri.Builder requsetUriBuilder = BASE_URI.buildUpon().appendPath(path);
     HttpPost request = new HttpPost();
     addAuthData(request);
