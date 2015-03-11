@@ -15,8 +15,4 @@ public class ApiIncomingRequest extends ApiSimpleResponse {
   public List<String> items;
 
   public int offer;
-
-  public ApiIncomingRequest() {
-    super();
-  }
 }

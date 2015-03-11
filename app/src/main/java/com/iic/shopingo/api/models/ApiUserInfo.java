@@ -5,8 +5,4 @@ package com.iic.shopingo.api.models;
  */
 public class ApiUserInfo extends ApiContact {
   public String state;
-
-  public ApiUserInfo() {
-    super();
-  }
 }
