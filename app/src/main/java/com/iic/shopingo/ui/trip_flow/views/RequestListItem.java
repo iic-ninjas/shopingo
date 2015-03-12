@@ -11,6 +11,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
+import com.iic.shopingo.ui.utils.AvatarUriGenerator;
+import com.squareup.picasso.Picasso;
 import com.iic.shopingo.dal.models.BaseRequest;
 
 /**
@@ -41,9 +43,13 @@ public class RequestListItem extends FrameLayout {
   public void setRequest(Bitmap thumbnail, String name, int numItems, int offerInCents, BaseRequest.RequestStatus status) {
     if (thumbnail != null) {
       this.thumbnail.setImageBitmap(thumbnail);
+    } else {
+      // TODO: remove this code
+      Picasso.with(getContext()).load(AvatarUriGenerator.generateAvatarUri(name)).into(this.thumbnail);
     }
+
     this.name.setText(name);
-    this.numItems.setText(Integer.toString(numItems));
+    this.numItems.setText(getResources().getQuantityString(R.plurals.items_count, numItems, numItems));
     this.offer.setText(PriceHelper.getUSDPriceString(offerInCents));
     switch (status) {
       case ACCEPTED:

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item android:id="@+id/action_accept_request"
+    android:title="Accept request"
+    android:icon="@drawable/ic_action_accept"
+    app:showAsAction="always"/>
+  <item android:id="@+id/action_decline_request"
+    android:title="Decline request"
+    android:icon="@drawable/ic_action_cancel"
+    app:showAsAction="always"/>
+  <item android:id="@+id/action_call_requester"
+      android:title="@string/action_call_requester"
+      android:icon="@drawable/ic_action_call"
+      app:showAsAction="always"/>
+</menu>

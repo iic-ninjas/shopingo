@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="title_activity_home">HomeActivity</string>
-  <string name="home_go_shopping_btn_title">Go Shopping</string>
-  <string name="home_create_request_btn_title">Make a request</string>
+  <string name="home_go_shopping_btn_title">Start shopping</string>
+  <string name="home_create_request_btn_title">Send a request</string>
   <string name="action_logout">Logout</string>
   <string name="action_update_contact">Update contact details</string>
+  <string name="home_action_card_make_request">Ask friends to buy you what you need and have them deliver it to your place.</string>
+  <string name="home_action_card_shopping">Notify your friends that you\'re going shopping and start taking requests.</string>
 </resources>

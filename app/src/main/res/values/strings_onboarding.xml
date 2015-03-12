@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="title_activity_onboarding">OnboardingActivity</string>
+  <string name="title_activity_contact_details">ContactDetailsActivity</string>
   <string name="title_facebook_login">Facebook login</string>
 </resources>
