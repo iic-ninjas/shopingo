@@ -7,24 +7,29 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
 
-public class CreateShoppingListActivity extends ActionBarActivity implements TextWatcher {
-
+public class CreateShoppingListActivity extends ActionBarActivity
+    implements TextWatcher, CreateRequestItemListView.OnRequestItemListChanged {
   public static final String EXTRAS_SHOPPER_KEY = "shopper";
 
   @InjectView(R.id.create_request_items_list)
   CreateRequestItemListView itemListView;
 
-  @InjectView(R.id.create_request_price_input)
-  EditText priceView;
+  @InjectView(R.id.create_request_create_button)
+  Button createRequestButton;
+
+  @InjectView(R.id.create_request_offer_input)
+  EditText offerView;
 
   private Contact shopper;
 
@@ -41,23 +46,39 @@ public class CreateShoppingListActivity extends ActionBarActivity implements Tex
 
     itemListView.addAllItems(shoppingList.getItems());
     itemListView.addItem("");
+    itemListView.setListener(this);
 
     if (shoppingList.getOffer() != 0) {
-      priceView.setText(Integer.toString(shoppingList.getOffer()));
+      offerView.setText(Integer.toString(shoppingList.getOffer()));
     }
 
-    priceView.addTextChangedListener(this);
+    offerView.addTextChangedListener(this);
+  }
+
+  @OnTextChanged(R.id.create_request_offer_input)
+  public void onOfferChanged(CharSequence text) {
+    toggleCreateButton();
+  }
+
+  @Override
+  public void onItemListChanged() {
+    toggleCreateButton();
   }
 
   @OnClick(R.id.create_request_create_button)
   public void onCreateRequest(View view) {
     shoppingList.setItems(itemListView.getAllItems());
-    shoppingList.setOffer(Integer.parseInt(priceView.getText().toString().substring(1)));
+    shoppingList.setOffer(Integer.parseInt(offerView.getText().toString().substring(1)));
     Intent intent = new Intent(this, SaveRequestActivity.class);
     intent.putExtra(SaveRequestActivity.EXTRAS_SHOPPER_KEY, shopper);
     intent.putExtra(SaveRequestActivity.EXTRAS_SHOPPING_LIST_KEY, shoppingList);
     startActivity(intent);
     finish();
+  }
+
+  private void toggleCreateButton() {
+    boolean valid = itemListView.getAllItems().size() > 0 && offerView.getText().toString().length() > 1;
+    createRequestButton.setEnabled(valid);
   }
 
   @Override
@@ -72,10 +93,10 @@ public class CreateShoppingListActivity extends ActionBarActivity implements Tex
   public void afterTextChanged(Editable s) {
     String text = s.toString();
     if (!text.contains("$")) {
-      priceView.removeTextChangedListener(this);
-      priceView.setTextKeepState("$" + text);
-      Selection.setSelection(priceView.getText(), text.length() + 1);
-      priceView.addTextChangedListener(this);
+      offerView.removeTextChangedListener(this);
+      offerView.setTextKeepState("$" + text);
+      Selection.setSelection(offerView.getText(), text.length() + 1);
+      offerView.addTextChangedListener(this);
     }
   }
 }

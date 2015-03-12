@@ -29,7 +29,7 @@ public class CreateRequestListItemView extends LinearLayout {
   @InjectView(R.id.create_request_remove_button)
   ImageButton removeButton;
 
-  private OnListViewChanged listener;
+  private OnListItemChanged listener;
 
   public CreateRequestListItemView(Context context) {
     super(context);
@@ -75,7 +75,7 @@ public class CreateRequestListItemView extends LinearLayout {
     removeButton.setEnabled(enabled);
   }
 
-  public void setListener(OnListViewChanged listener) {
+  public void setListener(OnListItemChanged listener) {
     this.listener = listener;
   }
 
@@ -106,7 +106,7 @@ public class CreateRequestListItemView extends LinearLayout {
     return false;
   }
 
-  public interface OnListViewChanged {
+  public interface OnListItemChanged {
     public void onItemEdited(View view, String value);
 
     public void onRemoveButtonClicked(View view);
