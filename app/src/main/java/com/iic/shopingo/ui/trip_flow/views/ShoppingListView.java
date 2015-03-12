@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -14,6 +15,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
+import com.iic.shopingo.ui.utils.AvatarUriGenerator;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by asafg on 04/03/15.
@@ -23,6 +26,10 @@ public class ShoppingListView extends FrameLayout {
   public interface OnCallListener {
     public void onCall(String phoneNumber);
   }
+
+
+  @InjectView(R.id.shopping_list_header_item_requester_avatar)
+  ImageView requesterAvatar;
 
   @InjectView(R.id.shopping_list_header_item_requester_name)
   TextView requesterName;
@@ -56,7 +63,9 @@ public class ShoppingListView extends FrameLayout {
   public void setShoppingList(ShoppingList shoppingList) {
     this.shoppingList = shoppingList;
     requesterName.setText(shoppingList.requesterName);
+    Picasso.with(getContext()).load(AvatarUriGenerator.generateAvatarUri(shoppingList.requesterName)).into(requesterAvatar);
     itemsContainer.removeAllViews();
+
     ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     for (ShoppingList.Item item : shoppingList.items) {
       View shoppingListItemView = createShoppingListItemView(item);

@@ -21,14 +21,12 @@ import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.location.CurrentLocationProvider;
 import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
-import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.request_flow.views.SelectShopperListItemView;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectShopperActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
   private final long REQUEST_INTERVAL = 10 * 1000; // 10 seconds in milliseconds
-  public static final String EXTRAS_REQUEST_KEY = "request";
 
   @InjectView(R.id.select_shopper_list)
   ListView shopperList;

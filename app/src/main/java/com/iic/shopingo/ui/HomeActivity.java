@@ -2,7 +2,6 @@ package com.iic.shopingo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -13,7 +12,6 @@ import bolts.Continuation;
 import bolts.Task;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.api.ApiResult;
 import com.iic.shopingo.api.trip.StartTrip;
@@ -22,13 +20,19 @@ import com.iic.shopingo.api.user.GetCurrentState;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
+import com.iic.shopingo.ui.home.ActionCardView;
 import com.iic.shopingo.ui.request_flow.activities.RequestStateActivity;
 import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity implements ActionCardView.Listener {
+
+  @InjectView(R.id.home_action_card_shopping)
+  ActionCardView startShoppingCard;
+
+  @InjectView(R.id.home_action_card_make_request)
+  ActionCardView makeRequestCard;
 
   @InjectView(R.id.home_content_container)
   View contentContainer;
@@ -39,8 +43,7 @@ public class HomeActivity extends ActionBarActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_home);
-    ButterKnife.inject(this);
+    init();
   }
 
   @Override
@@ -89,6 +92,13 @@ public class HomeActivity extends ActionBarActivity {
     }
   }
 
+  private void init() {
+    setContentView(R.layout.activity_home);
+    ButterKnife.inject(this);
+    startShoppingCard.setListener(this);
+    makeRequestCard.setListener(this);
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu_home, menu);
@@ -114,32 +124,6 @@ public class HomeActivity extends ActionBarActivity {
     return super.onOptionsItemSelected(item);
   }
 
-  @OnClick(R.id.home_create_request_btn)
-  public void onCreateRequest(View view) {
-    Intent intent = new Intent(this, SelectShopperActivity.class);
-    startActivity(intent);
-  }
-
-  @OnClick(R.id.home_go_shopping_btn)
-  public void onGoShopping(View view) {
-
-    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTrip(CurrentUser.getToken()));
-
-    task.execute().continueWith(new Continuation<ApiResult, Void>() {
-      @Override
-      public Void then(Task<ApiResult> task) throws Exception {
-        if (!task.isFaulted() && !task.isCancelled()) {
-          CurrentUser.getInstance().state = CurrentUser.State.TRIPPING;
-          Intent intent = new Intent(HomeActivity.this, ManageTripActivity.class);
-          startActivity(intent);
-        } else {
-          Toast.makeText(HomeActivity.this, "Could not start trip: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
-        }
-        return null;
-      }
-    }, Task.UI_THREAD_EXECUTOR);
-  }
-
   private void navigateToOnboarding() {
     Intent intent = new Intent(this, OnboardingActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -155,5 +139,29 @@ public class HomeActivity extends ActionBarActivity {
   private void showContent() {
     spinnerContainer.setVisibility(View.GONE);
     contentContainer.setVisibility(View.VISIBLE);
+  }
+
+  @Override
+  public void onCardClicked(ActionCardView cardView) {
+    if (cardView == startShoppingCard) {
+      ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTrip(CurrentUser.getToken()));
+
+      task.execute().continueWith(new Continuation<ApiResult, Void>() {
+        @Override
+        public Void then(Task<ApiResult> task) throws Exception {
+          if (!task.isFaulted() && !task.isCancelled()) {
+            CurrentUser.getInstance().state = CurrentUser.State.TRIPPING;
+            Intent intent = new Intent(HomeActivity.this, ManageTripActivity.class);
+            startActivity(intent);
+          } else {
+            Toast.makeText(HomeActivity.this, "Could not start trip: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+          }
+          return null;
+        }
+      }, Task.UI_THREAD_EXECUTOR);
+    } else {
+      Intent intent = new Intent(this, SelectShopperActivity.class);
+      startActivity(intent);
+    }
   }
 }

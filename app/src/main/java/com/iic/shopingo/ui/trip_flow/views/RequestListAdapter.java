@@ -44,7 +44,13 @@ public class RequestListAdapter extends BaseAdapter {
       item = new RequestListItem(context);
     }
     IncomingRequest req = getItem(position);
-    item.setRequest(null, req.getRequester().getFirstName(), req.getShoppingList().getItems().size(), req.getShoppingList().getOffer(), req.getStatus());
+    item.setRequest(
+        req.getRequester().getAvatarUrl(),
+        req.getRequester().getFirstName(),
+        req.getShoppingList().getItems().size(),
+        req.getShoppingList().getOffer(),
+        req.getStatus()
+    );
     return item;
   }
 

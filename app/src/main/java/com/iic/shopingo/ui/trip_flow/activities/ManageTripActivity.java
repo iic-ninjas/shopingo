@@ -3,16 +3,24 @@ package com.iic.shopingo.ui.trip_flow.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
+import android.widget.Toast;
+import bolts.Continuation;
+import bolts.Task;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
-import com.iic.shopingo.dal.models.BaseRequest;
-import com.iic.shopingo.dal.models.Contact;
+import com.iic.shopingo.api.ApiResult;
+import com.iic.shopingo.api.trip.EndTrip;
 import com.iic.shopingo.dal.models.IncomingRequest;
+import com.iic.shopingo.services.CurrentUser;
+import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
+import com.iic.shopingo.ui.trip_flow.fragments.DiscardTripDialogFragment;
 import com.iic.shopingo.ui.trip_flow.fragments.RequestListFragment;
 import com.iic.shopingo.ui.trip_flow.fragments.UnifiedShoppingListFragment;
 import java.util.ArrayList;
@@ -21,7 +29,14 @@ import java.util.List;
 /**
  * Created by asafg on 05/03/15.
  */
-public class ManageTripActivity extends FragmentActivity implements RequestListFragment.RequestListListener {
+public class ManageTripActivity extends ActionBarActivity
+    implements RequestListFragment.RequestListListener, DiscardTripDialogFragment.OnResultListener {
+
+  private static final String DISCARD_TRIP_DIALOG_TAG = "DISCARD_TRIP_DIALOG";
+
+  private boolean backPressed;
+
+  private boolean upPressed;
 
   public static final String EXTRA_REQUESTS = "requests";
 
@@ -29,12 +44,13 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
   ViewPager pager;
 
   RequestListFragment requestListFragment;
+
   UnifiedShoppingListFragment unifiedShoppingListFragment;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.manage_trip);
+    setContentView(R.layout.activity_manage_trip);
     ButterKnife.inject(this);
 
     List<IncomingRequest> requests = new ArrayList<>();
@@ -82,6 +98,29 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
   }
 
   @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+    if (id == android.R.id.home) {
+      upPressed = true;
+      promptDiscardTrip();
+      return true;
+    }
+
+    return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onBackPressed() {
+    backPressed = true;
+    promptDiscardTrip();
+  }
+
+  private void promptDiscardTrip() {
+    DiscardTripDialogFragment dialog = new DiscardTripDialogFragment();
+    dialog.setOnResultListener(this);
+    dialog.show(getSupportFragmentManager(), DISCARD_TRIP_DIALOG_TAG);
+  }
+
   public void onRequestAccepted(IncomingRequest request) {
     ShoppingList sl = new ShoppingList();
     sl.requesterName = request.getRequester().getFirstName();
@@ -102,5 +141,34 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
   public void onRequestSelected(IncomingRequest request) {
     pager.setCurrentItem(1, true);
     // TODO: scroll to correct shopping list
+  }
+
+  @Override
+  public void onDiscardTripDialogOK() {
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Ending trip...", new EndTrip(CurrentUser.getToken()));
+    task.execute().continueWith(new Continuation<ApiResult, Object>() {
+      @Override
+      public Object then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          if (backPressed) {
+            ManageTripActivity.super.onBackPressed();
+          } else {
+            NavUtils.navigateUpFromSameTask(ManageTripActivity.this);
+          }
+
+          backPressed = false;
+          upPressed = false;
+        } else {
+          Toast.makeText(ManageTripActivity.this, "Could not end trip: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
+  }
+
+  @Override
+  public void onDiscardTripDialogCancel() {
+    backPressed = false;
+    upPressed = false;
   }
 }

@@ -13,10 +13,10 @@
       android:singleLine="true"
       android:imeOptions="actionGo"
       />
-  <Button
-      android:id="@+id/create_request_remove_button"
+  <ImageButton android:id="@+id/create_request_remove_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/create_request_remove_item_button"
-      />
+      android:src="@drawable/ic_action_remove"
+      android:background="@android:color/transparent"/>
+
 </merge>
