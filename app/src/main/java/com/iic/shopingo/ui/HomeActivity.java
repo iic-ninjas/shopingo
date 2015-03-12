@@ -5,15 +5,21 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.InjectView;
 import com.iic.shopingo.R;
 import com.iic.shopingo.services.SharedUserConnector;
+import com.iic.shopingo.ui.home.ActionCardView;
 import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity implements ActionCardView.Listener {
+
+  @InjectView(R.id.home_action_card_shopping)
+  ActionCardView startShoppingCard;
+
+  @InjectView(R.id.home_action_card_make_request)
+  ActionCardView makeRequestCard;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +28,15 @@ public class HomeActivity extends ActionBarActivity {
       navigateToOnboarding();
     } else {
       // TODO: check user state and go to the correct screen directly.
-      setContentView(R.layout.activity_home);
-      ButterKnife.inject(this);
+      init();
     }
+  }
+
+  private void init() {
+    setContentView(R.layout.activity_home);
+    ButterKnife.inject(this);
+    startShoppingCard.setListener(this);
+    makeRequestCard.setListener(this);
   }
 
   @Override
@@ -55,24 +67,22 @@ public class HomeActivity extends ActionBarActivity {
     return super.onOptionsItemSelected(item);
   }
 
-  @OnClick(R.id.home_create_request_btn)
-  public void onCreateRequest(View view) {
-    Intent intent = new Intent(this, SelectShopperActivity.class);
-    startActivity(intent);
-  }
-
-  @OnClick(R.id.home_go_shopping_btn)
-  public void onGoShopping(View view) {
-    Intent intent = new Intent(this, ManageTripActivity.class);
-    startActivity(intent);
-    // TODO: transition to `shopping` state
-    finish();
-  }
-
   private void navigateToOnboarding() {
     Intent intent = new Intent(this, OnboardingActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivity(intent);
     finish();
+  }
+
+  @Override
+  public void onCardClicked(ActionCardView cardView) {
+    if (cardView == startShoppingCard) {
+      Intent intent = new Intent(this, ManageTripActivity.class);
+      startActivity(intent);
+      // TODO: transition to `shopping` state
+    } else {
+      Intent intent = new Intent(this, SelectShopperActivity.class);
+      startActivity(intent);
+    }
   }
 }

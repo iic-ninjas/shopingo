@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -27,7 +27,7 @@ public class CreateRequestListItemView extends LinearLayout {
   EditText titleView;
 
   @InjectView(R.id.create_request_remove_button)
-  Button removeButton;
+  ImageButton removeButton;
 
   private OnListItemChanged listener;
 
@@ -57,12 +57,12 @@ public class CreateRequestListItemView extends LinearLayout {
     ButterKnife.inject(this);
   }
 
-  public void setTitle(String title) {
-    titleView.setText(title);
-  }
-
   public String getTitle() {
     return titleView.getText().toString();
+  }
+
+  public void setTitle(String title) {
+    titleView.setText(title);
   }
 
   public void focus() {
@@ -91,7 +91,7 @@ public class CreateRequestListItemView extends LinearLayout {
     if (!hasFocus) {
       if (listener != null) {
         listener.onItemEdited(this, view.getText().toString());
-    }
+      }
     }
   }
 

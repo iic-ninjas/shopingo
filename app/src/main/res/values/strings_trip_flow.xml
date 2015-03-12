@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="title_activity_manage_trip">Plan your shopping trip</string>
+  <string name="action_call_requester">Call requester</string>
+  <string name="action_accept_request">Accept</string>
+  <string name="action_decline_request">Decline</string>
+  <string name="title_activity_save_request">SaveRequestActivity</string>
+
+  <plurals name="items_count">
+    <item quantity="one">1 item</item>
+    <item quantity="other">%d items</item>
+  </plurals>
+</resources>
