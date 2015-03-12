@@ -17,8 +17,8 @@ public class Constants {
     public static final String REQUESTS_CREATE_PATH = "/requests/create";
     public static final String REQUESTS_CANCEL_PATH = "/requests/cancel";
     public static final String REQUESTS_SETTLE_PATH = "/requests/settle";
-    public static final String REQUESTS_ACCEPT_PATH_TEMPLATE = "/requests/%s/accpet";
-    public static final String REQUESTS_DECLINE_PATH_TEMPLATE = "/requests/%s/decline";
+    public static final String REQUESTS_ACCEPT_PATH_TEMPLATE = "/requests/accept";
+    public static final String REQUESTS_DECLINE_PATH_TEMPLATE = "/requests/decline";
   }
 
   public static class Parameters {
@@ -29,6 +29,7 @@ public class Constants {
     public static final String USERS_CITY = "city";
     public static final String USERS_PHONE_NUMBER = "phone_number";
 
+    public static final String REQUESTS_REQUEST_ID = "request_id";
     public static final String REQUESTS_SHOPPER_ID = "shopper_id";
     public static final String REQUESTS_ITEMS = "items";
     public static final String REQUESTS_OFFER = "offer";

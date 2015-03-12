@@ -15,15 +15,8 @@ import com.iic.shopingo.dal.models.UserInfo;
 /**
  * Created by ifeins on 3/3/15.
  */
-public class UserConnector {
-  private UserInfo currentUser;
-  private UserStorage userStorage;
-
-  public UserConnector(SharedPreferences sharedPreferences) {
-    userStorage = new UserStorage(sharedPreferences);
-  }
-
-  public Task<UserInfo> connectWithFacebook(Session session) {
+public class FacebookConnector {
+  public static Task<UserInfo> connectWithFacebook(Session session) {
     final Task<UserInfo>.TaskCompletionSource taskCompletionSource = Task.create();
     Request.newMeRequest(session, new Request.GraphUserCallback() {
       @Override
@@ -42,20 +35,15 @@ public class UserConnector {
           city = location.getCity();
         }
 
-        UserInfo
-            user = new UserInfo(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), street, city, null);
+        UserInfo user = new UserInfo(graphUser.getId(), graphUser.getFirstName(), graphUser.getLastName(), street, city, null);
 
-        // TODO: Make a call to create/fetch the user from the server
-        SharedUserConnector.getInstance().setCurrentUser(user);
         taskCompletionSource.setResult(user);
       }
     }).executeAsync();
     return taskCompletionSource.getTask();
   }
 
-  public void logout(Context context) {
-    setCurrentUser(null);
-
+  public static void logout(Context context) {
     // Just because getActiveSession returns null, doesn't mean there is no session.
     // It only means that it's not cached, so we need to create the session to close and clear its token information.
     Session session = Session.getActiveSession();
@@ -64,23 +52,6 @@ public class UserConnector {
       Session.setActiveSession(session);
     }
     session.closeAndClearTokenInformation();
-  }
-
-  public boolean isUserSignedIn() {
-    return getCurrentUser() != null;
-  }
-
-  public UserInfo getCurrentUser() {
-    if (currentUser == null) {
-      currentUser = userStorage.getUserInfo();
-    }
-
-    return currentUser;
-  }
-
-  public void setCurrentUser(UserInfo currentUser) {
-    this.currentUser = currentUser;
-    userStorage.storeUserInfo(currentUser);
   }
 
   public static class UserConnectorException extends Exception {

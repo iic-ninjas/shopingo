@@ -1,8 +1,14 @@
-<ListView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/select_shopper_swipe_container"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <ListView
     android:id="@+id/select_shopper_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity"
     />
+</android.support.v4.widget.SwipeRefreshLayout>

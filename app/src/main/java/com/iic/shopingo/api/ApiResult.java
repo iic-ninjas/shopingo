@@ -15,6 +15,7 @@ public class ApiResult {
   }
 
   public ApiResult(String error) {
+    success = false;
     errorMessage = error;
   }
 

@@ -25,7 +25,7 @@ import org.junit.Test;
  * Test for UserConnector
  * Created by ifeins on 3/4/15.
  */
-public class UserConnectorTest {
+public class FacebookConnectorTest {
 
   private static final String USER_UID = "fb-id-1";
 
@@ -39,7 +39,7 @@ public class UserConnectorTest {
 
   public static final String USER_PHONE = "054-1234567";
 
-  private UserConnector subject;
+  private FacebookConnector subject;
 
   @Injectable
   private SharedPreferences sharedPreferences;
@@ -57,7 +57,7 @@ public class UserConnectorTest {
 
   @Before
   public void beforeEach() {
-    subject = new UserConnector(sharedPreferences);
+    subject = new FacebookConnector(sharedPreferences);
     SharedUserConnector.setInstance(subject);
 
     // we want this behavior to occur in all the tests that exercise the Request.newMeRequest static method.

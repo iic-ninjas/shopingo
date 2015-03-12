@@ -4,13 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.Toast;
+import bolts.Continuation;
+import bolts.Task;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 import com.iic.shopingo.R;
+import com.iic.shopingo.api.ApiResult;
+import com.iic.shopingo.api.request.CancelRequest;
+import com.iic.shopingo.api.request.SettleRequest;
+import com.iic.shopingo.api.trip.StartTrip;
 import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.OutgoingRequest;
+import com.iic.shopingo.services.CurrentUser;
+import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.HomeActivity;
+import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
 
 public class RequestStateActivity extends ActionBarActivity {
   public static final String EXTRAS_REQUEST_KEY = "request";
@@ -33,17 +43,43 @@ public class RequestStateActivity extends ActionBarActivity {
   @Optional
   @OnClick(R.id.request_state_cancel_button)
   public void onCancelRequest(View view) {
-    request.setStatus(BaseRequest.RequestStatus.CANCELED);
-    // TODO: Cancel request in server
-    goToActivity(SelectShopperActivity.class);
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Cancelling request...", new CancelRequest(CurrentUser.getToken()));
+
+    task.execute().continueWith(new Continuation<ApiResult, Object>() {
+      @Override
+      public Object then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          request.setStatus(BaseRequest.RequestStatus.CANCELED);
+          CurrentUser.getInstance().state = CurrentUser.State.IDLE;
+          CurrentUser.getInstance().save();
+          goToActivity(SelectShopperActivity.class);
+        } else {
+          Toast.makeText(RequestStateActivity.this, "Could not cancel request: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
   }
 
   @Optional
   @OnClick(R.id.request_state_settle_button)
   public void onSettleRequest(View view) {
-    request.setStatus(BaseRequest.RequestStatus.SETTLED);
-    // TODO: Settle request in server
-    goToActivity(HomeActivity.class);
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Settling request...", new SettleRequest(CurrentUser.getToken()));
+
+    task.execute().continueWith(new Continuation<ApiResult, Object>() {
+      @Override
+      public Object then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          request.setStatus(BaseRequest.RequestStatus.SETTLED);
+          CurrentUser.getInstance().state = CurrentUser.State.IDLE;
+          CurrentUser.getInstance().save();
+          goToActivity(HomeActivity.class);
+        } else {
+          Toast.makeText(RequestStateActivity.this, "Could not settle request: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
   }
 
   @Optional
@@ -55,7 +91,22 @@ public class RequestStateActivity extends ActionBarActivity {
   @Optional
   @OnClick(R.id.request_state_go_yourself_button)
   public void onGoYourself(View view) {
-    // TODO: Create trip and go to trip activity
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTrip(CurrentUser.getToken()));
+
+    task.execute().continueWith(new Continuation<ApiResult, Void>() {
+      @Override
+      public Void then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          CurrentUser.getInstance().state = CurrentUser.State.TRIPPING;
+          Intent intent = new Intent(RequestStateActivity.this, ManageTripActivity.class);
+          intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+          startActivity(intent);
+        } else {
+          Toast.makeText(RequestStateActivity.this, "Could not start trip: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
   }
 
   private void goToActivity(Class<?> cls) {

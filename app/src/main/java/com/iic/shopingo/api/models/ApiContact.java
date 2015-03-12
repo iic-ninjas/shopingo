@@ -26,4 +26,8 @@ public class ApiContact extends ApiSimpleResponse {
   public double latitude;
 
   public double longitude;
+
+  public ApiContact() {
+    super();
+  }
 }

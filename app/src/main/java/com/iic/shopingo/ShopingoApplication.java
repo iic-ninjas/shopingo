@@ -1,11 +1,9 @@
 package com.iic.shopingo;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.iic.shopingo.services.CurrentUser;
-import com.iic.shopingo.services.SharedUserConnector;
-import com.iic.shopingo.services.UserConnector;
+import com.iic.shopingo.services.UserStorage;
 
 /**
  * Created by ifeins on 3/3/15.
@@ -16,6 +14,6 @@ public class ShopingoApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
-    CurrentUser.getInstance().load(PreferenceManager.getDefaultSharedPreferences(this));
+    CurrentUser.getInstance().setStorage(new UserStorage(PreferenceManager.getDefaultSharedPreferences(this)));
   }
 }

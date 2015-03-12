@@ -1,24 +1,34 @@
 package com.iic.shopingo.ui.trip_flow.activities;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import bolts.Continuation;
+import bolts.Task;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
+import com.iic.shopingo.api.ApiResult;
+import com.iic.shopingo.api.trip.AcceptRequest;
+import com.iic.shopingo.api.trip.DeclineRequest;
 import com.iic.shopingo.dal.models.IncomingRequest;
+import com.iic.shopingo.services.CurrentUser;
+import com.iic.shopingo.ui.ApiTask;
 
 /**
  * Created by asafg on 03/03/15.
  */
-public class RequestDetails extends Activity {
+public class RequestDetails extends FragmentActivity {
   public static final String EXTRA_REQUEST = "request";
 
   public static final int RESULT_NONE = 0;
@@ -65,13 +75,40 @@ public class RequestDetails extends Activity {
 
   @OnClick(R.id.request_details_accept_button)
   public void onAccept(View view) {
-    setResult(RESULT_ACCEPT);
-    finish();
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Accepting request...", new AcceptRequest(
+        CurrentUser.getToken(), request.getId()));
+
+    task.execute().continueWith(new Continuation<ApiResult, Object>() {
+      @Override
+      public Object then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          setResult(RESULT_ACCEPT);
+          finish();
+        } else {
+          Toast.makeText(RequestDetails.this, "Could not accept: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
+
   }
 
   @OnClick(R.id.request_details_decline_button)
   public void onReject(View view) {
-    setResult(RESULT_DECLINE);
-    finish();
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Declining request...", new DeclineRequest(
+        CurrentUser.getToken(), request.getId()));
+
+    task.execute().continueWith(new Continuation<ApiResult, Object>() {
+      @Override
+      public Object then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          setResult(RESULT_DECLINE);
+          finish();
+        } else {
+          Toast.makeText(RequestDetails.this, "Could not decline: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
   }
 }

@@ -1,5 +1,6 @@
 package com.iic.shopingo.ui.trip_flow.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +23,8 @@ import java.util.List;
  */
 public class ManageTripActivity extends FragmentActivity implements RequestListFragment.RequestListListener {
 
+  public static final String EXTRA_REQUESTS = "requests";
+
   @InjectView(R.id.manage_trip_pager)
   ViewPager pager;
 
@@ -34,30 +37,10 @@ public class ManageTripActivity extends FragmentActivity implements RequestListF
     setContentView(R.layout.manage_trip);
     ButterKnife.inject(this);
 
-    List<IncomingRequest> requests = new ArrayList<>(10);
-
-    for (int i = 0; i < 10; ++i) {
-      List<String> items = new ArrayList<>(4);
-      items.add("1 Milk");
-      items.add("1 Bread");
-      items.add("1 Cheese");
-      items.add("12 Eggs");
-      IncomingRequest req = new IncomingRequest(
-          "123",
-          new Contact(
-              "12345",
-              "Moshe",
-              Integer.toString(i),
-              "12345",
-              "13 Rothschild Ave.",
-              "Tel Aviv",
-              32.063146,
-              34.770706
-          ),
-          new com.iic.shopingo.dal.models.ShoppingList(items, 500),
-          BaseRequest.RequestStatus.PENDING
-      );
-      requests.add(req);
+    List<IncomingRequest> requests = new ArrayList<>();
+    Intent intent = getIntent();
+    if (intent.hasExtra(EXTRA_REQUESTS)) {
+      requests = intent.getParcelableArrayListExtra(EXTRA_REQUESTS);
     }
 
     requestListFragment = new RequestListFragment();

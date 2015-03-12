@@ -32,15 +32,33 @@ public class CurrentUser {
     return instance;
   }
 
-  public void load(SharedPreferences prefs) {
-    UserStorage storage = new UserStorage(prefs);
+  public static String getToken() {
+    UserInfo info = getInstance().userInfo;
+    if (info != null) {
+      return info.getUid();
+    } else {
+      return null;
+    }
+  }
+
+  public void setStorage(UserStorage storage) {
+    this.storage = storage;
+    load();
+  }
+
+  public void load() {
     userInfo = storage.getUserInfo();
     state = storage.getUserState();
   }
 
-  public void save(SharedPreferences prefs) {
-    UserStorage storage = new UserStorage(prefs);
+  public void save() {
     storage.storeUserInfo(userInfo);
     storage.storeUserState(state);
+  }
+
+  public void logout() {
+    state = CurrentUser.State.LOGGED_OUT;
+    userInfo = null;
+    save();
   }
 }

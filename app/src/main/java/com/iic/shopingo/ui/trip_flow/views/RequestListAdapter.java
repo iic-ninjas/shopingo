@@ -15,9 +15,9 @@ public class RequestListAdapter extends BaseAdapter {
   private List<IncomingRequest> requests = new ArrayList<>();
   private Context context;
 
-  public RequestListAdapter(Context context, List<IncomingRequest> requests) {
+  public RequestListAdapter(Context context) {
     this.context = context;
-    this.requests = requests;
+    this.requests = new ArrayList<>(0);
   }
 
   @Override
@@ -46,5 +46,10 @@ public class RequestListAdapter extends BaseAdapter {
     IncomingRequest req = getItem(position);
     item.setRequest(null, req.getRequester().getFirstName(), req.getShoppingList().getItems().size(), req.getShoppingList().getOffer(), req.getStatus());
     return item;
+  }
+
+  public void setRequests(List<IncomingRequest> requests) {
+    this.requests = requests;
+    notifyDataSetChanged();
   }
 }

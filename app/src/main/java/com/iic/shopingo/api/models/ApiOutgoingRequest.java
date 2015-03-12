@@ -15,4 +15,8 @@ public class ApiOutgoingRequest extends ApiSimpleResponse {
   public List<String> items;
 
   public int offer;
+
+  public ApiOutgoingRequest() {
+    super();
+  }
 }

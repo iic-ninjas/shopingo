@@ -1,11 +1,13 @@
 package com.iic.shopingo.dal.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import butterknife.internal.ListenerClass;
 
 /**
  * Created by ifeins on 3/3/15.
  */
-public class UserInfo {
+public class UserInfo implements Parcelable {
   private static final String AVATAR_URL_FORMAT = "https://graph.facebook.com/%s/picture?width=300";
 
   private String uid;
@@ -72,4 +74,39 @@ public class UserInfo {
     return String.format(AVATAR_URL_FORMAT, getUid());
   }
 
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(uid);
+    dest.writeString(firstName);
+    dest.writeString(lastName);
+    dest.writeString(street);
+    dest.writeString(city);
+    dest.writeString(phoneNumber);
+  }
+
+  public UserInfo(Parcel in) {
+    uid = in.readString();
+    firstName = in.readString();
+    lastName = in.readString();
+    street = in.readString();
+    city = in.readString();
+    phoneNumber = in.readString();
+  }
+
+  public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
+    @Override
+    public UserInfo createFromParcel(Parcel source) {
+      return new UserInfo(source);
+    }
+
+    @Override
+    public UserInfo[] newArray(int size) {
+      return new UserInfo[size];
+    }
+  };
 }
