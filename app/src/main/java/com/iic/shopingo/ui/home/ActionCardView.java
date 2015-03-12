@@ -72,14 +72,6 @@ public class ActionCardView extends LinearLayout {
     }
   }
 
-  @Override
-  protected void onLayout(boolean changed, int l, int t, int r, int b) {
-    super.onLayout(changed, l, t, r, b);
-
-    int[] position = new int[2];
-    actionButton.getLocationOnScreen(position);
-  }
-
   public void setListener(Listener listener) {
     this.listener = listener;
   }

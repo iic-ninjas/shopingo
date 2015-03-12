@@ -15,8 +15,6 @@ import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
-import java.util.Currency;
-import java.util.Locale;
 
 public class CreateShoppingListActivity extends ActionBarActivity implements TextWatcher {
 
@@ -72,12 +70,10 @@ public class CreateShoppingListActivity extends ActionBarActivity implements Tex
 
   @Override
   public void afterTextChanged(Editable s) {
-    String symbol = Currency.getInstance(Locale.getDefault()).getSymbol();
-
     String text = s.toString();
     if (!text.contains("$")) {
       priceView.removeTextChangedListener(this);
-      priceView.setTextKeepState(symbol + text);
+      priceView.setTextKeepState("$" + text);
       Selection.setSelection(priceView.getText(), text.length() + 1);
       priceView.addTextChangedListener(this);
     }

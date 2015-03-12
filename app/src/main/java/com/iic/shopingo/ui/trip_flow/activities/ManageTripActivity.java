@@ -154,6 +154,7 @@ public class ManageTripActivity extends ActionBarActivity
 
   @Override
   public void onDiscardTripDialogOK() {
+    // TODO: Invoke API call to end current trip
     if (backPressed) {
       super.onBackPressed();
     } else {

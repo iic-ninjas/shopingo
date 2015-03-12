@@ -49,7 +49,7 @@ public class RequestListItem extends FrameLayout {
     }
 
     this.name.setText(name);
-    this.numItems.setText(String.format("%d items", numItems));
+    this.numItems.setText(getResources().getQuantityString(R.plurals.items_count, numItems, numItems));
     this.offer.setText(PriceHelper.getUSDPriceString(offerInCents));
     switch (status) {
       case ACCEPTED:
