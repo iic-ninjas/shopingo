@@ -57,12 +57,12 @@ public class CreateShoppingListActivity extends ActionBarActivity
 
   @OnTextChanged(R.id.create_request_offer_input)
   public void onOfferChanged(CharSequence text) {
-    setCreateButtonEnabled();
+    toggleCreateButton();
   }
 
   @Override
   public void onItemListChanged() {
-    setCreateButtonEnabled();
+    toggleCreateButton();
   }
 
   @OnClick(R.id.create_request_create_button)
@@ -76,7 +76,7 @@ public class CreateShoppingListActivity extends ActionBarActivity
     finish();
   }
 
-  private void setCreateButtonEnabled() {
+  private void toggleCreateButton() {
     boolean valid = itemListView.getAllItems().size() > 0 && offerView.getText().toString().length() > 1;
     createRequestButton.setEnabled(valid);
   }
