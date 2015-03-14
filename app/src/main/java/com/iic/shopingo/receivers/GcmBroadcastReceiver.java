@@ -1,8 +1,11 @@
 package com.iic.shopingo.receivers;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import com.iic.shopingo.services.GcmIntentService;
 
 /**
  * Created by ifeins on 3/14/15.
@@ -10,6 +13,8 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent intent) {
-
+    ComponentName componentName = new ComponentName(context.getPackageName(), GcmIntentService.class.getName());
+    startWakefulService(context, (intent.setComponent(componentName)));
+    setResultCode(Activity.RESULT_OK);
   }
 }
