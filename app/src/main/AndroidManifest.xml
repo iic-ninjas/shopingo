@@ -7,6 +7,11 @@
   <uses-permission android:name="android.permission.CALL_PHONE"/>
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+  <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+  <permission android:name="com.iic.shopingo.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
+  <uses-permission android:name="com.iic.shopingo.permission.C2D_MESSAGE"/>
 
   <application
       android:name=".ShopingoApplication"
@@ -15,6 +20,10 @@
       android:label="@string/app_name"
       android:theme="@style/AppTheme"
       >
+
+    <meta-data android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version"/>
+
     <activity
         android:name=".ui.ContactDetailsActivity"
         android:label="@string/title_activity_contact_details"
@@ -97,6 +106,15 @@
           android:value="com.iic.shopingo.ui.request_flow.activities.CreateShoppingListActivity"
           />
     </activity>
+
+    <receiver android:name=".receivers.GcmBroadcastReceiver" android:permission="com.google.c2dm.permission.SEND">
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+        <category android:name="com.iic.shopingo"/>
+      </intent-filter>
+    </receiver>
+
+    <service android:name=".services.GcmIntentService"/>
   </application>
 
 </manifest>
