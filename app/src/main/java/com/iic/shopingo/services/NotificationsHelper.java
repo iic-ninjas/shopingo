@@ -56,6 +56,7 @@ public class NotificationsHelper {
         String senderId = context.getString(R.string.google_project_number);
         String gcmRegId = gcm.register(senderId);
 
+        storeRegistrationId(context, gcmRegId);
         new RegisterDeviceCommand(CurrentUser.getToken(), gcmRegId).executeSync();
 
         return gcmRegId;
@@ -70,5 +71,16 @@ public class NotificationsHelper {
     } catch (PackageManager.NameNotFoundException e) {
       throw new RuntimeException(e.getMessage(), e);
     }
+  }
+
+  private static void storeRegistrationId(Context context, String gcmRegId) {
+    SharedPreferences sharedPreferences =
+        context.getSharedPreferences(NotificationsHelper.class.getSimpleName(), Context.MODE_PRIVATE);
+
+    int appVersion = getAppVersion(context);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putString(PREF_GCM_REG_ID, gcmRegId);
+    editor.putInt(PREF_APP_VERSION, appVersion);
+    editor.commit();
   }
 }
