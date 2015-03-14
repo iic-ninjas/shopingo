@@ -10,6 +10,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.iic.shopingo.R;
+import com.iic.shopingo.api.device.RegisterDeviceCommand;
 import java.util.concurrent.Callable;
 
 /**
@@ -55,14 +56,11 @@ public class NotificationsHelper {
         String senderId = context.getString(R.string.google_project_number);
         String gcmRegId = gcm.register(senderId);
 
-        sendToServer(gcmRegId);
+        new RegisterDeviceCommand(CurrentUser.getToken(), gcmRegId).executeSync();
+
         return gcmRegId;
       }
     });
-  }
-
-  private static void sendToServer(String gcmRegId) {
-    // TODO: implement method
   }
 
   private static int getAppVersion(Context context) {
