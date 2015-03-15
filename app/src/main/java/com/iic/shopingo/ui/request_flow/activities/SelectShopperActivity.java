@@ -7,22 +7,29 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 import bolts.Continuation;
 import bolts.Task;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
+import butterknife.Optional;
 import com.iic.shopingo.R;
+import com.iic.shopingo.api.ApiResult;
 import com.iic.shopingo.api.request.GetNearbyShoppersCommand;
 import com.iic.shopingo.api.request.ShoppersApiResult;
+import com.iic.shopingo.api.trip.StartTripCommand;
 import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.location.CurrentLocationProvider;
 import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
+import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.request_flow.views.SelectShopperListItemView;
+import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +42,8 @@ public class SelectShopperActivity extends ActionBarActivity implements SwipeRef
   @InjectView(R.id.select_shopper_swipe_container)
   SwipeRefreshLayout swipeLayout;
 
-  @InjectView(R.id.select_shopper_list_empty_stub)
-  ViewStub emptyStateStub;
+  @InjectView(R.id.select_shopper_list_empty_state)
+  LinearLayout emptyState;
 
   private SelectShopperAdapter adapter;
 
@@ -56,7 +63,7 @@ public class SelectShopperActivity extends ActionBarActivity implements SwipeRef
       }
     });
 
-    shopperList.setEmptyView(emptyStateStub);
+    shopperList.setEmptyView(emptyState);
 
     adapter = new SelectShopperAdapter();
     shopperList.setAdapter(adapter);
@@ -69,6 +76,29 @@ public class SelectShopperActivity extends ActionBarActivity implements SwipeRef
     Intent intent = new Intent(this, CreateShoppingListActivity.class);
     intent.putExtra(CreateShoppingListActivity.EXTRAS_SHOPPER_KEY, adapter.getItem(position));
     startActivity(intent);
+  }
+
+  @Optional
+  @OnClick(R.id.select_shopper_list_go_yourself_button)
+  public void onGoYourself(View view) {
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTripCommand(CurrentUser.getToken()));
+
+    task.execute().continueWith(new Continuation<ApiResult, Void>() {
+      @Override
+      public Void then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          CurrentUser.getInstance().state = CurrentUser.State.TRIPPING;
+          Intent intent = new Intent(SelectShopperActivity.this, ManageTripActivity.class);
+          intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+          startActivity(intent);
+          finish();
+        } else {
+          Toast.makeText(SelectShopperActivity.this, "Could not start trip: " + task.getError().getMessage(),
+              Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
   }
 
   @Override

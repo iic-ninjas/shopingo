@@ -6,6 +6,11 @@
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
     android:gravity="center">
+  <Space
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      />
   <TextView
       android:text="@string/unified_list_empty_state_title"
       android:layout_width="match_parent"
@@ -19,5 +24,10 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:gravity="center"
+      />
+  <Space
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="3"
       />
 </LinearLayout>
