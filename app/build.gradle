@@ -17,6 +17,15 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  productFlavors {
+    localFlavor {
+      buildConfigField "String", "SERVER_HOST", "\"http://shopingo.192.168.2.217.xip.io/\""
+    }
+
+    herokuFlavor {
+      buildConfigField "String", "SERVER_HOST", "\"http://iic-shopingo.herokuapp.com/\""
+    }
+  }
 }
 
 dependencies {
