@@ -19,7 +19,8 @@ android {
   }
   productFlavors {
     localFlavor {
-      buildConfigField "String", "SERVER_HOST", "\"http://shopingo.192.168.2.217.xip.io/\""
+      //buildConfigField "String", "SERVER_HOST", "\"http://shopingo.192.168.2.217.xip.io/\""
+      buildConfigField "String", "SERVER_HOST", "\"http://780f5412.ngrok.com/\""
     }
 
     herokuFlavor {
