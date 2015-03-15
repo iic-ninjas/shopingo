@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import bolts.Continuation;
@@ -34,6 +35,9 @@ public class SelectShopperActivity extends ActionBarActivity implements SwipeRef
   @InjectView(R.id.select_shopper_swipe_container)
   SwipeRefreshLayout swipeLayout;
 
+  @InjectView(R.id.select_shopper_list_empty_stub)
+  ViewStub emptyStateStub;
+
   private SelectShopperAdapter adapter;
 
   private CurrentLocationProvider locationProvider;
@@ -42,7 +46,6 @@ public class SelectShopperActivity extends ActionBarActivity implements SwipeRef
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // TODO: add empty state and loading state to the listview
     setContentView(R.layout.activity_select_shopper);
     ButterKnife.inject(this);
 
@@ -52,6 +55,8 @@ public class SelectShopperActivity extends ActionBarActivity implements SwipeRef
         adapter.setUserLocation(location);
       }
     });
+
+    shopperList.setEmptyView(emptyStateStub);
 
     adapter = new SelectShopperAdapter();
     shopperList.setAdapter(adapter);

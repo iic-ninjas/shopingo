@@ -9,8 +9,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
 import com.iic.shopingo.ui.trip_flow.views.ShoppingListView;
 import java.util.ArrayList;
@@ -21,9 +25,14 @@ import java.util.List;
  */
 public class UnifiedShoppingListFragment extends Fragment implements ShoppingListView.OnCallListener {
 
-  private ListView listView;
   private ShoppingListAdapter adapter;
   private List<ShoppingList> shoppingLists;
+
+  @InjectView(R.id.unified_shopping_list_list_view)
+  ListView listView;
+
+  @InjectView(R.id.unified_shopping_list_empty_stub)
+  ViewStub emptyStateStub;
 
   public UnifiedShoppingListFragment() {
     shoppingLists = new ArrayList<>();
@@ -31,14 +40,18 @@ public class UnifiedShoppingListFragment extends Fragment implements ShoppingLis
 
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    listView = new ListView(getActivity());
+    View view = inflater.inflate(R.layout.unified_shopping_list, container, false);
+    ButterKnife.inject(this, view);
+
+    listView.setEmptyView(emptyStateStub);
+
     adapter = new ShoppingListAdapter(getActivity());
     adapter.setOnCallListener(this);
     for (ShoppingList sl : shoppingLists) {
       adapter.addShoppingList(sl);
     }
     listView.setAdapter(adapter);
-    return listView;
+    return view;
   }
 
   public void addShoppingList(ShoppingList shoppingList) {
