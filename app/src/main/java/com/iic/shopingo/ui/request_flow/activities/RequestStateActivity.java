@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import bolts.Continuation;
 import bolts.Task;
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.Optional;
 import com.iic.shopingo.R;
@@ -26,11 +28,22 @@ public class RequestStateActivity extends ActionBarActivity {
   public static final String EXTRAS_REQUEST_KEY = "request";
 
   private static final int[] LAYOUTS = new int[] {
-      R.layout.activity_request_state_pending, R.layout.activity_request_state_approved,
+      R.layout.activity_request_state_pending,
+      R.layout.activity_request_state_accepted,
       R.layout.activity_request_state_declined
   };
 
+  private static final int[] EXPLANATION_STRINGS = new int[] {
+    R.string.request_state_pending_explanation,
+    R.string.request_state_accepted_explanation,
+    R.string.request_state_declined_explanation
+  };
+
   private OutgoingRequest request;
+
+  @Optional
+  @InjectView(R.id.request_state_status_explanation)
+  TextView statusExplanation;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +51,8 @@ public class RequestStateActivity extends ActionBarActivity {
     request = getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY);
     setContentView(LAYOUTS[request.getStatus().ordinal()]);
     ButterKnife.inject(this);
+    String explanationString = getString(EXPLANATION_STRINGS[request.getStatus().ordinal()]);
+    statusExplanation.setText(String.format(explanationString, request.getShopper().getFirstName()));
   }
 
   @Optional
