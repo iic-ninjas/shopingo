@@ -12,9 +12,9 @@ import butterknife.OnClick;
 import butterknife.Optional;
 import com.iic.shopingo.R;
 import com.iic.shopingo.api.ApiResult;
-import com.iic.shopingo.api.request.CancelRequest;
-import com.iic.shopingo.api.request.SettleRequest;
-import com.iic.shopingo.api.trip.StartTrip;
+import com.iic.shopingo.api.request.CancelRequestCommand;
+import com.iic.shopingo.api.request.SettleRequestCommand;
+import com.iic.shopingo.api.trip.StartTripCommand;
 import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.OutgoingRequest;
 import com.iic.shopingo.services.CurrentUser;
@@ -43,7 +43,7 @@ public class RequestStateActivity extends ActionBarActivity {
   @Optional
   @OnClick(R.id.request_state_cancel_button)
   public void onCancelRequest(View view) {
-    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Cancelling request...", new CancelRequest(CurrentUser.getToken()));
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Cancelling request...", new CancelRequestCommand(CurrentUser.getToken()));
 
     task.execute().continueWith(new Continuation<ApiResult, Object>() {
       @Override
@@ -52,7 +52,7 @@ public class RequestStateActivity extends ActionBarActivity {
           request.setStatus(BaseRequest.RequestStatus.CANCELED);
           CurrentUser.getInstance().state = CurrentUser.State.IDLE;
           CurrentUser.getInstance().save();
-          goToActivity(SelectShopperActivity.class);
+          finishAndStartActivity(SelectShopperActivity.class);
         } else {
           Toast.makeText(RequestStateActivity.this, "Could not cancel request: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -64,7 +64,7 @@ public class RequestStateActivity extends ActionBarActivity {
   @Optional
   @OnClick(R.id.request_state_settle_button)
   public void onSettleRequest(View view) {
-    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Settling request...", new SettleRequest(CurrentUser.getToken()));
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Settling request...", new SettleRequestCommand(CurrentUser.getToken()));
 
     task.execute().continueWith(new Continuation<ApiResult, Object>() {
       @Override
@@ -73,7 +73,7 @@ public class RequestStateActivity extends ActionBarActivity {
           request.setStatus(BaseRequest.RequestStatus.SETTLED);
           CurrentUser.getInstance().state = CurrentUser.State.IDLE;
           CurrentUser.getInstance().save();
-          goToActivity(HomeActivity.class);
+          finishAndStartActivity(HomeActivity.class);
         } else {
           Toast.makeText(RequestStateActivity.this, "Could not settle request: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -85,13 +85,13 @@ public class RequestStateActivity extends ActionBarActivity {
   @Optional
   @OnClick(R.id.request_state_try_again_button)
   public void onTryAgain(View view) {
-    goToActivity(SelectShopperActivity.class);
+    finishAndStartActivity(SelectShopperActivity.class);
   }
 
   @Optional
   @OnClick(R.id.request_state_go_yourself_button)
   public void onGoYourself(View view) {
-    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTrip(CurrentUser.getToken()));
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTripCommand(CurrentUser.getToken()));
 
     task.execute().continueWith(new Continuation<ApiResult, Void>() {
       @Override
@@ -109,7 +109,7 @@ public class RequestStateActivity extends ActionBarActivity {
     }, Task.UI_THREAD_EXECUTOR);
   }
 
-  private void goToActivity(Class<?> cls) {
+  private void finishAndStartActivity(Class<?> cls) {
     Intent intent = new Intent(this, cls);
     startActivity(intent);
     finish();

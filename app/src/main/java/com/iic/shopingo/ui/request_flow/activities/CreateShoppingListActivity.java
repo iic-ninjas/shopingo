@@ -8,12 +8,19 @@ import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+import bolts.Continuation;
+import bolts.Task;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
+import com.iic.shopingo.api.request.MakeRequestCommand;
+import com.iic.shopingo.api.request.OutgoingRequestApiResult;
 import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.dal.models.ShoppingList;
+import com.iic.shopingo.services.CurrentUser;
+import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
 
 public class CreateShoppingListActivity extends ActionBarActivity implements TextWatcher {
@@ -53,11 +60,25 @@ public class CreateShoppingListActivity extends ActionBarActivity implements Tex
   public void onCreateRequest(View view) {
     shoppingList.setItems(itemListView.getAllItems());
     shoppingList.setOffer(Integer.parseInt(priceView.getText().toString().substring(1)));
-    Intent intent = new Intent(this, SaveRequestActivity.class);
-    intent.putExtra(SaveRequestActivity.EXTRAS_SHOPPER_KEY, shopper);
-    intent.putExtra(SaveRequestActivity.EXTRAS_SHOPPING_LIST_KEY, shoppingList);
-    startActivity(intent);
-    finish();
+
+    ApiTask<OutgoingRequestApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Making request...", new MakeRequestCommand(
+        CurrentUser.getToken(), shoppingList.getItems(), shoppingList.getOffer(), shopper.getId()));
+    task.execute().continueWith(new Continuation<OutgoingRequestApiResult, Object>() {
+      @Override
+      public Object then(Task<OutgoingRequestApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          CurrentUser.getInstance().state = CurrentUser.State.REQUESTING;
+          CurrentUser.getInstance().save();
+          Intent intent = new Intent(CreateShoppingListActivity.this, RequestStateActivity.class);
+          intent.putExtra(RequestStateActivity.EXTRAS_REQUEST_KEY, task.getResult().request);
+          startActivity(intent);
+        } else {
+          Toast.makeText(CreateShoppingListActivity.this, "Could not make request: " + task.getError().getMessage(),
+              Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
   }
 
   @Override

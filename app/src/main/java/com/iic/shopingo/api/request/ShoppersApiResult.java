@@ -14,7 +14,6 @@ public class ShoppersApiResult extends ApiResult {
   public List<Contact> shoppers;
 
   public ShoppersApiResult(List<ApiContact> shoppers) {
-    super();
     List<Contact> tempShoppers = new ArrayList<>();
     for (ApiContact apiShopper : shoppers) {
       tempShoppers.add(ContactConverter.convert(apiShopper));

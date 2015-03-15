@@ -1,11 +1,5 @@
 package com.iic.shopingo.ui.trip_flow.activities;
 
-import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,9 +20,8 @@ import butterknife.OnClick;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
 import com.iic.shopingo.api.ApiResult;
-import com.iic.shopingo.api.trip.AcceptRequest;
-import com.iic.shopingo.api.trip.DeclineRequest;
-import com.iic.shopingo.ui.utils.AvatarUriGenerator;
+import com.iic.shopingo.api.trip.AcceptRequestCommand;
+import com.iic.shopingo.api.trip.DeclineRequestCommand;
 import com.squareup.picasso.Picasso;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.services.CurrentUser;
@@ -108,7 +101,7 @@ public class RequestDetailsActivity extends ActionBarActivity {
 
   @OnClick(R.id.request_details_accept_button)
   public void onAccept(View view) {
-    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Accepting request...", new AcceptRequest(
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Accepting request...", new AcceptRequestCommand(
         CurrentUser.getToken(), request.getId()));
 
     task.execute().continueWith(new Continuation<ApiResult, Object>() {
@@ -128,7 +121,7 @@ public class RequestDetailsActivity extends ActionBarActivity {
 
   @OnClick(R.id.request_details_decline_button)
   public void onReject(View view) {
-    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Declining request...", new DeclineRequest(
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Declining request...", new DeclineRequestCommand(
         CurrentUser.getToken(), request.getId()));
 
     task.execute().continueWith(new Continuation<ApiResult, Object>() {

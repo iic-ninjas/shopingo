@@ -14,9 +14,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
 import com.iic.shopingo.api.ApiResult;
-import com.iic.shopingo.api.trip.StartTrip;
+import com.iic.shopingo.api.trip.StartTripCommand;
 import com.iic.shopingo.api.user.CurrentStateApiResult;
-import com.iic.shopingo.api.user.GetCurrentState;
+import com.iic.shopingo.api.user.GetCurrentStateCommand;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
@@ -54,7 +54,7 @@ public class HomeActivity extends ActionBarActivity implements ActionCardView.Li
     } else {
       showSpinner();
 
-      new GetCurrentState(CurrentUser.getToken()).executeAsync().continueWith(new Continuation<CurrentStateApiResult, Void>() {
+      new GetCurrentStateCommand(CurrentUser.getToken()).executeAsync().continueWith(new Continuation<CurrentStateApiResult, Void>() {
         @Override
         public Void then(Task<CurrentStateApiResult> task) throws Exception {
           if (!task.isFaulted() && !task.isCancelled()) {
@@ -144,7 +144,7 @@ public class HomeActivity extends ActionBarActivity implements ActionCardView.Li
   @Override
   public void onCardClicked(ActionCardView cardView) {
     if (cardView == startShoppingCard) {
-      ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTrip(CurrentUser.getToken()));
+      ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTripCommand(CurrentUser.getToken()));
 
       task.execute().continueWith(new Continuation<ApiResult, Void>() {
         @Override
@@ -154,7 +154,8 @@ public class HomeActivity extends ActionBarActivity implements ActionCardView.Li
             Intent intent = new Intent(HomeActivity.this, ManageTripActivity.class);
             startActivity(intent);
           } else {
-            Toast.makeText(HomeActivity.this, "Could not start trip: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(HomeActivity.this, "Could not start trip: " + task.getError().getMessage(),
+                Toast.LENGTH_LONG).show();
           }
           return null;
         }

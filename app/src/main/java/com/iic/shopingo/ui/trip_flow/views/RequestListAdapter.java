@@ -12,12 +12,11 @@ import java.util.List;
  * Created by asafg on 04/03/15.
  */
 public class RequestListAdapter extends BaseAdapter {
-  private List<IncomingRequest> requests = new ArrayList<>();
+  private List<IncomingRequest> requests = new ArrayList<>(0);
   private Context context;
 
   public RequestListAdapter(Context context) {
     this.context = context;
-    this.requests = new ArrayList<>(0);
   }
 
   @Override

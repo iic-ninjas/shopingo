@@ -21,14 +21,12 @@ public class CurrentStateApiResult extends ApiResult {
   public OutgoingRequest activeOutgoingRequest;
 
   public CurrentStateApiResult(ApiCurrentState apiCurrentState) {
-    super();
     this.userState = StatusConverter.UserState.convert(apiCurrentState.state);
     if (apiCurrentState.activeTripRequests != null) {
-      List<IncomingRequest> tempRequests = new ArrayList<>();
+      this.activeTripRequests = new ArrayList<>();
       for (ApiIncomingRequest apiRequest : apiCurrentState.activeTripRequests) {
-        tempRequests.add(IncomingRequestConverter.convert(apiRequest));
+        this.activeTripRequests.add(IncomingRequestConverter.convert(apiRequest));
       }
-      this.activeTripRequests = tempRequests;
     }
     if (apiCurrentState.activeOutgoingRequest != null) {
       this.activeOutgoingRequest = OutgoingRequestConverter.convert(apiCurrentState.activeOutgoingRequest);

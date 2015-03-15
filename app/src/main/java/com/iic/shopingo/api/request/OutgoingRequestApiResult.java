@@ -13,7 +13,6 @@ public class OutgoingRequestApiResult extends ApiResult {
   public OutgoingRequest request;
 
   public OutgoingRequestApiResult(ApiOutgoingRequest request) {
-    super();
     this.request = OutgoingRequestConverter.convert(request);
   }
 

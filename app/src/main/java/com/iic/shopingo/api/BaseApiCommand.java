@@ -7,14 +7,12 @@ import java.util.concurrent.Callable;
 /**
  * Created by asafg on 11/03/15.
  */
-public abstract class BaseApiRequest<T extends ApiResult> {
+public abstract class BaseApiCommand<T extends ApiResult> {
 
   protected String authToken;
-  protected Server server;
 
-  public BaseApiRequest(String authToken) {
+  public BaseApiCommand(String authToken) {
     this.authToken = authToken;
-    server = new Server(authToken);
   }
 
   public abstract T executeSync();

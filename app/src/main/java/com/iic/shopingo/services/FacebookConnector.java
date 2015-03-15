@@ -1,7 +1,6 @@
 package com.iic.shopingo.services;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import bolts.Task;
 import com.facebook.FacebookRequestError;
 import com.facebook.Request;
@@ -16,13 +15,13 @@ import com.iic.shopingo.dal.models.UserInfo;
  * Created by ifeins on 3/3/15.
  */
 public class FacebookConnector {
-  public static Task<UserInfo> connectWithFacebook(Session session) {
+  public static Task<UserInfo> login(Session session) {
     final Task<UserInfo>.TaskCompletionSource taskCompletionSource = Task.create();
     Request.newMeRequest(session, new Request.GraphUserCallback() {
       @Override
       public void onCompleted(GraphUser graphUser, Response response) {
         if (response.getError() != null) {
-          taskCompletionSource.setError(new UserConnectorException(response.getError()));
+          taskCompletionSource.setError(new FacebookConnectorException(response.getError()));
           return;
         }
 
@@ -54,11 +53,11 @@ public class FacebookConnector {
     session.closeAndClearTokenInformation();
   }
 
-  public static class UserConnectorException extends Exception {
+  public static class FacebookConnectorException extends Exception {
 
     private FacebookRequestError fbError;
 
-    public UserConnectorException(FacebookRequestError fbError) {
+    public FacebookConnectorException(FacebookRequestError fbError) {
       super(fbError.getErrorMessage());
       this.fbError = fbError;
     }
