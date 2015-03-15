@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import bolts.Continuation;
@@ -43,6 +44,9 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
   @InjectView(R.id.request_list_swipe_container)
   SwipeRefreshLayout swipeLayout;
 
+  @InjectView(R.id.request_list_empty_stub)
+  ViewStub emptyStateStub;
+
   public interface RequestListListener {
     public void onRequestAccepted(IncomingRequest request);
     public void onRequestDeclined(IncomingRequest request);
@@ -65,6 +69,9 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
     View view = inflater.inflate(R.layout.request_list, container, false);
     ButterKnife.inject(this, view);
     listView.setOnItemClickListener(this);
+
+    listView.setEmptyView(emptyStateStub);
+
     adapter = new RequestListAdapter(getActivity());
     listView.setAdapter(adapter);
     if (requests != null) {

@@ -1,14 +1,63 @@
 <android.support.v4.widget.SwipeRefreshLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/select_shopper_swipe_container"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-
-  <ListView
-    android:id="@+id/select_shopper_list"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/select_shopper_swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity"
-    />
+    >
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+    <ListView
+        android:id="@+id/select_shopper_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity"
+        />
+
+    <!--Empty State-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/select_shopper_list_empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:gravity="center">
+      <Space
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          />
+      <TextView
+          android:text="@string/select_shopper_list_empty_state_title"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="22dp"
+          android:gravity="center"
+          android:layout_marginBottom="8dp"
+          />
+      <TextView
+          android:text="@string/select_shopper_list_empty_state_explanation"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          />
+      <Button
+          android:id="@+id/select_shopper_list_go_yourself_button"
+          android:layout_width="wrap_content"
+          android:layout_height="48dp"
+          android:text="@string/select_shopper_list_empty_state_button"
+          android:layout_marginTop="16dp"
+          />
+      <Space
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="3"
+          />
+    </LinearLayout>
+  </FrameLayout>
+
 </android.support.v4.widget.SwipeRefreshLayout>
