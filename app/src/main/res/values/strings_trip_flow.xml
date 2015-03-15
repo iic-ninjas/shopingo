@@ -6,10 +6,10 @@
   <string name="action_decline_request">Decline</string>
   <string name="title_activity_save_request">SaveRequestActivity</string>
 
-  <string name="request_list_empty_state_title">No requests for this trip</string>
+  <string name="request_list_empty_state_title">No requests yet</string>
   <string name="request_list_empty_state_explanation">You\'ll be notified when some one requests something from you.</string>
 
-  <string name="unified_list_empty_state_title">No requests for this trip</string>
+  <string name="unified_list_empty_state_title">No accepted requests</string>
   <string name="unified_list_empty_state_explanation">You still haven\'t accepted any requests for this trip. When you do, they will show up here.</string>
 
   <plurals name="items_count">
