@@ -3,7 +3,7 @@
   <!-- Select Shopper -->
   <string name="title_activity_select_shopper">SelectShopperActivity</string>
   <string name="select_shopper_list_empty_state_title">No one shopping right now</string>
-  <string name="select_shopper_list_empty_state_explanation">You can try again soon. You\'ll be notified when someone near you goes shopping either way.</string>
+  <string name="select_shopper_list_empty_state_explanation">You can try again soon. You\'ll be notified when someone near you goes shopping.</string>
   <string name="select_shopper_distance_format">%.1f km</string>
 
   <!-- Create Request -->
