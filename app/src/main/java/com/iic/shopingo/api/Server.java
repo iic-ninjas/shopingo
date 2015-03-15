@@ -27,52 +27,44 @@ public class Server {
 
   private static final Uri BASE_URI = Uri.parse(BuildConfig.SERVER_HOST);
 
-  private final HttpClient client = new DefaultHttpClient();
+  private static final HttpClient client = new DefaultHttpClient();
 
-  private String authToken;
-
-  public Server() {}
-
-  public Server(String authToken) {
-    this.authToken = authToken;
+  public static <T> T get(String authToken, String path, Class<T> responseClass) throws IOException {
+    return get(authToken, path, responseClass, new HashMap<String, Object>());
   }
 
-  public <T> T get(String path, Class<T> responseClass) throws IOException {
-    return get(path, responseClass, new HashMap<String, Object>());
-  }
-
-  public <T> T get(String path, Class<T> responseClass, Map<String, Object> params) throws IOException {
+  public static <T> T get(String authToken, String path, Class<T> responseClass, Map<String, Object> params) throws IOException {
     Uri.Builder requestUriBuilder = BASE_URI.buildUpon().encodedPath(path);
     for (String key : params.keySet()) {
       requestUriBuilder.appendQueryParameter(key, params.get(key).toString());
     }
     HttpGet request = new HttpGet(requestUriBuilder.build().toString());
-    addAuthData(request);
+    addAuthData(request, authToken);
     return executeRequest(request, responseClass);
   }
 
-  public <T> T post(String path, Class<T> responseClass) throws IOException {
-    return post(path, responseClass, new HashMap<String, Object>());
+  public static <T> T post(String authToken, String path, Class<T> responseClass) throws IOException {
+    return post(authToken, path, responseClass, new HashMap<String, Object>());
   }
 
-  public <T> T post(String path, Class<T> responseClass, Map<String, Object> params) throws IOException {
-    Uri.Builder requsetUriBuilder = BASE_URI.buildUpon().encodedPath(path);
-    HttpPost request = new HttpPost(requsetUriBuilder.build().toString());
+  public static <T> T post(String authToken, String path, Class<T> responseClass, Map<String, Object> params) throws IOException {
+    Uri.Builder requestUriBuilder = BASE_URI.buildUpon().encodedPath(path);
+    HttpPost request = new HttpPost(requestUriBuilder.build().toString());
     request.setHeader("Content-Type", "application/json");
     request.setHeader("Accept", "application/json");
-    addAuthData(request);
+    addAuthData(request, authToken);
     JSONObject obj = new JSONObject(params);
     request.setEntity(new StringEntity(obj.toString()));
     return executeRequest(request, responseClass);
   }
 
-  private void addAuthData(HttpUriRequest request) {
+  private static void addAuthData(HttpUriRequest request, String authToken) {
     if (authToken != null) {
       request.addHeader(HEADER_AUTH_KEY, authToken);
     }
   }
 
-  private <T> T executeRequest(HttpUriRequest request, Class<T> responseClass) throws IOException {
+  private static <T> T executeRequest(HttpUriRequest request, Class<T> responseClass) throws IOException {
     InputStream content = null;
     try {
       HttpResponse response = client.execute(request);
@@ -82,8 +74,6 @@ public class Server {
       T result = gson.fromJson(reader, responseClass);
       content.close();
       return result;
-    } catch (Exception e) {
-      throw e;
     } finally {
       if (content != null) {
         content.close();

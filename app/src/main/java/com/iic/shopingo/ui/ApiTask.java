@@ -1,11 +1,10 @@
 package com.iic.shopingo.ui;
 
-import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
 import bolts.Continuation;
 import bolts.Task;
 import com.iic.shopingo.api.ApiResult;
-import com.iic.shopingo.api.BaseApiRequest;
+import com.iic.shopingo.api.BaseApiCommand;
 
 /**
  * Created by asafg on 10/03/15.
@@ -16,9 +15,9 @@ public class ApiTask<T extends ApiResult> {
   private ErrorDialogFragment errorDialogFragment;
   private FragmentManager fragmentManager;
   private String title;
-  private BaseApiRequest<T> request;
+  private BaseApiCommand<T> request;
 
-  public ApiTask(final FragmentManager fragmentManager, String title, BaseApiRequest<T> request) {
+  public ApiTask(final FragmentManager fragmentManager, String title, BaseApiCommand<T> request) {
     this.fragmentManager = fragmentManager;
     this.title = title;
     this.request = request;
@@ -40,6 +39,6 @@ public class ApiTask<T extends ApiResult> {
         }
         return task;
       }
-    });
+    }, Task.UI_THREAD_EXECUTOR);
   }
 }

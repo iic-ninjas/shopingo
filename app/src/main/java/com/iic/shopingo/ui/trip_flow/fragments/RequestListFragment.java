@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import bolts.Task;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
-import com.iic.shopingo.api.trip.GetPendingRequests;
+import com.iic.shopingo.api.trip.GetPendingRequestsCommand;
 import com.iic.shopingo.api.trip.PendingRequestsApiResult;
 import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.IncomingRequest;
@@ -29,6 +30,8 @@ import java.util.List;
  */
 public class RequestListFragment extends Fragment implements AdapterView.OnItemClickListener,
     SwipeRefreshLayout.OnRefreshListener {
+
+  private static final String TAG = RequestListFragment.class.getSimpleName();
 
   private RequestListAdapter adapter;
   private RequestListListener listener;
@@ -61,8 +64,6 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.request_list, container, false);
     ButterKnife.inject(this, view);
-    //listView = (ListView)view.findViewById(R.id.request_list_list_view);
-    //swipeLayout = (SwipeRefreshLayout)view.findViewById(R.id.request_list_swipe_container);
     listView.setOnItemClickListener(this);
     adapter = new RequestListAdapter(getActivity());
     listView.setAdapter(adapter);
@@ -117,7 +118,7 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
 
   private void updateRequests() {
     swipeLayout.setRefreshing(true);
-    GetPendingRequests req = new GetPendingRequests(CurrentUser.getToken());
+    GetPendingRequestsCommand req = new GetPendingRequestsCommand(CurrentUser.getToken());
     req.executeAsync().continueWith(new Continuation<PendingRequestsApiResult, Object>() {
       @Override
       public Object then(Task<PendingRequestsApiResult> task) throws Exception {
@@ -125,7 +126,7 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
         if (!task.isFaulted() && !task.isCancelled()) {
           adapter.setRequests(task.getResult().requests);
         } else {
-          // TODO: handle failure
+          Log.e(TAG, "Error receiving pending requests", task.getError());
         }
         return null;
       }

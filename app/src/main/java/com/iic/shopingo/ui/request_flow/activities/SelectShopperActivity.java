@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import com.iic.shopingo.R;
-import com.iic.shopingo.api.request.GetNearbyShoppers;
+import com.iic.shopingo.api.request.GetNearbyShoppersCommand;
 import com.iic.shopingo.api.request.ShoppersApiResult;
 import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.services.CurrentUser;
@@ -79,7 +79,7 @@ public class SelectShopperActivity extends ActionBarActivity implements SwipeRef
 
   private void updateShoppers() {
     swipeLayout.setRefreshing(true);
-    GetNearbyShoppers req = new GetNearbyShoppers(CurrentUser.getToken());
+    GetNearbyShoppersCommand req = new GetNearbyShoppersCommand(CurrentUser.getToken());
     req.executeAsync().continueWith(new Continuation<ShoppersApiResult, Object>() {
       @Override
       public Object then(Task<ShoppersApiResult> task) throws Exception {

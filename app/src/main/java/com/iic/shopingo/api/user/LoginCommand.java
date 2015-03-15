@@ -1,17 +1,16 @@
 package com.iic.shopingo.api.user;
 
-import com.iic.shopingo.api.BaseApiRequest;
+import com.iic.shopingo.api.BaseApiCommand;
 import com.iic.shopingo.api.Constants;
 import com.iic.shopingo.api.Server;
 import com.iic.shopingo.api.models.ApiUserInfo;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by asafg on 11/03/15.
  */
-public class Login extends BaseApiRequest<UserApiResult> {
+public class LoginCommand extends BaseApiCommand<UserApiResult> {
 
   private String facebookId;
   private String firstName;
@@ -20,7 +19,8 @@ public class Login extends BaseApiRequest<UserApiResult> {
   private String city;
   private String phoneNumber;
 
-  public Login(String facebookId, String firstName, String lastName, String streetAddress, String city, String phoneNumber) {
+  public LoginCommand(String facebookId, String firstName, String lastName, String streetAddress, String city,
+      String phoneNumber) {
     super(null);
     this.facebookId = facebookId;
     this.firstName = firstName;
@@ -40,7 +40,7 @@ public class Login extends BaseApiRequest<UserApiResult> {
       params.put(Constants.Parameters.USERS_STREET_ADDRESS, streetAddress);
       params.put(Constants.Parameters.USERS_CITY, city);
       params.put(Constants.Parameters.USERS_PHONE_NUMBER, phoneNumber);
-      ApiUserInfo response = server.post(Constants.Routes.USERS_LOGIN_PATH, ApiUserInfo.class, params);
+      ApiUserInfo response = Server.post(authToken, Constants.Routes.USERS_LOGIN_PATH, ApiUserInfo.class, params);
       return new UserApiResult(response);
     } catch (Exception e) {
       return new UserApiResult(e.getMessage());

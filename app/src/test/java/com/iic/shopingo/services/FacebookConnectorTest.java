@@ -94,7 +94,7 @@ public class FacebookConnectorTest {
       };
     }};
 
-    Task<UserInfo> task = subject.connectWithFacebook(fbSession);
+    Task<UserInfo> task = subject.login(fbSession);
     Assert.assertTrue("task should be faulted", task.isFaulted());
   }
 
@@ -128,7 +128,7 @@ public class FacebookConnectorTest {
       };
     }};
 
-    Task<UserInfo> task = subject.connectWithFacebook(fbSession);
+    Task<UserInfo> task = subject.login(fbSession);
 
     UserInfo user = task.getResult();
     Assert.assertEquals(USER_UID, user.getUid());

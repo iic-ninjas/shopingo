@@ -15,7 +15,6 @@ public class UserApiResult extends ApiResult {
   public CurrentUser.State userState;
 
   public UserApiResult(ApiUserInfo apiUserInfo) {
-    super();
     this.userContactInfo = UserInfoConverter.convert(apiUserInfo);
     this.userState = StatusConverter.UserState.convert(apiUserInfo.state);
   }

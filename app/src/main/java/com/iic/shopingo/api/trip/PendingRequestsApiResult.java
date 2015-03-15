@@ -14,7 +14,6 @@ public class PendingRequestsApiResult extends ApiResult {
   public List<IncomingRequest> requests;
 
   public PendingRequestsApiResult(List<ApiIncomingRequest> requests) {
-    super();
     List<IncomingRequest> tempRequests = new ArrayList<>();
     for (ApiIncomingRequest apiRequest : requests) {
       tempRequests.add(IncomingRequestConverter.convert(apiRequest));

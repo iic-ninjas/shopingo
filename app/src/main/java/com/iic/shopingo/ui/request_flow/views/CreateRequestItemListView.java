@@ -10,10 +10,12 @@ import java.util.List;
 /**
  * Created by assafgelber on 3/4/15.
  */
-public class CreateRequestItemListView extends LinearLayout implements CreateRequestListItemView.OnListViewChanged {
+public class CreateRequestItemListView extends LinearLayout implements CreateRequestListItemView.OnListItemChanged {
   private List<String> items = new ArrayList<>();
 
   private List<CreateRequestListItemView> views = new ArrayList<>();
+
+  private OnRequestItemListChanged listener;
 
   public CreateRequestItemListView(Context context) {
     super(context);
@@ -25,6 +27,10 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
 
   public CreateRequestItemListView(Context context, AttributeSet attrs) {
     super(context, attrs);
+  }
+
+  public void setListener(OnRequestItemListChanged listener) {
+    this.listener = listener;
   }
 
   public int size() {
@@ -49,6 +55,7 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
     addView(view);
     items.add(title);
     views.add(view);
+    notifyListener();
   }
 
   public void addAllItems(List<String> titles) {
@@ -60,6 +67,7 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
   public void setItem(int position, String title) {
     items.set(position, title);
     views.get(position).setTitle(title);
+    notifyListener();
   }
 
   public void removeItem(int position) {
@@ -67,6 +75,7 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
     removeView(view);
     items.remove(position);
     views.remove(view);
+    notifyListener();
   }
 
   public List<String> getAllItems() {
@@ -85,6 +94,12 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
     itemView.setTitle(title);
     itemView.setListener(this);
     return itemView;
+  }
+
+  private void notifyListener() {
+    if (listener != null) {
+      listener.onItemListChanged();
+    }
   }
 
   @Override
@@ -108,4 +123,7 @@ public class CreateRequestItemListView extends LinearLayout implements CreateReq
     }
   }
 
+  public interface OnRequestItemListChanged {
+    public void onItemListChanged();
+  }
 }

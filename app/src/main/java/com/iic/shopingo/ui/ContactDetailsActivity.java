@@ -13,9 +13,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.api.ApiResult;
-import com.iic.shopingo.api.trip.StartTrip;
-import com.iic.shopingo.api.user.UpdateDetails;
-import com.iic.shopingo.api.user.UserApiResult;
+import com.iic.shopingo.api.user.UpdateDetailsCommand;
 import com.iic.shopingo.dal.models.UserInfo;
 import com.iic.shopingo.services.CurrentUser;
 import com.squareup.picasso.Picasso;
@@ -54,7 +52,7 @@ public class ContactDetailsActivity extends ActionBarActivity {
     if (validateInput()) {
       final UserInfo info = gatherUserInfo();
 
-      ApiTask<ApiResult> apiTask = new ApiTask<>(getSupportFragmentManager(), "Saving data...", new UpdateDetails(
+      ApiTask<ApiResult> apiTask = new ApiTask<>(getSupportFragmentManager(), "Saving data...", new UpdateDetailsCommand(
           CurrentUser.getToken(),
           info.getUid(),
           info.getFirstName(),

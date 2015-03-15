@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
 import com.iic.shopingo.api.ApiResult;
-import com.iic.shopingo.api.trip.EndTrip;
+import com.iic.shopingo.api.trip.EndTripCommand;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.ui.ApiTask;
@@ -145,7 +145,7 @@ public class ManageTripActivity extends ActionBarActivity
 
   @Override
   public void onDiscardTripDialogOK() {
-    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Ending trip...", new EndTrip(CurrentUser.getToken()));
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Ending trip...", new EndTripCommand(CurrentUser.getToken()));
     task.execute().continueWith(new Continuation<ApiResult, Object>() {
       @Override
       public Object then(Task<ApiResult> task) throws Exception {
