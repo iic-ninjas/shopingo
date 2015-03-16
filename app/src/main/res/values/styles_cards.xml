@@ -7,5 +7,6 @@
   <style name="CardList">
     <item name="android:divider">@null</item>
     <item name="android:dividerHeight">0dp</item>
+    <item name="android:listSelector">?android:attr/colorBackground</item>
   </style>
 </resources>

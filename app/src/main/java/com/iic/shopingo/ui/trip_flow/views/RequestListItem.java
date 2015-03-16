@@ -46,8 +46,8 @@ public class RequestListItem extends FrameLayout {
   @InjectView(R.id.request_list_item_address)
   TextView address;
 
-  @InjectView(R.id.request_list_item_buttons_container)
-  LinearLayout buttonsContainer;
+  @InjectView(R.id.request_list_item_expandable_content)
+  LinearLayout expandableContent;
 
   private boolean isExpanded;
 
@@ -79,18 +79,12 @@ public class RequestListItem extends FrameLayout {
   }
 
   private void expand() {
-    itemsList.setVisibility(VISIBLE);
-    buttonsContainer.setVisibility(VISIBLE);
-    offer.setVisibility(VISIBLE);
-    address.setVisibility(VISIBLE);
+    expandableContent.setVisibility(VISIBLE);
     isExpanded = true;
   }
 
   private void collapse() {
-    itemsList.setVisibility(GONE);
-    buttonsContainer.setVisibility(GONE);
-    offer.setVisibility(GONE);
-    address.setVisibility(GONE);
+    expandableContent.setVisibility(GONE);
     isExpanded = false;
   }
 
