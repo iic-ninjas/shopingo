@@ -45,7 +45,6 @@ public class RequestStateActivity extends ActionBarActivity {
   };
 
   private OutgoingRequest request;
-  private boolean firstStart = true;
 
   @Optional
   @InjectView(R.id.request_state_status_explanation)
@@ -55,12 +54,7 @@ public class RequestStateActivity extends ActionBarActivity {
 
   protected void onStart() {
     super.onStart();
-    if (firstStart && getIntent().hasExtra(EXTRAS_REQUEST_KEY)) {
-      setRequest((OutgoingRequest)getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY));
-    } else {
-      setRequest(new OutgoingRequestStorage(PreferenceManager.getDefaultSharedPreferences(this)).load());
-    }
-    firstStart = false;
+    setRequest((OutgoingRequest)getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY));
   }
 
   private void setRequest(OutgoingRequest request) {
