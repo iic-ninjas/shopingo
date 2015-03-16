@@ -13,7 +13,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.PriceHelper;
 import com.iic.shopingo.R;
-import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.squareup.picasso.Picasso;
 import java.util.List;
@@ -124,7 +123,6 @@ public class RequestListItem extends FrameLayout {
 
   @OnClick(R.id.request_list_item_accept_button)
   public void onAccept(View view) {
-    request.setStatus(BaseRequest.RequestStatus.ACCEPTED);
     if (listener != null) {
       listener.onRequestAccepted(request);
     }
@@ -132,7 +130,6 @@ public class RequestListItem extends FrameLayout {
 
   @OnClick(R.id.request_list_item_decline_button)
   public void onDecline(View view) {
-    request.setStatus(BaseRequest.RequestStatus.DECLINED);
     if (listener != null) {
       listener.onRequestDeclined(request);
     }

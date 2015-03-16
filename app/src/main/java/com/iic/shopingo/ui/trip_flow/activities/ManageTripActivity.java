@@ -137,6 +137,7 @@ public class ManageTripActivity extends ActionBarActivity
       @Override
       public Object then(Task<ApiResult> task) throws Exception {
         if (!task.isFaulted() && !task.isCancelled()) {
+          request.setStatus(BaseRequest.RequestStatus.ACCEPTED);
           ShoppingList sl = shoppingListFromRequest(request);
 
           unifiedShoppingListFragment.addShoppingList(sl);
@@ -158,6 +159,7 @@ public class ManageTripActivity extends ActionBarActivity
       @Override
       public Object then(Task<ApiResult> task) throws Exception {
         if (!task.isFaulted() && !task.isCancelled()) {
+          request.setStatus(BaseRequest.RequestStatus.DECLINED);
           requestListFragment.removeRequest(request);
         } else {
           Toast.makeText(ManageTripActivity.this, "Could not decline: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
