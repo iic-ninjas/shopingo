@@ -17,8 +17,11 @@
   <!-- Request States -->
   <string name="title_activity_request_state">RequestState</string>
   <string name="request_state_title_pending">Waiting for approval</string>
-  <string name="request_state_title_approved">Your items are on their way! :)</string>
+  <string name="request_state_pending_explanation">We are still waiting for <xliff id="shopper_name">%s</xliff> to accept your request. You can cancel at any time to try a different shopper.</string>
+  <string name="request_state_title_accepted">Your items are on their way! :)</string>
+  <string name="request_state_accepted_explanation"><xliff id="shopper_name">%s</xliff> has accepted your request and will get in touch with you soon. Tap the \'Done\' button once you get all your items.</string>
   <string name="request_state_title_declined">Your request was declined :(</string>
+  <string name="request_state_declined_explanation"><xliff id="shopper_name">%s</xliff> can\'t fulfill your request at the moment. Try a different shopper or possibly go shopping yourself!</string>
   <string name="request_state_cancel_button">Cancel</string>
   <string name="request_state_settle_button">Done!</string>
   <string name="request_state_try_again_button">Try someone else</string>
