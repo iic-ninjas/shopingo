@@ -1,4 +1,4 @@
-package com.iic.shopingo.ui;
+package com.iic.shopingo.ui.async;
 
 import android.support.v4.app.FragmentManager;
 import bolts.Continuation;

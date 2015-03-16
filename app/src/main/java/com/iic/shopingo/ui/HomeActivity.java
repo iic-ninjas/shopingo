@@ -2,6 +2,7 @@ package com.iic.shopingo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +21,8 @@ import com.iic.shopingo.api.user.GetCurrentStateCommand;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
+import com.iic.shopingo.services.OutgoingRequestStorage;
+import com.iic.shopingo.ui.async.ApiTask;
 import com.iic.shopingo.ui.home.ActionCardView;
 import com.iic.shopingo.ui.request_flow.activities.RequestStateActivity;
 import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
@@ -64,8 +67,14 @@ public class HomeActivity extends ActionBarActivity implements ActionCardView.Li
                 finish();
               } break;
               case IDLE: {
-                // TODO: a user might still have a declined request that he never saw. redirect to the declined request here.
-                showContent();
+                OutgoingRequestStorage storage = new OutgoingRequestStorage(PreferenceManager.getDefaultSharedPreferences(HomeActivity.this));
+                if (storage.load() != null) {
+                  CurrentUser.getInstance().state = CurrentUser.State.REQUESTING;
+                  Intent intent = new Intent(HomeActivity.this, RequestStateActivity.class);
+                  startActivity(intent);
+                } else {
+                  showContent();
+                }
               } break;
               case TRIPPING: {
                 CurrentUser.getInstance().state = CurrentUser.State.TRIPPING;
