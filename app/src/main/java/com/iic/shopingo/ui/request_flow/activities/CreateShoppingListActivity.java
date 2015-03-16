@@ -2,6 +2,7 @@ package com.iic.shopingo.ui.request_flow.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.Selection;
@@ -22,6 +23,7 @@ import com.iic.shopingo.api.request.OutgoingRequestApiResult;
 import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.services.CurrentUser;
+import com.iic.shopingo.services.ShoppingListStorage;
 import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
 
@@ -49,17 +51,26 @@ public class CreateShoppingListActivity extends ActionBarActivity
     ButterKnife.inject(this);
 
     shopper = getIntent().getParcelableExtra(EXTRAS_SHOPPER_KEY);
-    shoppingList = new ShoppingList(); // TODO: Load persisted shopping list from somewhere
+    shoppingList = new ShoppingListStorage(PreferenceManager.getDefaultSharedPreferences(this)).load();
 
-    itemListView.addAllItems(shoppingList.getItems());
+    if (shoppingList != null) {
+      itemListView.addAllItems(shoppingList.getItems());
+      offerView.setText(Integer.toString(shoppingList.getOffer()));
+    } else {
+      shoppingList = new ShoppingList();
+    }
     itemListView.addItem("");
     itemListView.setListener(this);
 
-    if (shoppingList.getOffer() != 0) {
-      offerView.setText(Integer.toString(shoppingList.getOffer()));
-    }
-
     offerView.addTextChangedListener(this);
+  }
+
+  @Override
+  protected void onStop() {
+    shoppingList.setItems(itemListView.getAllItems());
+    shoppingList.setOffer(Integer.parseInt(offerView.getText().toString().substring(1)));
+    new ShoppingListStorage(PreferenceManager.getDefaultSharedPreferences(this)).store(shoppingList);
+    super.onStop();
   }
 
   @OnTextChanged(R.id.create_request_offer_input)
