@@ -1,5 +1,6 @@
 package com.iic.shopingo.ui.trip_flow.data;
 
+import com.iic.shopingo.dal.models.Contact;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +8,7 @@ import java.util.List;
  * Created by asafg on 04/03/15.
  */
 public class ShoppingList {
-  public String requesterName;
-  public String phoneNumber;
-
+  public Contact requester;
   public List<Item> items;
 
   public ShoppingList() {
