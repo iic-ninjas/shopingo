@@ -56,6 +56,8 @@ public class CreateShoppingListActivity extends ActionBarActivity
     if (shoppingList != null) {
       itemListView.addAllItems(shoppingList.getItems());
       offerView.setText(Integer.toString(shoppingList.getOffer()));
+      toggleCreateButton();
+      afterTextChanged(offerView.getText());
     } else {
       shoppingList = new ShoppingList();
     }
