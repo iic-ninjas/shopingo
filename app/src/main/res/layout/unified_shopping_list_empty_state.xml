@@ -1,25 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context="com.iic.shopingo.ui.request_flow.activities.RequestStateActivity">
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:gravity="center">
   <Space
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
       />
   <TextView
+      android:text="@string/unified_list_empty_state_title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/request_state_title_pending"
       android:textSize="22dp"
       android:gravity="center"
-      android:paddingBottom="8dp"
+      android:layout_marginBottom="8dp"
       />
   <TextView
-      android:id="@+id/request_state_status_explanation"
+      android:text="@string/unified_list_empty_state_explanation"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:gravity="center"
@@ -29,11 +30,4 @@
       android:layout_height="0dp"
       android:layout_weight="3"
       />
-  <Button
-      android:id="@+id/request_state_cancel_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/request_state_cancel_button"
-      />
-
 </LinearLayout>
