@@ -17,10 +17,9 @@
         android:layout_height="wrap_content"
         android:text="Description"
         android:layout_gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textSize="22sp"
-        android:fontFamily="sans-serif-light"
+        android:paddingLeft="@dimen/default_spacing"
+        android:paddingRight="@dimen/default_spacing"
+        style="@style/TitleText"
         />
   </LinearLayout>
 
@@ -29,7 +28,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
-      android:layout_marginTop="16dp"
+      android:layout_marginTop="@dimen/default_spacing"
       android:text="Button text"
       android:textSize="22sp"
       android:fontFamily="sans-serif-condensed-light"

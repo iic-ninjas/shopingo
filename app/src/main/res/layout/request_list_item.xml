@@ -3,15 +3,13 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp" android:paddingRight="16dp"
-    android:paddingTop="8dp" android:paddingBottom="8dp">
+    android:paddingLeft="@dimen/default_spacing" android:paddingRight="@dimen/default_spacing"
+    android:paddingTop="@dimen/small_spacing" android:paddingBottom="@dimen/small_spacing">
 
   <ImageView
       android:id="@+id/request_list_item_requester_pic"
-      android:layout_width="50dp"
-      android:layout_height="50dp"
       android:src="@android:drawable/btn_star_big_on"
-      android:scaleType="fitCenter"
+      style="@style/Avatar"
       />
   <LinearLayout
       android:orientation="vertical"
@@ -26,12 +24,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Moshe"
+        style="@style/TitleText"
         />
     <TextView
         android:id="@+id/request_list_item_requested_items_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="50 Items"
+        style="@style/BodyText"
         />
   </LinearLayout>
   <FrameLayout
