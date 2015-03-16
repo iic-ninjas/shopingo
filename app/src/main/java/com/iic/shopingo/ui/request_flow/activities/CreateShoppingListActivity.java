@@ -24,7 +24,7 @@ import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.ShoppingListStorage;
-import com.iic.shopingo.ui.ApiTask;
+import com.iic.shopingo.ui.async.ApiTask;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
 
 public class CreateShoppingListActivity extends ActionBarActivity
@@ -55,12 +55,15 @@ public class CreateShoppingListActivity extends ActionBarActivity
 
     if (shoppingList != null) {
       itemListView.addAllItems(shoppingList.getItems());
-      offerView.setText(Integer.toString(shoppingList.getOffer()));
+      if (shoppingList.getOffer() > 0) {
+        offerView.setText(Integer.toString(shoppingList.getOffer()));
+      }
       toggleCreateButton();
       afterTextChanged(offerView.getText());
     } else {
       shoppingList = new ShoppingList();
     }
+
     itemListView.addItem("");
     itemListView.setListener(this);
 
@@ -70,7 +73,11 @@ public class CreateShoppingListActivity extends ActionBarActivity
   @Override
   protected void onStop() {
     shoppingList.setItems(itemListView.getAllItems());
-    shoppingList.setOffer(Integer.parseInt(offerView.getText().toString().substring(1)));
+    if (offerView.getText().toString().length() > 1) {
+      shoppingList.setOffer(Integer.parseInt(offerView.getText().toString().substring(1)));
+    } else {
+      shoppingList.setOffer(0);
+    }
     new ShoppingListStorage(PreferenceManager.getDefaultSharedPreferences(this)).store(shoppingList);
     super.onStop();
   }

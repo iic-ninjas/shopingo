@@ -25,7 +25,7 @@ import com.iic.shopingo.api.trip.DeclineRequestCommand;
 import com.squareup.picasso.Picasso;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.services.CurrentUser;
-import com.iic.shopingo.ui.ApiTask;
+import com.iic.shopingo.ui.async.ApiTask;
 
 /**
  * Created by asafg on 03/03/15.

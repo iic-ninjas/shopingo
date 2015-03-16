@@ -29,8 +29,7 @@ import java.util.List;
 /**
  * Created by asafg on 05/03/15.
  */
-public class RequestListFragment extends Fragment implements AdapterView.OnItemClickListener,
-    SwipeRefreshLayout.OnRefreshListener {
+public class RequestListFragment extends Fragment implements AdapterView.OnItemClickListener {
 
   private static final String TAG = RequestListFragment.class.getSimpleName();
 
@@ -40,9 +39,6 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
 
   @InjectView(R.id.request_list_list_view)
   ListView listView;
-
-  @InjectView(R.id.request_list_swipe_container)
-  SwipeRefreshLayout swipeLayout;
 
   @InjectView(R.id.request_list_empty_stub)
   ViewStub emptyStateStub;
@@ -77,7 +73,6 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
     if (requests != null) {
       adapter.setRequests(requests);
     }
-    swipeLayout.setOnRefreshListener(this);
     return view;
   }
 
@@ -118,18 +113,11 @@ public class RequestListFragment extends Fragment implements AdapterView.OnItemC
     }
   }
 
-  @Override
-  public void onRefresh() {
-    updateRequests();
-  }
-
   private void updateRequests() {
-    swipeLayout.setRefreshing(true);
     GetPendingRequestsCommand req = new GetPendingRequestsCommand(CurrentUser.getToken());
     req.executeAsync().continueWith(new Continuation<PendingRequestsApiResult, Object>() {
       @Override
       public Object then(Task<PendingRequestsApiResult> task) throws Exception {
-        swipeLayout.setRefreshing(false);
         if (!task.isFaulted() && !task.isCancelled()) {
           adapter.setRequests(task.getResult().requests);
         } else {

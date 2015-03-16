@@ -27,20 +27,17 @@ import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.location.CurrentLocationProvider;
 import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
-import com.iic.shopingo.ui.ApiTask;
+import com.iic.shopingo.ui.async.ApiTask;
 import com.iic.shopingo.ui.request_flow.views.SelectShopperListItemView;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectShopperActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class SelectShopperActivity extends ActionBarActivity {
   private final long REQUEST_INTERVAL = 10 * 1000; // 10 seconds in milliseconds
 
   @InjectView(R.id.select_shopper_list)
   ListView shopperList;
-
-  @InjectView(R.id.select_shopper_swipe_container)
-  SwipeRefreshLayout swipeLayout;
 
   @InjectView(R.id.select_shopper_list_empty_state)
   LinearLayout emptyState;
@@ -67,8 +64,6 @@ public class SelectShopperActivity extends ActionBarActivity implements SwipeRef
 
     adapter = new SelectShopperAdapter();
     shopperList.setAdapter(adapter);
-
-    swipeLayout.setOnRefreshListener(this);
   }
 
   @OnItemClick(R.id.select_shopper_list)
@@ -107,18 +102,11 @@ public class SelectShopperActivity extends ActionBarActivity implements SwipeRef
     updateShoppers();
   }
 
-  @Override
-  public void onRefresh() {
-    updateShoppers();
-  }
-
   private void updateShoppers() {
-    swipeLayout.setRefreshing(true);
     GetNearbyShoppersCommand req = new GetNearbyShoppersCommand(CurrentUser.getToken());
     req.executeAsync().continueWith(new Continuation<ShoppersApiResult, Object>() {
       @Override
       public Object then(Task<ShoppersApiResult> task) throws Exception {
-        swipeLayout.setRefreshing(false);
         if (!task.isFaulted() && !task.isCancelled()) {
           adapter.setShoppers(task.getResult().shoppers);
         } else {

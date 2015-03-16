@@ -1,8 +1,6 @@
 package com.iic.shopingo.ui.request_flow.activities;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -18,17 +16,14 @@ import butterknife.Optional;
 import com.iic.shopingo.R;
 import com.iic.shopingo.api.ApiResult;
 import com.iic.shopingo.api.request.CancelRequestCommand;
-import com.iic.shopingo.api.request.OutgoingRequestApiResult;
 import com.iic.shopingo.api.request.SettleRequestCommand;
 import com.iic.shopingo.api.trip.StartTripCommand;
-import com.iic.shopingo.api.user.CurrentStateApiResult;
-import com.iic.shopingo.api.user.GetCurrentStateCommand;
 import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.OutgoingRequest;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.OutgoingRequestStorage;
 import com.iic.shopingo.services.ShoppingListStorage;
-import com.iic.shopingo.ui.ApiTask;
+import com.iic.shopingo.ui.async.ApiTask;
 import com.iic.shopingo.ui.HomeActivity;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
 
@@ -159,6 +154,7 @@ public class RequestStateActivity extends ActionBarActivity {
 
   private void finishAndStartActivity(Class<?> cls) {
     Intent intent = new Intent(this, cls);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivity(intent);
     finish();
   }

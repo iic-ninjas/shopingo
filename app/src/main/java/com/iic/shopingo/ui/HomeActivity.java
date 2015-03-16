@@ -22,6 +22,7 @@ import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
 import com.iic.shopingo.services.OutgoingRequestStorage;
+import com.iic.shopingo.ui.async.ApiTask;
 import com.iic.shopingo.ui.home.ActionCardView;
 import com.iic.shopingo.ui.request_flow.activities.RequestStateActivity;
 import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;

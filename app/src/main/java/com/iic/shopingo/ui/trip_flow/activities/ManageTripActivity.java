@@ -1,5 +1,6 @@
 package com.iic.shopingo.ui.trip_flow.activities;
 
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import bolts.Continuation;
 import bolts.Task;
@@ -18,7 +20,7 @@ import com.iic.shopingo.api.ApiResult;
 import com.iic.shopingo.api.trip.EndTripCommand;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.services.CurrentUser;
-import com.iic.shopingo.ui.ApiTask;
+import com.iic.shopingo.ui.async.ApiTask;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
 import com.iic.shopingo.ui.trip_flow.fragments.DiscardTripDialogFragment;
 import com.iic.shopingo.ui.trip_flow.fragments.RequestListFragment;
