@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.HomeActivity;
@@ -21,12 +22,15 @@ public class GcmIntentService extends IntentService {
 
   private static final int NOTIFICATION_ID = 1;
 
+  private static final String LOG_TAG = GcmIntentService.class.getSimpleName();
+
   public GcmIntentService() {
     super(SERVICE_NAME);
   }
 
   @Override
   protected void onHandleIntent(Intent intent) {
+    Log.d(LOG_TAG, "Handling notification");
     Bundle extras = intent.getExtras();
     GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
     String messageType = gcm.getMessageType(intent);

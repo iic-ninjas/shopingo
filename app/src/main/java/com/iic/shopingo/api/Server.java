@@ -27,8 +27,6 @@ public class Server {
 
   private static final Uri BASE_URI = Uri.parse(BuildConfig.SERVER_HOST);
 
-  private static final HttpClient client = new DefaultHttpClient();
-
   public static <T> T get(String authToken, String path, Class<T> responseClass) throws IOException {
     return get(authToken, path, responseClass, new HashMap<String, Object>());
   }
@@ -65,6 +63,7 @@ public class Server {
   }
 
   private static <T> T executeRequest(HttpUriRequest request, Class<T> responseClass) throws IOException {
+    HttpClient client = new DefaultHttpClient();
     InputStream content = null;
     try {
       HttpResponse response = client.execute(request);
