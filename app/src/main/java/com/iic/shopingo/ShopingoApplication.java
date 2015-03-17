@@ -2,13 +2,11 @@ package com.iic.shopingo;
 
 import android.app.Application;
 import android.preference.PreferenceManager;
+import com.iic.shopingo.services.ActivitiesLifecycleManager;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.NotificationsHelper;
 import com.iic.shopingo.services.UserStorage;
 
-/**
- * Created by ifeins on 3/3/15.
- */
 public class ShopingoApplication extends Application {
 
   @Override
@@ -17,7 +15,10 @@ public class ShopingoApplication extends Application {
 
     CurrentUser.getInstance().setStorage(new UserStorage(PreferenceManager.getDefaultSharedPreferences(this)));
     if (CurrentUser.getToken() != null) {
+      // TODO: needs to do this after login as well!!!!!
       NotificationsHelper.registerForNotificationsAsync(this);
     }
+
+    registerActivityLifecycleCallbacks(ActivitiesLifecycleManager.getInstance());
   }
 }

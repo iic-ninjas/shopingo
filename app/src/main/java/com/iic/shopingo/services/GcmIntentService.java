@@ -26,13 +26,13 @@ public class GcmIntentService extends IntentService {
 
   public static final String EXTRA_PAYLOAD = "payload";
 
+  public static final String EXTRA_NOTIFICATION_TYPE = "notification_type";
+
   private static final String SERVICE_NAME = GcmIntentService.class.getSimpleName();
 
   private static final int NOTIFICATION_ID = 1;
 
   private static final String LOG_TAG = GcmIntentService.class.getSimpleName();
-
-  public static final String EXTRA_NOTIFICATION_TYPE = "notification_type";
 
   private static Map<String, Class<? extends ShopingoNotification>> notificationTypeToClassMapping;
 
@@ -56,11 +56,20 @@ public class GcmIntentService extends IntentService {
       String notificationType = intent.getStringExtra(EXTRA_NOTIFICATION_TYPE);
       ShopingoNotification notification =
           new GsonBuilder().create().fromJson(payload, notificationTypeToClassMapping.get(notificationType));
-      displayNotification(intent.getStringExtra(EXTRA_MESSAGE), notification);
+      handleNotification(intent.getStringExtra(EXTRA_MESSAGE), notification);
     }
   }
 
-  private void displayNotification(String msg, ShopingoNotification shopingoNotification) {
+  private void handleNotification(String msg, ShopingoNotification shopingoNotification) {
+    if (ActivitiesLifecycleManager.getInstance().isInForeground()) {
+      Log.d(LOG_TAG, "Received GCM while app is in foreground");
+    } else {
+      Log.d(LOG_TAG, "Received GCM while app is in background");
+      displayBackgroundNotification(msg);
+    }
+  }
+
+  private void displayBackgroundNotification(String msg) {
     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, HomeActivity.class), 0);
 
