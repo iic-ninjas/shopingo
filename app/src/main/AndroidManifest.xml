@@ -50,28 +50,12 @@
         android:value="@string/facebook_app_id"
         android:screenOrientation="portrait"
         />
-
-    <activity
-        android:name=".ui.request_flow.activities.SelectShopperActivity"
-        android:label="@string/title_activity_select_shopper"
-        android:parentActivityName=".ui.HomeActivity"
-        android:screenOrientation="portrait"
-        >
-      <meta-data
-          android:name="android.support.PARENT_ACTIVITY"
-          android:value=".ui.HomeActivity"
-          />
-    </activity>
     <activity
         android:name=".ui.request_flow.activities.CreateShoppingListActivity"
         android:label="@string/title_activity_create_request"
-        android:parentActivityName=".ui.request_flow.activities.SelectShopperActivity"
+        android:parentActivityName=".ui.HomeActivity"
         android:screenOrientation="portrait"
         >
-      <meta-data
-          android:name="android.support.PARENT_ACTIVITY"
-          android:value=".ui.request_flow.activities.SelectShopperActivity"
-          />
     </activity>
     <activity
         android:name=".ui.request_flow.activities.RequestStateActivity"
@@ -86,7 +70,6 @@
         >
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
-
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
