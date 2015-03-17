@@ -11,4 +11,5 @@
 
   <!--Avatars-->
   <dimen name="avatar_size">48dp</dimen>
+  <dimen name="avatar_corner_radius">24dp</dimen>
 </resources>

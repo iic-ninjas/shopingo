@@ -4,6 +4,9 @@
   <color name="actionBarStartColor">#a3b835</color>
   <color name="actionBarEndColor">#83a223</color>
 
+  <color name="gopherColor">#4E342E</color>
+  <color name="darkGopherColor">#3E2723</color>
+
   <!--Typography-->
   <color name="baseTextColor">#666</color>
   <color name="helperTextColor">#aaa</color>

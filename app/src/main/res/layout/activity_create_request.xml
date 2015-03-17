@@ -19,7 +19,9 @@
         android:orientation="horizontal"
         android:padding="@dimen/default_spacing"
         >
-      <ImageView
+      <com.makeramen.roundedimageview.RoundedImageView
+          xmlns:app="http://schemas.android.com/apk/res-auto"
+          app:riv_corner_radius="@dimen/avatar_corner_radius"
           android:id="@+id/create_request_shopper_avatar"
           android:layout_marginRight="@dimen/default_spacing"
           android:src="@mipmap/ic_launcher"

@@ -171,7 +171,7 @@ public class HomeActivity extends ActionBarActivity implements GoogleMap.OnMarke
         if (!task.isFaulted() && !task.isCancelled()) {
           mapManager.setShoppers(task.getResult().shoppers);
         } else {
-          // TODO: handle failure
+          Toast.makeText(HomeActivity.this, "Failed to fetch shoppers", Toast.LENGTH_SHORT).show();
         }
         return null;
       }

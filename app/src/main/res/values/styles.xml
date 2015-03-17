@@ -3,14 +3,16 @@
   <style name="AppTheme"
       parent="Theme.AppCompat.Light.DarkActionBar">
     <item name="actionBarStyle">@style/ActionBar.Solid.Shopingo</item>
+    <item name="colorPrimary">@color/gopherColor</item>
+    <item name="colorPrimaryDark">@color/darkGopherColor</item>
   </style>
 
   <style name="ActionBar.Solid.Shopingo"
       parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
     <item name="displayOptions">useLogo|showHome</item>
     <item name="logo">@drawable/ic_logo</item>
-    <item name="background">@drawable/action_bar_bg</item>
-    <item name="elevation">0dp</item>
+    <!--<item name="background">@drawable/action_bar_bg</item>-->
+    <item name="elevation">2dp</item>
   </style>
 
   <style name="SectionHeader">
@@ -19,16 +21,5 @@
     <item name="android:textStyle">bold</item>
     <item name="android:layout_marginBottom">@dimen/default_spacing</item>
   </style>
-
-  <style name="ActionCardStyle">
-    <item name="android:orientation">vertical</item>
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:layout_marginTop">@dimen/default_spacing</item>
-    <item name="android:background">@drawable/action_card_background</item>
-    <item name="android:padding">@dimen/default_spacing</item>
-    <item name="android:elevation">2dp</item>
-  </style>
-
 
 </resources>
