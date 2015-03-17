@@ -1,6 +1,9 @@
 package com.iic.shopingo.ui.request_flow.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -21,6 +24,8 @@ import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.location.CurrentLocationProvider;
 import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +53,7 @@ public class SelectShopperActivity extends ActionBarActivity implements GoogleMa
       }
     });
 
-    mapManager = new SelectShopperMapManager(map);
+    mapManager = new SelectShopperMapManager(this, map);
   }
 
   //@Optional
@@ -110,9 +115,14 @@ public class SelectShopperActivity extends ActionBarActivity implements GoogleMa
 
     private GoogleMap map;
 
+    private Context context;
+
+    private List<Target> picassoTargets = new ArrayList<>();
+
     private HashMap<Marker, Contact> markerToShopper = new HashMap<>();
 
-    public SelectShopperMapManager(GoogleMap map) {
+    public SelectShopperMapManager(Context context, GoogleMap map) {
+      this.context = context;
       this.map = map;
       this.shoppers = new ArrayList<>();
     }
@@ -143,14 +153,47 @@ public class SelectShopperActivity extends ActionBarActivity implements GoogleMa
       }
     }
 
-    private void addMarker(Contact shopper) {
-      LatLng shopperLatLng = new LatLng(shopper.getLatitude(), shopper.getLongitude());
-      MarkerOptions markerOptions = new MarkerOptions().position(shopperLatLng)
-          .title(shopper.getName())
-          //.icon(BitmapDescriptorFactory.fromPath(shopper.getAvatarUrl()));
-          .icon(BitmapDescriptorFactory.defaultMarker());
-      Marker marker = map.addMarker(markerOptions);
-      markerToShopper.put(marker, shopper);
+    private void addMarker(final Contact shopper) {
+      Target target = new Target() {
+        private Marker placeholderMarker;
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+          if (placeholderMarker != null) {
+            placeholderMarker.remove();
+            markerToShopper.remove(placeholderMarker);
+          }
+          LatLng shopperLatLng = new LatLng(shopper.getLatitude(), shopper.getLongitude());
+          MarkerOptions markerOptions = new MarkerOptions().position(shopperLatLng)
+              .title(shopper.getName())
+              .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+          Marker marker = map.addMarker(markerOptions);
+          markerToShopper.put(marker, shopper);
+          picassoTargets.remove(this);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+          picassoTargets.remove(this);
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+          LatLng shopperLatLng = new LatLng(shopper.getLatitude(), shopper.getLongitude());
+          MarkerOptions markerOptions = new MarkerOptions().position(shopperLatLng)
+              .title(shopper.getName())
+              .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
+          placeholderMarker = map.addMarker(markerOptions);
+          markerToShopper.put(placeholderMarker, shopper);
+        }
+      };
+
+      picassoTargets.add(target);
+      Picasso.with(context)
+          .load(shopper.getAvatarUrl())
+          .resize(100, 100)
+          .centerCrop()
+          .into(target);
     }
   }
 }
