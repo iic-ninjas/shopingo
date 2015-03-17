@@ -15,7 +15,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.iic.shopingo.R;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
-import com.iic.shopingo.ui.utils.AvatarUriGenerator;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -62,8 +61,8 @@ public class ShoppingListView extends FrameLayout {
 
   public void setShoppingList(ShoppingList shoppingList) {
     this.shoppingList = shoppingList;
-    requesterName.setText(shoppingList.requesterName);
-    Picasso.with(getContext()).load(AvatarUriGenerator.generateAvatarUri(shoppingList.requesterName)).into(requesterAvatar);
+    requesterName.setText(shoppingList.requester.getName());
+    Picasso.with(getContext()).load(shoppingList.requester.getAvatarUrl()).into(requesterAvatar);
     itemsContainer.removeAllViews();
 
     ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -101,7 +100,7 @@ public class ShoppingListView extends FrameLayout {
   @OnClick(R.id.shopping_list_header_item_call_button)
   public void onCallClick(View view) {
     if (listener != null) {
-      listener.onCall(shoppingList.phoneNumber);
+      listener.onCall(shoppingList.requester.getPhoneNumber());
     }
   }
 

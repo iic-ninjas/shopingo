@@ -10,15 +10,15 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical"
-      android:paddingTop="16dp"
-      android:paddingBottom="16dp"
+      android:paddingTop="@dimen/default_spacing"
+      android:paddingBottom="@dimen/default_spacing"
       >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="What do you want to buy?"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="@dimen/default_spacing"
+        android:paddingRight="@dimen/default_spacing"
         style="@style/SectionHeader"
         />
 
@@ -27,24 +27,24 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="@dimen/default_spacing"
+        android:paddingRight="@dimen/default_spacing"
         />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@android:color/darker_gray"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="@dimen/default_spacing"
+        android:layout_marginBottom="@dimen/default_spacing"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="How much are you willing to pay?"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="@dimen/default_spacing"
+        android:paddingRight="@dimen/default_spacing"
         style="@style/SectionHeader"
         />
     <EditText
@@ -52,8 +52,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="@dimen/small_spacing"
+        android:layout_marginBottom="@dimen/default_spacing"
         android:inputType="number"
         android:hint="@string/create_request_price_hint"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -71,7 +71,7 @@
         android:text="@string/create_request_create_button"
         android:layout_gravity="center_horizontal"
         android:drawableLeft="@drawable/ic_action_send_now"
-        android:paddingLeft="16dp"
+        android:paddingLeft="@dimen/default_spacing"
         />
   </LinearLayout>
 </ScrollView>

@@ -13,7 +13,7 @@
   <string name="unified_list_empty_state_explanation">You still haven\'t accepted any requests for this trip. When you do, they will show up here.</string>
 
   <plurals name="items_count">
-    <item quantity="one">1 item</item>
-    <item quantity="other">%d items</item>
+    <item quantity="one">1 item for %s</item>
+    <item quantity="other">%1$d items for %2$s</item>
   </plurals>
 </resources>

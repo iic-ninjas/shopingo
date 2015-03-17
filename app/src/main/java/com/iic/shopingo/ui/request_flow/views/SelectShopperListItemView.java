@@ -5,8 +5,8 @@ import android.location.Location;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -14,10 +14,7 @@ import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.Contact;
 import com.squareup.picasso.Picasso;
 
-/**
- * TODO: document your custom view class.
- */
-public class SelectShopperListItemView extends LinearLayout {
+public class SelectShopperListItemView extends FrameLayout {
   @InjectView(R.id.select_shopper_list_item_photo)
   ImageView photoView;
 

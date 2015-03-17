@@ -3,4 +3,7 @@
   <color name="textColorSectionHeader">#757575</color>
   <color name="actionBarStartColor">#a3b835</color>
   <color name="actionBarEndColor">#83a223</color>
+
+  <!--Typography-->
+  <color name="baseTextColor">#666</color>
 </resources>

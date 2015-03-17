@@ -27,6 +27,6 @@
   <string name="request_state_try_again_button">Try someone else</string>
   <string name="request_state_go_yourself_button">Go yourself</string>
   
-  <string name="format_offered_price">Offered price: %s</string>
-  <string name="format_delivery_address">Deliver to: %s</string>
+  <string name="format_offered_price">Offer: %s</string>
+  <string name="format_delivery_address">Deliver to: <xliff id="street">%s</xliff>, <xliff id="city">%s</xliff></string>
 </resources>
