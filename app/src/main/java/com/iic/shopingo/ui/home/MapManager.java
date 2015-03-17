@@ -12,9 +12,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.iic.shopingo.R;
 import com.iic.shopingo.dal.models.Contact;
-import com.iic.shopingo.utils.BitmapCircler;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,11 +74,10 @@ public class MapManager {
 
       @Override
       public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        Bitmap circledBitmap = BitmapCircler.circle(bitmap);
         LatLng shopperLatLng = new LatLng(shopper.getLatitude(), shopper.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions().position(shopperLatLng)
             .title(shopper.getName())
-            .icon(BitmapDescriptorFactory.fromBitmap(circledBitmap));
+            .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
         Marker marker = map.addMarker(markerOptions);
         markerToShopper.put(marker, shopper);
         picassoTargets.remove(this);
@@ -104,10 +104,13 @@ public class MapManager {
     };
 
     picassoTargets.add(target);
+
+    Transformation circleBitmap = new RoundedTransformationBuilder().cornerRadius(50).build();
     Picasso.with(context)
         .load(shopper.getAvatarUrl())
         .resize(100, 100)
         .centerCrop()
+        .transform(circleBitmap)
         .into(target);
   }
 }
