@@ -13,7 +13,6 @@
     <item name="android:textStyle">bold</item>
   </style>
 
-
   <style name="BodyText" parent="BaseText">
     <item name="android:textSize">@dimen/body_size</item>
   </style>
@@ -24,6 +23,10 @@
   </style>
 
   <style name="TitleText.Centered">
+    <item name="android:gravity">center</item>
+  </style>
+
+  <style name="SubTitleText.Centered">
     <item name="android:gravity">center</item>
   </style>
 

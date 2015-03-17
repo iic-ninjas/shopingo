@@ -3,4 +3,6 @@
   <string name="title_activity_onboarding">OnboardingActivity</string>
   <string name="title_activity_contact_details">ContactDetailsActivity</string>
   <string name="title_facebook_login">Facebook login</string>
+  <string name="onboarding_description">Gopher is a network of friendly neighbors who are willing to help each other out when it comes to grocery shopping.</string>
+  <string name="onboarding_explanation">Help your friends out with things they need when you go out and they\'ll do the same for you when you\'re in a jam and need some urgent groceries.</string>
 </resources>

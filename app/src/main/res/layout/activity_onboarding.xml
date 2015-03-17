@@ -1,19 +1,51 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/default_spacing"
-    android:paddingRight="@dimen/default_spacing"
-    android:paddingTop="@dimen/default_spacing"
-    android:paddingBottom="@dimen/default_spacing"
+    android:orientation="vertical"
+    android:padding="@dimen/default_spacing"
     tools:context="com.iic.shopingo.ui.OnboardingActivity"
     >
-
+  <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginTop="@dimen/default_spacing"
+      android:src="@drawable/ic_logo_dark"
+      />
+  <Space
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      />
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/onboarding_description"
+      android:layout_marginBottom="@dimen/small_spacing"
+      style="@style/TitleText.Centered"
+      />
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/onboarding_explanation"
+      style="@style/SubTitleText.Centered"
+      />
+  <Space
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="3"
+      />
   <com.facebook.widget.LoginButton
       android:id="@+id/onboarding_login_btn"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       />
+  <Space
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      />
 
-</FrameLayout>
+</LinearLayout>
