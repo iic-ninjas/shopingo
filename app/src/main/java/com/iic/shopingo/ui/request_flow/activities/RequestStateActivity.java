@@ -19,10 +19,13 @@ import com.iic.shopingo.api.request.SettleRequestCommand;
 import com.iic.shopingo.api.trip.StartTripCommand;
 import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.OutgoingRequest;
+import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.CurrentUser;
+import com.iic.shopingo.services.notifications.IncomingRequestNotification;
 import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.HomeActivity;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
+import com.squareup.otto.Subscribe;
 
 public class RequestStateActivity extends ActionBarActivity {
   public static final String EXTRAS_REQUEST_KEY = "request";
@@ -53,6 +56,34 @@ public class RequestStateActivity extends ActionBarActivity {
     ButterKnife.inject(this);
     String explanationString = getString(EXPLANATION_STRINGS[request.getStatus().ordinal()]);
     statusExplanation.setText(String.format(explanationString, request.getShopper().getFirstName()));
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    AppEventBus.getInstance().register(this);
+  }
+
+  @Override
+  protected void onPause() {
+    AppEventBus.getInstance().unregister(this);
+    super.onPause();
+  }
+
+  @Subscribe
+  public void onRequestStateChanged(IncomingRequestNotification notification) {
+    BaseRequest.RequestStatus newStatus = BaseRequest.RequestStatus.valueOf(notification.getStatus().toUpperCase());
+    if (!newStatus.equals(request.getStatus())) {
+      reload(newStatus);
+    }
+  }
+
+  private void reload(BaseRequest.RequestStatus newStatus) {
+    request.setStatus(newStatus);
+    getIntent().putExtra(EXTRAS_REQUEST_KEY, request);
+
+    finish();
+    startActivity(getIntent());
   }
 
   @Optional
