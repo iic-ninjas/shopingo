@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="BaseText">
+    <item name="android:textColor">@color/baseTextColor</item>
+  </style>
+
+  <style name="TitleText" parent="BaseText">
+    <item name="android:textSize">@dimen/title_size</item>
+  </style>
+
+  <style name="BodyText" parent="BaseText">
+    <item name="android:textSize">@dimen/body_size</item>
+  </style>
+
+  <style name="TitleText.Centered">
+    <item name="android:gravity">center</item>
+  </style>
+
+  <style name="BodyText.Centered">
+    <item name="android:gravity">center</item>
+  </style>
+</resources>

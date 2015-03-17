@@ -88,17 +88,10 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".ui.trip_flow.activities.RequestDetailsActivity"
-        android:parentActivityName=".ui.trip_flow.activities.ManageTripActivity"
-        android:screenOrientation="portrait"/>
-    <activity android:name=".ui.trip_flow.activities.ManageTripActivity"
+    <activity
+        android:name=".ui.trip_flow.activities.ManageTripActivity"
         android:label="@string/title_activity_manage_trip"
         android:parentActivityName=".ui.HomeActivity"
-        android:screenOrientation="portrait"/>
-    <activity
-        android:name=".ui.request_flow.activities.SaveRequestActivity"
-        android:label="@string/title_activity_save_request"
-        android:parentActivityName=".ui.request_flow.activities.CreateShoppingListActivity"
         android:screenOrientation="portrait"
         >
       <meta-data

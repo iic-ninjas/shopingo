@@ -15,7 +15,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
 import com.iic.shopingo.api.ApiResult;
+import com.iic.shopingo.api.trip.AcceptRequestCommand;
+import com.iic.shopingo.api.trip.DeclineRequestCommand;
 import com.iic.shopingo.api.trip.EndTripCommand;
+import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.ui.ApiTask;
@@ -64,6 +67,11 @@ public class ManageTripActivity extends ActionBarActivity
     requestListFragment.setRequests(requests);
 
     unifiedShoppingListFragment = new UnifiedShoppingListFragment();
+    for (IncomingRequest req : requests) {
+      if (req.getStatus() == BaseRequest.RequestStatus.ACCEPTED) {
+        unifiedShoppingListFragment.addShoppingList(shoppingListFromRequest(req));
+      }
+    }
 
     pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
       @Override
@@ -121,26 +129,44 @@ public class ManageTripActivity extends ActionBarActivity
     dialog.show(getSupportFragmentManager(), DISCARD_TRIP_DIALOG_TAG);
   }
 
-  public void onRequestAccepted(IncomingRequest request) {
-    ShoppingList sl = new ShoppingList();
-    sl.requesterName = request.getRequester().getFirstName();
-    sl.phoneNumber = request.getRequester().getPhoneNumber();
-    for (String itemTitle : request.getShoppingList().getItems()) {
-      sl.items.add(new ShoppingList.Item(itemTitle));
-    }
+  public void onRequestAccepted(final IncomingRequest request) {
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Accepting request...", new AcceptRequestCommand(
+        CurrentUser.getToken(), request.getId()));
 
-    unifiedShoppingListFragment.addShoppingList(sl);
+    task.execute().continueWith(new Continuation<ApiResult, Object>() {
+      @Override
+      public Object then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          request.setStatus(BaseRequest.RequestStatus.ACCEPTED);
+          ShoppingList sl = shoppingListFromRequest(request);
+
+          unifiedShoppingListFragment.addShoppingList(sl);
+          requestListFragment.removeRequest(request);
+        } else {
+          Toast.makeText(ManageTripActivity.this, "Could not accept: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
   }
 
   @Override
-  public void onRequestDeclined(IncomingRequest request) {
-    // TODO: nothing?
-  }
+  public void onRequestDeclined(final IncomingRequest request) {
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Declining request...", new DeclineRequestCommand(
+        CurrentUser.getToken(), request.getId()));
 
-  @Override
-  public void onRequestSelected(IncomingRequest request) {
-    pager.setCurrentItem(1, true);
-    // TODO: scroll to correct shopping list
+    task.execute().continueWith(new Continuation<ApiResult, Object>() {
+      @Override
+      public Object then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          request.setStatus(BaseRequest.RequestStatus.DECLINED);
+          requestListFragment.removeRequest(request);
+        } else {
+          Toast.makeText(ManageTripActivity.this, "Could not decline: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
   }
 
   @Override
@@ -170,5 +196,14 @@ public class ManageTripActivity extends ActionBarActivity
   public void onDiscardTripDialogCancel() {
     backPressed = false;
     upPressed = false;
+  }
+
+  private ShoppingList shoppingListFromRequest(IncomingRequest request) {
+    ShoppingList sl = new ShoppingList();
+    sl.requester = request.getRequester();
+    for (String itemTitle : request.getShoppingList().getItems()) {
+      sl.items.add(new ShoppingList.Item(itemTitle));
+    }
+    return sl;
   }
 }

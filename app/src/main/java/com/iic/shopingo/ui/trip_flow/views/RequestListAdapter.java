@@ -14,9 +14,11 @@ import java.util.List;
 public class RequestListAdapter extends BaseAdapter {
   private List<IncomingRequest> requests = new ArrayList<>(0);
   private Context context;
+  private RequestListItem.RequestListener listener;
 
-  public RequestListAdapter(Context context) {
+  public RequestListAdapter(Context context, RequestListItem.RequestListener listener) {
     this.context = context;
+    this.listener = listener;
   }
 
   @Override
@@ -43,18 +45,18 @@ public class RequestListAdapter extends BaseAdapter {
       item = new RequestListItem(context);
     }
     IncomingRequest req = getItem(position);
-    item.setRequest(
-        req.getRequester().getAvatarUrl(),
-        req.getRequester().getFirstName(),
-        req.getShoppingList().getItems().size(),
-        req.getShoppingList().getOffer(),
-        req.getStatus()
-    );
+    item.setListener(listener);
+    item.setRequest(req);
     return item;
   }
 
   public void setRequests(List<IncomingRequest> requests) {
     this.requests = requests;
+    notifyDataSetChanged();
+  }
+
+  public void removeRequest(IncomingRequest request) {
+    this.requests.remove(request);
     notifyDataSetChanged();
   }
 }
