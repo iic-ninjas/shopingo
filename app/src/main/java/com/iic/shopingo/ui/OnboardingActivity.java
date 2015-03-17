@@ -21,6 +21,7 @@ import com.iic.shopingo.api.user.UserApiResult;
 import com.iic.shopingo.dal.models.UserInfo;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
+import com.iic.shopingo.utils.FacebookUtils;
 
 public class OnboardingActivity extends ActionBarActivity {
 
@@ -39,6 +40,7 @@ public class OnboardingActivity extends ActionBarActivity {
     setContentView(R.layout.activity_onboarding);
 
     ButterKnife.inject(this);
+    Log.d("KeyHash", FacebookUtils.getKeyHash(this));
 
     loginBtn.setReadPermissions("public_profile", "user_location");
     facebookLifecycleHelper = new UiLifecycleHelper(this, new Session.StatusCallback() {
