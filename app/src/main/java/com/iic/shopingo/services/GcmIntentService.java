@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.GsonBuilder;
 import com.iic.shopingo.R;
+import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.notifications.IncomingRequestNotification;
 import com.iic.shopingo.services.notifications.ShopingoNotification;
 import com.iic.shopingo.ui.HomeActivity;
@@ -63,6 +64,7 @@ public class GcmIntentService extends IntentService {
   private void handleNotification(String msg, ShopingoNotification shopingoNotification) {
     if (ActivitiesLifecycleManager.getInstance().isInForeground()) {
       Log.d(LOG_TAG, "Received GCM while app is in foreground");
+      AppEventBus.getInstance().post(shopingoNotification);
     } else {
       Log.d(LOG_TAG, "Received GCM while app is in background");
       displayBackgroundNotification(msg);
