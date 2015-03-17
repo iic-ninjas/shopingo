@@ -7,9 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.Toast;
 import bolts.Continuation;
 import bolts.Task;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -18,12 +21,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.iic.shopingo.R;
+import com.iic.shopingo.api.ApiResult;
 import com.iic.shopingo.api.request.GetNearbyShoppersCommand;
 import com.iic.shopingo.api.request.ShoppersApiResult;
+import com.iic.shopingo.api.trip.StartTripCommand;
 import com.iic.shopingo.dal.models.Contact;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.location.CurrentLocationProvider;
 import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
+import com.iic.shopingo.ui.ApiTask;
+import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
+import com.iic.shopingo.utils.BitmapCircler;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import java.util.ArrayList;
@@ -56,28 +64,27 @@ public class SelectShopperActivity extends ActionBarActivity implements GoogleMa
     mapManager = new SelectShopperMapManager(this, map);
   }
 
-  //@Optional
-  //@OnClick(R.id.select_shopper_list_go_yourself_button)
-  //public void onGoYourself(View view) {
-  //  ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTripCommand(CurrentUser.getToken()));
-  //
-  //  task.execute().continueWith(new Continuation<ApiResult, Void>() {
-  //    @Override
-  //    public Void then(Task<ApiResult> task) throws Exception {
-  //      if (!task.isFaulted() && !task.isCancelled()) {
-  //        CurrentUser.getInstance().state = CurrentUser.State.TRIPPING;
-  //        Intent intent = new Intent(SelectShopperActivity.this, ManageTripActivity.class);
-  //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-  //        startActivity(intent);
-  //        finish();
-  //      } else {
-  //        Toast.makeText(SelectShopperActivity.this, "Could not start trip: " + task.getError().getMessage(),
-  //            Toast.LENGTH_LONG).show();
-  //      }
-  //      return null;
-  //    }
-  //  }, Task.UI_THREAD_EXECUTOR);
-  //}
+  @OnClick(R.id.select_shopper_go_yourself_button)
+  public void onGoYourself(View view) {
+    ApiTask<ApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Starting trip...", new StartTripCommand(CurrentUser.getToken()));
+
+    task.execute().continueWith(new Continuation<ApiResult, Void>() {
+      @Override
+      public Void then(Task<ApiResult> task) throws Exception {
+        if (!task.isFaulted() && !task.isCancelled()) {
+          CurrentUser.getInstance().state = CurrentUser.State.TRIPPING;
+          Intent intent = new Intent(SelectShopperActivity.this, ManageTripActivity.class);
+          intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+          startActivity(intent);
+          finish();
+        } else {
+          Toast.makeText(SelectShopperActivity.this, "Could not start trip: " + task.getError().getMessage(),
+              Toast.LENGTH_LONG).show();
+        }
+        return null;
+      }
+    }, Task.UI_THREAD_EXECUTOR);
+  }
 
   @Override
   protected void onResume() {
@@ -159,17 +166,18 @@ public class SelectShopperActivity extends ActionBarActivity implements GoogleMa
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+          Bitmap circledBitmap = BitmapCircler.circle(bitmap);
+          LatLng shopperLatLng = new LatLng(shopper.getLatitude(), shopper.getLongitude());
+          MarkerOptions markerOptions = new MarkerOptions().position(shopperLatLng)
+              .title(shopper.getName())
+              .icon(BitmapDescriptorFactory.fromBitmap(circledBitmap));
+          Marker marker = map.addMarker(markerOptions);
+          markerToShopper.put(marker, shopper);
+          picassoTargets.remove(this);
           if (placeholderMarker != null) {
             placeholderMarker.remove();
             markerToShopper.remove(placeholderMarker);
           }
-          LatLng shopperLatLng = new LatLng(shopper.getLatitude(), shopper.getLongitude());
-          MarkerOptions markerOptions = new MarkerOptions().position(shopperLatLng)
-              .title(shopper.getName())
-              .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
-          Marker marker = map.addMarker(markerOptions);
-          markerToShopper.put(marker, shopper);
-          picassoTargets.remove(this);
         }
 
         @Override
