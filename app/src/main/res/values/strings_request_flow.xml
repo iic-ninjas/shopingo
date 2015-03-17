@@ -9,6 +9,7 @@
 
   <!-- Create Request -->
   <string name="title_activity_create_request">CreateRequestActivity</string>
+  <string name="create_request_request_from">Requesting from:</string>
   <string name="create_request_new_item_hint">Add an item</string>
   <string name="create_request_remove_item_button">X</string>
   <string name="create_request_price_hint">$5.00</string>

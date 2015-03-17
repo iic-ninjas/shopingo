@@ -1,63 +1,6 @@
-<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/select_shopper_swipe_container"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/select_shopper_map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-
-  <FrameLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      >
-    <ListView
-        android:id="@+id/select_shopper_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/CardList"
-        tools:context="com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity"
-        />
-
-    <!--Empty State-->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/select_shopper_list_empty_state"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:gravity="center">
-      <Space
-          android:layout_width="match_parent"
-          android:layout_height="0dp"
-          android:layout_weight="1"
-          />
-      <TextView
-          android:text="@string/select_shopper_list_empty_state_title"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginBottom="@dimen/small_spacing"
-          style="@style/TitleText.Centered"
-          />
-      <TextView
-          android:text="@string/select_shopper_list_empty_state_explanation"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          style="@style/BodyText.Centered"
-          />
-      <Button
-          android:id="@+id/select_shopper_list_go_yourself_button"
-          android:layout_width="wrap_content"
-          android:layout_height="48dp"
-          android:text="@string/select_shopper_list_empty_state_button"
-          android:layout_marginTop="@dimen/default_spacing"
-          />
-      <Space
-          android:layout_width="match_parent"
-          android:layout_height="0dp"
-          android:layout_weight="3"
-          />
-    </LinearLayout>
-  </FrameLayout>
-
-</android.support.v4.widget.SwipeRefreshLayout>
+    android:name="com.google.android.gms.maps.MapFragment"
+    />

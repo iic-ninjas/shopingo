@@ -6,4 +6,5 @@
 
   <!--Typography-->
   <color name="baseTextColor">#666</color>
+  <color name="helperTextColor">#aaa</color>
 </resources>

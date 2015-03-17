@@ -9,6 +9,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import bolts.Continuation;
 import bolts.Task;
@@ -24,6 +26,7 @@ import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.request_flow.views.CreateRequestItemListView;
+import com.squareup.picasso.Picasso;
 
 public class CreateShoppingListActivity extends ActionBarActivity
     implements TextWatcher, CreateRequestItemListView.OnRequestItemListChanged {
@@ -37,6 +40,12 @@ public class CreateShoppingListActivity extends ActionBarActivity
 
   @InjectView(R.id.create_request_offer_input)
   EditText offerView;
+
+  @InjectView(R.id.create_request_shopper_avatar)
+  ImageView shopperAvatar;
+
+  @InjectView(R.id.create_request_shopper_name)
+  TextView shopperName;
 
   private Contact shopper;
 
@@ -58,6 +67,9 @@ public class CreateShoppingListActivity extends ActionBarActivity
     if (shoppingList.getOffer() != 0) {
       offerView.setText(Integer.toString(shoppingList.getOffer()));
     }
+
+    Picasso.with(this).load(shopper.getAvatarUrl()).into(shopperAvatar);
+    shopperName.setText(shopper.getName());
 
     offerView.addTextChangedListener(this);
   }
