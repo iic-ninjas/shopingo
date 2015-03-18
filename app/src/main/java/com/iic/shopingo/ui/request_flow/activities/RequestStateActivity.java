@@ -111,7 +111,7 @@ public class RequestStateActivity extends ActionBarActivity {
           CurrentUser.getInstance().state = CurrentUser.State.IDLE;
           CurrentUser.getInstance().save();
           new OutgoingRequestStorage(PreferenceManager.getDefaultSharedPreferences(RequestStateActivity.this)).clear();
-          finishAndStartActivity(SelectShopperActivity.class);
+          finishAndStartActivity(HomeActivity.class);
         } else {
           Toast.makeText(RequestStateActivity.this, "Could not cancel request: " + task.getError().getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -147,7 +147,7 @@ public class RequestStateActivity extends ActionBarActivity {
   @OnClick(R.id.request_state_try_again_button)
   public void onTryAgain(View view) {
     new OutgoingRequestStorage(PreferenceManager.getDefaultSharedPreferences(RequestStateActivity.this)).clear();
-    finishAndStartActivity(SelectShopperActivity.class);
+    finishAndStartActivity(HomeActivity.class);
   }
 
   @Optional

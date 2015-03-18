@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="PrimaryButton">
+    <item name="android:background">@color/gopherColor</item>
+    <item name="android:textColor">#fff</item>
+    <item name="android:elevation">5dp</item>
+    <item name="android:textAllCaps">true</item>
+    <item name="android:textSize">18dp</item>
+    <item name="android:layout_height">48dp</item>
+    <item name="android:layout_width">match_parent</item>
+  </style>
+</resources>

@@ -24,7 +24,6 @@ import com.iic.shopingo.services.notifications.OutgoingRequestNotification;
 import com.iic.shopingo.services.notifications.ShopingoNotification;
 import com.iic.shopingo.services.notifications.TripNotification;
 import com.iic.shopingo.ui.HomeActivity;
-import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,7 +104,7 @@ public class GcmIntentService extends IntentService {
     if (shopingoNotification instanceof TripNotification) {
       TripNotification tripNotification = (TripNotification) shopingoNotification;
       if (tripNotification.getStatus().equals("active")) {
-        Intent resultIntent = new Intent(this, SelectShopperActivity.class);
+        Intent resultIntent = new Intent(this, HomeActivity.class);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
       }

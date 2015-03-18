@@ -1,41 +1,27 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
-  <LinearLayout
+  <RelativeLayout
       android:id="@+id/home_content_container"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:paddingLeft="@dimen/default_spacing"
-      android:paddingRight="@dimen/default_spacing"
-      android:paddingTop="@dimen/default_spacing"
-      android:paddingBottom="@dimen/default_spacing"
-      tools:context="com.iic.shopingo.ui.HomeActivity"
-      android:gravity="center"
-      android:orientation="vertical"
-      android:visibility="gone"
       >
-
-    <com.iic.shopingo.ui.home.ActionCardView
-        android:id="@+id/home_action_card_shopping"
-        app:cardDescription="@string/home_action_card_shopping"
-        app:cardButtonText="@string/home_go_shopping_btn_title"
-        app:cardIcon="@drawable/ic_cart"
-        style="@style/ActionCardStyle"
+    <fragment
+        android:id="@+id/select_shopper_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.google.android.gms.maps.MapFragment"
         />
-
-    <com.iic.shopingo.ui.home.ActionCardView
-        android:id="@+id/home_action_card_make_request"
-        app:cardDescription="@string/home_action_card_make_request"
-        app:cardButtonText="@string/home_create_request_btn_title"
-        app:cardIcon="@drawable/ic_delivery"
-        style="@style/ActionCardStyle"
+    <Button
+        android:id="@+id/select_shopper_go_yourself_button"
+        android:text="@string/select_shopper_go_yourself_button"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/default_spacing"
+        style="@style/PrimaryButton"
         />
-  </LinearLayout>
-
+  </RelativeLayout>
   <FrameLayout
       android:id="@+id/home_spinner_container"
       android:layout_width="match_parent"
@@ -47,5 +33,5 @@
         android:layout_gravity="center"
         />
   </FrameLayout>
-
 </FrameLayout>
+

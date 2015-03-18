@@ -1,19 +1,21 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/default_spacing"
-    android:paddingRight="@dimen/default_spacing"
-    android:paddingTop="@dimen/default_spacing"
-    android:paddingBottom="@dimen/default_spacing"
-    tools:context="com.iic.shopingo.ui.OnboardingActivity"
+    android:orientation="vertical"
     >
-
-  <com.facebook.widget.LoginButton
-      android:id="@+id/onboarding_login_btn"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
+  <android.support.v4.view.ViewPager
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/onboarding_viewpager"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
       />
-
-</FrameLayout>
+  <com.iic.shopingo.ui.onboarding.views.PagerIndicatorView
+      android:id="@+id/onboarding_pager_indicator"
+      android:layout_width="match_parent"
+      android:layout_height="20dp"
+      android:layout_marginBottom="@dimen/default_spacing"
+      />
+</LinearLayout>
+ 
