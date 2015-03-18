@@ -100,8 +100,6 @@ public class GcmIntentService extends IntentService {
         Intent resultIntent = new Intent(this, SelectShopperActivity.class);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-      } else {
-        // TODO: implement cancelled
       }
     } else if (shopingoNotification instanceof ShopRequestNotification) {
       // Home activity will "redirect" the user to correct screen
