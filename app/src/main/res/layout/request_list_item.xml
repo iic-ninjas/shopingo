@@ -41,7 +41,7 @@
             android:id="@+id/request_list_item_items_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50 Items"
+            android:text="50 Items for $3"
             style="@style/BodyText"
             />
       </LinearLayout>
@@ -57,6 +57,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="@dimen/default_spacing"
+          android:layout_marginBottom="@dimen/small_spacing"
           android:orientation="vertical"
           />
       <TextView
@@ -64,8 +65,8 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginTop="@dimen/small_spacing"
-          android:text="Offered Price: $0.0"
-          style="@style/BodyText"
+          android:text="Offered price: $0.0"
+          style="@style/TitleText"
           />
       <TextView
           android:id="@+id/request_list_item_address"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -103,10 +104,17 @@ public class RequestListItem extends FrameLayout {
   private void setupItemList(List<String> items) {
     itemsList.removeAllViews();
     for (String item : items) {
-      TextView view = new TextView(getContext());
-      view.setText(item);
-      view.setTextAppearance(getContext(), R.style.BodyText);
-      itemsList.addView(view);
+      TextView textView = new TextView(getContext());
+      textView.setText(item);
+      textView.setTextSize(20);
+      int spacing = (int) getResources().getDimension(R.dimen.small_spacing);
+      textView.setPadding(spacing, spacing, spacing, spacing);
+      itemsList.addView(textView);
+
+      View dividerView = new View(getContext());
+      dividerView.setBackgroundColor(getResources().getColor(R.color.baseTextColor));
+      dividerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+      itemsList.addView(dividerView);
     }
   }
 
