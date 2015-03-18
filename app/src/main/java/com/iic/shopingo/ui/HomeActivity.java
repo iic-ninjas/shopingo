@@ -26,10 +26,12 @@ import com.iic.shopingo.api.trip.StartTripCommand;
 import com.iic.shopingo.api.user.CurrentStateApiResult;
 import com.iic.shopingo.api.user.GetCurrentStateCommand;
 import com.iic.shopingo.dal.models.IncomingRequest;
+import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
 import com.iic.shopingo.services.location.CurrentLocationProvider;
 import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
+import com.iic.shopingo.services.notifications.TripNotification;
 import com.iic.shopingo.ui.home.MapManager;
 import com.iic.shopingo.ui.onboarding.activities.OnboardingActivity;
 import com.iic.shopingo.ui.request_flow.activities.CreateShoppingListActivity;
@@ -37,6 +39,7 @@ import com.iic.shopingo.services.OutgoingRequestStorage;
 import com.iic.shopingo.ui.async.ApiTask;
 import com.iic.shopingo.ui.request_flow.activities.RequestStateActivity;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
+import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 
 public class HomeActivity extends ActionBarActivity implements GoogleMap.OnMarkerClickListener {
@@ -60,6 +63,7 @@ public class HomeActivity extends ActionBarActivity implements GoogleMap.OnMarke
   @Override
   protected void onStart() {
     super.onStart();
+    AppEventBus.getInstance().register(this);
     if (CurrentUser.getInstance().state == CurrentUser.State.LOGGED_OUT) {
       navigateToOnboarding();
     } else {
@@ -106,6 +110,12 @@ public class HomeActivity extends ActionBarActivity implements GoogleMap.OnMarke
         }
       }, Task.UI_THREAD_EXECUTOR);
     }
+  }
+
+  @Override
+  protected void onStop() {
+    AppEventBus.getInstance().unregister(this);
+    super.onStop();
   }
 
   private void init() {
@@ -170,6 +180,11 @@ public class HomeActivity extends ActionBarActivity implements GoogleMap.OnMarke
         return null;
       }
     }, Task.UI_THREAD_EXECUTOR);
+  }
+
+  @Subscribe
+  public void onTripNotification(TripNotification notification) {
+    updateShoppers();
   }
 
   private void updateShoppers() {
