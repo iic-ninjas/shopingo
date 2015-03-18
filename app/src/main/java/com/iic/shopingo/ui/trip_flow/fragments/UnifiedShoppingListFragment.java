@@ -72,7 +72,7 @@ public class UnifiedShoppingListFragment extends Fragment implements ShoppingLis
     super.onPause();
   }
 
-  @Subscribe  
+  @Subscribe
   public void onIncomingRequest(IncomingRequestNotification notification) {
     BaseRequest.RequestStatus status = BaseRequest.RequestStatus.valueOf(notification.getStatus().toUpperCase());
     if (status == BaseRequest.RequestStatus.CANCELED || status == BaseRequest.RequestStatus.SETTLED) {
