@@ -89,7 +89,6 @@ public class UnifiedShoppingListFragment extends Fragment implements ShoppingLis
     }
 
     adapter.removeShoppingList(requesterId);
-    adapter.notifyDataSetChanged();
   }
 
   public void addShoppingList(ShoppingList shoppingList) {
@@ -169,6 +168,7 @@ public class UnifiedShoppingListFragment extends Fragment implements ShoppingLis
           iterator.remove();
         }
       }
+      notifyDataSetChanged();
     }
   }
 }
