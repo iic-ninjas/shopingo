@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by IICMacbook1 on 3/16/15.
  */
-public class IncomingRequestNotification implements ShopingoNotification {
+public class ShopRequestNotification implements ShopingoNotification {
 
   private String id;
 

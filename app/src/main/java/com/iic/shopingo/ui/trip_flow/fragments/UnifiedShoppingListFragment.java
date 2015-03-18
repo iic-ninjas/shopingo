@@ -15,10 +15,9 @@ import android.widget.ListView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
-import com.iic.shopingo.api.models.converters.IncomingRequestConverter;
 import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.events.AppEventBus;
-import com.iic.shopingo.services.notifications.IncomingRequestNotification;
+import com.iic.shopingo.services.notifications.ShopRequestNotification;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
 import com.iic.shopingo.ui.trip_flow.views.ShoppingListView;
 import com.squareup.otto.Subscribe;
@@ -73,7 +72,7 @@ public class UnifiedShoppingListFragment extends Fragment implements ShoppingLis
   }
 
   @Subscribe
-  public void onIncomingRequest(IncomingRequestNotification notification) {
+  public void onIncomingRequest(ShopRequestNotification notification) {
     BaseRequest.RequestStatus status = BaseRequest.RequestStatus.valueOf(notification.getStatus().toUpperCase());
     if (status == BaseRequest.RequestStatus.CANCELED || status == BaseRequest.RequestStatus.SETTLED) {
       removeShoppingList(notification.getRequester().facebookId);

@@ -22,8 +22,7 @@ import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.CurrentUser;
-import com.iic.shopingo.services.notifications.IncomingRequestNotification;
-import com.iic.shopingo.services.notifications.ShopingoNotification;
+import com.iic.shopingo.services.notifications.ShopRequestNotification;
 import com.iic.shopingo.ui.trip_flow.views.RequestListAdapter;
 import com.iic.shopingo.ui.trip_flow.views.RequestListItem;
 import com.squareup.otto.Subscribe;
@@ -133,7 +132,7 @@ public class RequestListFragment extends Fragment
   }
 
   @Subscribe
-  public void onIncomingRequest(IncomingRequestNotification notification) {
+  public void onIncomingRequest(ShopRequestNotification notification) {
     updateRequests();
   }
 

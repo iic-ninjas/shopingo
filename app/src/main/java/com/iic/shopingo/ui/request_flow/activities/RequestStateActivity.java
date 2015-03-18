@@ -21,7 +21,7 @@ import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.OutgoingRequest;
 import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.CurrentUser;
-import com.iic.shopingo.services.notifications.IncomingRequestNotification;
+import com.iic.shopingo.services.notifications.ShopRequestNotification;
 import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.HomeActivity;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
@@ -71,7 +71,7 @@ public class RequestStateActivity extends ActionBarActivity {
   }
 
   @Subscribe
-  public void onRequestStateChanged(IncomingRequestNotification notification) {
+  public void onRequestStateChanged(ShopRequestNotification notification) {
     BaseRequest.RequestStatus newStatus = BaseRequest.RequestStatus.valueOf(notification.getStatus().toUpperCase());
     if (!newStatus.equals(request.getStatus())) {
       reload(newStatus);

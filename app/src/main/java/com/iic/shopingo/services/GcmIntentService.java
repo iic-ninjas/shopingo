@@ -12,17 +12,11 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.GsonBuilder;
 import com.iic.shopingo.R;
-import com.iic.shopingo.api.models.converters.ContactConverter;
-import com.iic.shopingo.dal.models.BaseRequest;
-import com.iic.shopingo.dal.models.Contact;
-import com.iic.shopingo.dal.models.OutgoingRequest;
-import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.events.AppEventBus;
-import com.iic.shopingo.services.notifications.IncomingRequestNotification;
+import com.iic.shopingo.services.notifications.ShopRequestNotification;
 import com.iic.shopingo.services.notifications.ShopingoNotification;
 import com.iic.shopingo.services.notifications.TripNotification;
 import com.iic.shopingo.ui.HomeActivity;
-import com.iic.shopingo.ui.request_flow.activities.RequestStateActivity;
 import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +42,7 @@ public class GcmIntentService extends IntentService {
 
   static {
     notificationTypeToClassMapping = new HashMap<>();
-    notificationTypeToClassMapping.put("incoming_request_notification", IncomingRequestNotification.class);
+    notificationTypeToClassMapping.put("shop_request_notification", ShopRequestNotification.class);
     notificationTypeToClassMapping.put("trip_notification", TripNotification.class);
   }
 
@@ -109,7 +103,7 @@ public class GcmIntentService extends IntentService {
       } else {
         // TODO: implement cancelled
       }
-    } else if (shopingoNotification instanceof IncomingRequestNotification) {
+    } else if (shopingoNotification instanceof ShopRequestNotification) {
       // Home activity will "redirect" the user to correct screen
       pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, HomeActivity.class), 0);
     }
