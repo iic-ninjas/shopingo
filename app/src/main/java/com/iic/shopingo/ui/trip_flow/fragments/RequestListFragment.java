@@ -3,7 +3,6 @@ package com.iic.shopingo.ui.trip_flow.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,7 @@ import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.IncomingRequest;
 import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.CurrentUser;
-import com.iic.shopingo.services.notifications.ShopRequestNotification;
+import com.iic.shopingo.services.notifications.IncomingRequestNotification;
 import com.iic.shopingo.ui.trip_flow.views.RequestListAdapter;
 import com.iic.shopingo.ui.trip_flow.views.RequestListItem;
 import com.squareup.otto.Subscribe;
@@ -115,24 +114,19 @@ public class RequestListFragment extends Fragment implements RequestListItem.Req
   }
 
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
     AppEventBus.getInstance().register(this);
   }
 
   @Override
-  public void onPause() {
+  public void onStop() {
     AppEventBus.getInstance().unregister(this);
-    super.onPause();
+    super.onStop();
   }
 
   @Subscribe
-  public void onIncomingRequest(ShopRequestNotification notification) {
-    updateRequests();
-  }
-
-  @Override
-  public void onRefresh() {
+  public void onIncomingRequest(IncomingRequestNotification notification) {
     updateRequests();
   }
 

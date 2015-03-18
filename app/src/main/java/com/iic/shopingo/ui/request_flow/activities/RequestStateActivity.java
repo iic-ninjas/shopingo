@@ -24,7 +24,8 @@ import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.OutgoingRequestStorage;
 import com.iic.shopingo.services.ShoppingListStorage;
-import com.iic.shopingo.services.notifications.ShopRequestNotification;
+import com.iic.shopingo.services.notifications.IncomingRequestNotification;
+import com.iic.shopingo.services.notifications.OutgoingRequestNotification;
 import com.iic.shopingo.ui.HomeActivity;
 import com.iic.shopingo.ui.async.ApiTask;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
@@ -54,10 +55,16 @@ public class RequestStateActivity extends ActionBarActivity {
   TextView statusExplanation;
 
   @Override
-
   protected void onStart() {
     super.onStart();
     setRequest((OutgoingRequest)getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY));
+    AppEventBus.getInstance().register(this);
+  }
+
+  @Override
+  protected void onStop() {
+    AppEventBus.getInstance().unregister(this);
+    super.onStop();
   }
 
   private void setRequest(OutgoingRequest request) {
@@ -75,20 +82,8 @@ public class RequestStateActivity extends ActionBarActivity {
     }
   }
 
-  @Override
-  protected void onResume() {
-    super.onResume();
-    AppEventBus.getInstance().register(this);
-  }
-
-  @Override
-  protected void onPause() {
-    AppEventBus.getInstance().unregister(this);
-    super.onPause();
-  }
-
   @Subscribe
-  public void onRequestStateChanged(ShopRequestNotification notification) {
+  public void onRequestStateChanged(OutgoingRequestNotification notification) {
     BaseRequest.RequestStatus newStatus = BaseRequest.RequestStatus.valueOf(notification.getStatus().toUpperCase());
     if (!newStatus.equals(request.getStatus())) {
       reload(newStatus);

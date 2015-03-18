@@ -4,9 +4,10 @@ import com.iic.shopingo.api.models.ApiContact;
 import java.util.List;
 
 /**
+ * A notification that is intended to the requester.
  * Created by IICMacbook1 on 3/16/15.
  */
-public class ShopRequestNotification implements ShopingoNotification {
+public class OutgoingRequestNotification implements ShopingoNotification {
 
   private String id;
 
@@ -16,7 +17,7 @@ public class ShopRequestNotification implements ShopingoNotification {
 
   private int offer;
 
-  private ApiContact requester;
+  private ApiContact shopper;
 
   public String getId() {
     return id;
@@ -34,7 +35,7 @@ public class ShopRequestNotification implements ShopingoNotification {
     return offer;
   }
 
-  public ApiContact getRequester() {
-    return requester;
+  public ApiContact getShopper() {
+    return shopper;
   }
 }

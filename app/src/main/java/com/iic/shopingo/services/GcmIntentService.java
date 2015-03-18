@@ -6,14 +6,21 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.GsonBuilder;
 import com.iic.shopingo.R;
+import com.iic.shopingo.api.models.converters.ContactConverter;
+import com.iic.shopingo.dal.models.BaseRequest;
+import com.iic.shopingo.dal.models.Contact;
+import com.iic.shopingo.dal.models.OutgoingRequest;
+import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.events.AppEventBus;
-import com.iic.shopingo.services.notifications.ShopRequestNotification;
+import com.iic.shopingo.services.notifications.IncomingRequestNotification;
+import com.iic.shopingo.services.notifications.OutgoingRequestNotification;
 import com.iic.shopingo.services.notifications.ShopingoNotification;
 import com.iic.shopingo.services.notifications.TripNotification;
 import com.iic.shopingo.ui.HomeActivity;
@@ -42,7 +49,8 @@ public class GcmIntentService extends IntentService {
 
   static {
     notificationTypeToClassMapping = new HashMap<>();
-    notificationTypeToClassMapping.put("shop_request_notification", ShopRequestNotification.class);
+    notificationTypeToClassMapping.put("incoming_request_notification", IncomingRequestNotification.class);
+    notificationTypeToClassMapping.put("outgoing_request_notification", OutgoingRequestNotification.class);
     notificationTypeToClassMapping.put("trip_notification", TripNotification.class);
   }
 
@@ -101,9 +109,20 @@ public class GcmIntentService extends IntentService {
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
       }
-    } else if (shopingoNotification instanceof ShopRequestNotification) {
-      // Home activity will "redirect" the user to correct screen
-      pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, HomeActivity.class), 0);
+    } else if (shopingoNotification instanceof IncomingRequestNotification) {
+        // Home activity will "redirect" the user to correct screen
+        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, HomeActivity.class), 0);
+    } else if (shopingoNotification instanceof OutgoingRequestNotification) {
+      OutgoingRequestNotification requestNotification = (OutgoingRequestNotification) shopingoNotification;
+      BaseRequest.RequestStatus status = BaseRequest.RequestStatus.valueOf(requestNotification.getStatus().toUpperCase());
+      if (status == BaseRequest.RequestStatus.DECLINED) {
+        // since the user state is idle we can't rely on the home activity to navigate the user to the declined state,
+        // so we need to store an OutgoingRequest in the storage.
+        Contact shopper = ContactConverter.convert(requestNotification.getShopper());
+        ShoppingList shoppingList = new ShoppingList(requestNotification.getItems(), requestNotification.getOffer());
+        OutgoingRequest outgoingRequest = new OutgoingRequest(requestNotification.getId(), shopper, shoppingList);
+        new OutgoingRequestStorage(PreferenceManager.getDefaultSharedPreferences(this)).store(outgoingRequest);
+      }
     }
 
     return pendingIntent;
