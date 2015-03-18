@@ -14,8 +14,4 @@ public class ApiCurrentState extends ApiSimpleResponse {
 
   @SerializedName("active_request")
   public ApiOutgoingRequest activeOutgoingRequest;
-
-  public ApiCurrentState() {
-    super();
-  }
 }

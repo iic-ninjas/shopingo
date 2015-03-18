@@ -3,28 +3,20 @@ package com.iic.shopingo.api;
 import android.net.Uri;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.iic.shopingo.utils.StreamToString;
+import com.iic.shopingo.BuildConfig;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.json.JSONObject;
 
 /**
@@ -33,9 +25,7 @@ import org.json.JSONObject;
 public class Server {
   private static final String HEADER_AUTH_KEY = "X-WYAI-FBID";
 
-  private static final Uri BASE_URI = Uri.parse("http://iic-shopingo.herokuapp.com/");
-
-  private static final HttpClient client = new DefaultHttpClient();
+  private static final Uri BASE_URI = Uri.parse(BuildConfig.SERVER_HOST);
 
   public static <T> T get(String authToken, String path, Class<T> responseClass) throws IOException {
     return get(authToken, path, responseClass, new HashMap<String, Object>());
@@ -73,6 +63,7 @@ public class Server {
   }
 
   private static <T> T executeRequest(HttpUriRequest request, Class<T> responseClass) throws IOException {
+    HttpClient client = new DefaultHttpClient();
     InputStream content = null;
     try {
       HttpResponse response = client.execute(request);

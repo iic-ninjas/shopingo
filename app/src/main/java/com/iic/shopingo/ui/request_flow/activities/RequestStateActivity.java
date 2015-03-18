@@ -20,12 +20,16 @@ import com.iic.shopingo.api.request.SettleRequestCommand;
 import com.iic.shopingo.api.trip.StartTripCommand;
 import com.iic.shopingo.dal.models.BaseRequest;
 import com.iic.shopingo.dal.models.OutgoingRequest;
+import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.OutgoingRequestStorage;
 import com.iic.shopingo.services.ShoppingListStorage;
-import com.iic.shopingo.ui.async.ApiTask;
+import com.iic.shopingo.services.notifications.IncomingRequestNotification;
+import com.iic.shopingo.services.notifications.OutgoingRequestNotification;
 import com.iic.shopingo.ui.HomeActivity;
+import com.iic.shopingo.ui.async.ApiTask;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;
+import com.squareup.otto.Subscribe;
 
 public class RequestStateActivity extends ActionBarActivity {
   private static final String TAG = RequestStateActivity.class.getSimpleName();
@@ -51,10 +55,16 @@ public class RequestStateActivity extends ActionBarActivity {
   TextView statusExplanation;
 
   @Override
-
   protected void onStart() {
     super.onStart();
     setRequest((OutgoingRequest)getIntent().getParcelableExtra(EXTRAS_REQUEST_KEY));
+    AppEventBus.getInstance().register(this);
+  }
+
+  @Override
+  protected void onStop() {
+    AppEventBus.getInstance().unregister(this);
+    super.onStop();
   }
 
   private void setRequest(OutgoingRequest request) {
@@ -70,6 +80,22 @@ public class RequestStateActivity extends ActionBarActivity {
       Log.e(TAG, "No request found", new IllegalStateException("No request found"));
       finish();
     }
+  }
+
+  @Subscribe
+  public void onRequestStateChanged(OutgoingRequestNotification notification) {
+    BaseRequest.RequestStatus newStatus = BaseRequest.RequestStatus.valueOf(notification.getStatus().toUpperCase());
+    if (!newStatus.equals(request.getStatus())) {
+      reload(newStatus);
+    }
+  }
+
+  private void reload(BaseRequest.RequestStatus newStatus) {
+    request.setStatus(newStatus);
+    getIntent().putExtra(EXTRAS_REQUEST_KEY, request);
+
+    finish();
+    startActivity(getIntent());
   }
 
   @Optional
