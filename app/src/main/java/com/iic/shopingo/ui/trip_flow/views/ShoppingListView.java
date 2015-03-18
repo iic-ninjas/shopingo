@@ -62,7 +62,7 @@ public class ShoppingListView extends FrameLayout {
   public void setShoppingList(ShoppingList shoppingList) {
     this.shoppingList = shoppingList;
     requesterName.setText(shoppingList.requester.getName());
-    Picasso.with(getContext()).load(shoppingList.requester.getAvatarUrl()).into(requesterAvatar);
+    Picasso.with(getContext()).load(shoppingList.requester.getAvatarUrl()).resize(300, 300).centerCrop().into(requesterAvatar);
     itemsContainer.removeAllViews();
 
     ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

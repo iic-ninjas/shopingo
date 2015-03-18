@@ -4,7 +4,7 @@
   <string name="title_activity_select_shopper">SelectShopperActivity</string>
   <string name="select_shopper_list_empty_state_title">No one shopping right now</string>
   <string name="select_shopper_list_empty_state_explanation">You\'ll be notified when someone near you goes shopping, or you can just go yourself!</string>
-  <string name="select_shopper_go_yourself_button">Go Shopping Yourself</string>
+  <string name="select_shopper_go_yourself_button">Go Shopping</string>
   <string name="select_shopper_distance_format">%.1f km</string>
 
   <!-- Create Request -->

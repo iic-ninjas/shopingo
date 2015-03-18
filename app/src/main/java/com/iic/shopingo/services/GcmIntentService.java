@@ -86,7 +86,7 @@ public class GcmIntentService extends IntentService {
     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
     Notification notification = new NotificationCompat.Builder(this).
-        setSmallIcon(R.drawable.ic_action_accept)
+        setSmallIcon(R.mipmap.ic_launcher)
         .setContentTitle(getString(R.string.app_name))
         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
         .setContentText(msg)
