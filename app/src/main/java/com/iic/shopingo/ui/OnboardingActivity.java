@@ -21,6 +21,7 @@ import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
 import com.iic.shopingo.services.NotificationsHelper;
 import com.iic.shopingo.utils.FacebookUtils;
+import com.iic.shopingo.ui.async.ApiTask;
 
 public class OnboardingActivity extends ActionBarActivity {
 

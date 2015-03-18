@@ -32,8 +32,7 @@ import java.util.List;
 /**
  * Created by asafg on 05/03/15.
  */
-public class RequestListFragment extends Fragment
-    implements SwipeRefreshLayout.OnRefreshListener, RequestListItem.RequestListener {
+public class RequestListFragment extends Fragment implements RequestListItem.RequestListener {
 
   public interface RequestListListener {
     public void onRequestAccepted(IncomingRequest request);
@@ -50,9 +49,6 @@ public class RequestListFragment extends Fragment
 
   @InjectView(R.id.request_list_list_view)
   ListView listView;
-
-  @InjectView(R.id.request_list_swipe_container)
-  SwipeRefreshLayout swipeLayout;
 
   @InjectView(R.id.request_list_empty_stub)
   ViewStub emptyStateStub;
@@ -110,7 +106,6 @@ public class RequestListFragment extends Fragment
     if (requests != null) {
       adapter.setRequests(requests);
     }
-    swipeLayout.setOnRefreshListener(this);
     return view;
   }
 
@@ -142,12 +137,10 @@ public class RequestListFragment extends Fragment
   }
 
   private void updateRequests() {
-    swipeLayout.setRefreshing(true);
     GetPendingRequestsCommand req = new GetPendingRequestsCommand(CurrentUser.getToken());
     req.executeAsync().continueWith(new Continuation<PendingRequestsApiResult, Object>() {
       @Override
       public Object then(Task<PendingRequestsApiResult> task) throws Exception {
-        swipeLayout.setRefreshing(false);
         if (!task.isFaulted() && !task.isCancelled()) {
           RequestListFragment.this.requests = filterOnlyPending(task.getResult().requests);
           adapter.setRequests(RequestListFragment.this.requests);

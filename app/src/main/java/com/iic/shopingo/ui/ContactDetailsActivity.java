@@ -16,6 +16,7 @@ import com.iic.shopingo.api.ApiResult;
 import com.iic.shopingo.api.user.UpdateDetailsCommand;
 import com.iic.shopingo.dal.models.UserInfo;
 import com.iic.shopingo.services.CurrentUser;
+import com.iic.shopingo.ui.async.ApiTask;
 import com.squareup.picasso.Picasso;
 
 public class ContactDetailsActivity extends ActionBarActivity {
