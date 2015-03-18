@@ -101,7 +101,7 @@
         >
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value="com.iic.shopingo.ui.request_flow.activities.CreateShoppingListActivity"
+          android:value=".ui.HomeActivity"
           />
     </activity>
 

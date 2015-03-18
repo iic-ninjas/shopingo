@@ -8,6 +8,8 @@ import java.util.List;
  */
 public class IncomingRequestNotification implements ShopingoNotification {
 
+  private String id;
+
   private String status;
 
   private List<String> items;
@@ -15,6 +17,10 @@ public class IncomingRequestNotification implements ShopingoNotification {
   private int offer;
 
   private ApiContact requester;
+
+  public String getId() {
+    return id;
+  }
 
   public String getStatus() {
     return status;

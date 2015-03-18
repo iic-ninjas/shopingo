@@ -7,15 +7,23 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.GsonBuilder;
 import com.iic.shopingo.R;
+import com.iic.shopingo.api.models.converters.ContactConverter;
+import com.iic.shopingo.dal.models.BaseRequest;
+import com.iic.shopingo.dal.models.Contact;
+import com.iic.shopingo.dal.models.OutgoingRequest;
+import com.iic.shopingo.dal.models.ShoppingList;
 import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.notifications.IncomingRequestNotification;
 import com.iic.shopingo.services.notifications.ShopingoNotification;
 import com.iic.shopingo.services.notifications.TripNotification;
 import com.iic.shopingo.ui.HomeActivity;
+import com.iic.shopingo.ui.request_flow.activities.RequestStateActivity;
+import com.iic.shopingo.ui.request_flow.activities.SelectShopperActivity;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,22 +77,42 @@ public class GcmIntentService extends IntentService {
       AppEventBus.getInstance().post(shopingoNotification);
     } else {
       Log.d(LOG_TAG, "Received GCM while app is in background");
-      displayBackgroundNotification(msg);
+      displayBackgroundNotification(shopingoNotification, msg);
     }
   }
 
-  private void displayBackgroundNotification(String msg) {
+  private void displayBackgroundNotification(ShopingoNotification shopingoNotification, String msg) {
     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, HomeActivity.class), 0);
 
     Notification notification = new NotificationCompat.Builder(this).
         setSmallIcon(R.drawable.ic_action_accept)
-        .setContentTitle("GCM notification")
+        .setContentTitle(getString(R.string.app_name))
         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
         .setContentText(msg)
-        .setContentIntent(pendingIntent)
+        .setContentIntent(createPendingIntent(shopingoNotification))
         .build();
 
     notificationManager.notify(NOTIFICATION_ID, notification);
+  }
+
+  private PendingIntent createPendingIntent(ShopingoNotification shopingoNotification) {
+    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+    PendingIntent pendingIntent = null;
+    if (shopingoNotification instanceof TripNotification) {
+      TripNotification tripNotification = (TripNotification) shopingoNotification;
+      if (tripNotification.getStatus().equals("active")) {
+        Intent resultIntent = new Intent(this, SelectShopperActivity.class);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+      } else {
+        // TODO: implement cancelled
+      }
+    } else if (shopingoNotification instanceof IncomingRequestNotification) {
+      // Home activity will "redirect" the user to correct screen
+      pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, HomeActivity.class), 0);
+    }
+
+    return pendingIntent;
   }
 }
