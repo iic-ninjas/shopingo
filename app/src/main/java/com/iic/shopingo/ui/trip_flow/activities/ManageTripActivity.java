@@ -92,9 +92,9 @@ public class ManageTripActivity extends ActionBarActivity
       public CharSequence getPageTitle(int position) {
         switch (position) {
           case 0:
-            return "Available Requests";
+            return "Pending requests";
           case 1:
-            return "Shopping List";
+            return "Shopping list";
           default:
             throw new IllegalStateException("Can't have more than 2 fragments in trip manager");
         }

@@ -90,7 +90,7 @@ public class RequestListItem extends FrameLayout {
   public void setRequest(IncomingRequest request) {
     this.request = request;
 
-    Picasso.with(getContext()).load(request.getRequester().getAvatarUrl()).into(this.thumbnail);
+    Picasso.with(getContext()).load(request.getRequester().getAvatarUrl()).resize(300, 300).centerCrop().into(this.thumbnail);
 
     name.setText(request.getRequester().getName());
     numItems.setText(getResources().getQuantityString(R.plurals.items_count, request.getShoppingList().getItems().size(), request.getShoppingList().getItems().size(), PriceHelper.getUSDPriceString(request.getShoppingList().getOffer())));

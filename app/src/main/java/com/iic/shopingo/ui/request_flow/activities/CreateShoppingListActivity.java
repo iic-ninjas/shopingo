@@ -80,7 +80,7 @@ public class CreateShoppingListActivity extends ActionBarActivity
       offerView.setText(Integer.toString(shoppingList.getOffer()));
     }
 
-    Picasso.with(this).load(shopper.getAvatarUrl()).into(shopperAvatar);
+    Picasso.with(this).load(shopper.getAvatarUrl()).resize(300, 300).centerCrop().into(shopperAvatar);
     shopperName.setText(shopper.getName());
 
     offerView.addTextChangedListener(this);
@@ -113,7 +113,7 @@ public class CreateShoppingListActivity extends ActionBarActivity
     shoppingList.setItems(itemListView.getAllItems());
     shoppingList.setOffer(Integer.parseInt(offerView.getText().toString().substring(1)));
 
-    ApiTask<OutgoingRequestApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Making request...", new MakeRequestCommand(
+    ApiTask<OutgoingRequestApiResult> task = new ApiTask<>(getSupportFragmentManager(), "Sending request...", new MakeRequestCommand(
         CurrentUser.getToken(), shoppingList.getItems(), shoppingList.getOffer(), shopper.getId()));
     task.execute().continueWith(new Continuation<OutgoingRequestApiResult, Object>() {
       @Override
