@@ -10,4 +10,6 @@
   <string name="onboarding_trip_flow_explanation_title">Going shopping?</string>
   <string name="onboarding_trip_flow_explanation_body">Help out your friends by telling them you\'re going out and they\'ll tell you what they need.</string>
   <string name="onboarding_login_cta">Login now to become part of the Gopher community!</string>
+
+  <string name="contact_details_title">Fill in your details so your friends can contact you:</string>
 </resources>

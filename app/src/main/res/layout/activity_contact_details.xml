@@ -14,6 +14,13 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       />
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/contact_details_title"
+      android:layout_marginBottom="@dimen/default_spacing"
+      style="@style/TitleText"
+      />
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
