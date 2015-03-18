@@ -69,7 +69,6 @@ public class HomeActivity extends ActionBarActivity implements ActionCardView.Li
               case IDLE: {
                 OutgoingRequestStorage storage = new OutgoingRequestStorage(PreferenceManager.getDefaultSharedPreferences(HomeActivity.this));
                 if (storage.load() != null) {
-                  CurrentUser.getInstance().state = CurrentUser.State.REQUESTING;
                   Intent intent = new Intent(HomeActivity.this, RequestStateActivity.class);
                   startActivity(intent);
                 } else {
