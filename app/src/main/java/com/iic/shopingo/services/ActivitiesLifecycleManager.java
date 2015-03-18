@@ -3,8 +3,6 @@ package com.iic.shopingo.services;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import java.util.List;
-import java.util.Map;
 
 public class ActivitiesLifecycleManager implements Application.ActivityLifecycleCallbacks {
 

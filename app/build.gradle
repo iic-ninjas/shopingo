@@ -19,8 +19,7 @@ android {
   }
   productFlavors {
     localFlavor {
-      //buildConfigField "String", "SERVER_HOST", "\"http://shopingo.192.168.2.217.xip.io/\""
-      buildConfigField "String", "SERVER_HOST", "\"http://25562db8.ngrok.com/\""
+      buildConfigField "String", "SERVER_HOST", "\"${getLocalServerHost()}\""
     }
 
     herokuFlavor {
@@ -42,4 +41,19 @@ dependencies {
   compile 'com.google.code.gson:gson:1.7.2'
   testCompile 'org.jmockit:jmockit:1.15'
   testCompile 'junit:junit:4.12'
+}
+
+def getLocalServerHost() {
+  String ip = getLocalIp();
+  return "http://shopingo.${ip}.xip.io/"
+}
+
+def getLocalIp() {
+  NetworkInterface iface = NetworkInterface.getByName("en0");
+  for (InterfaceAddress address : iface.getInterfaceAddresses()) {
+    String ip = address.getAddress().getHostAddress();
+    if (ip.length() <= 15) {
+      return ip;
+    }
+  }
 }
