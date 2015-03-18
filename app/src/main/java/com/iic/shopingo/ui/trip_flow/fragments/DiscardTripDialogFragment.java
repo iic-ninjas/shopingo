@@ -18,7 +18,7 @@ public class DiscardTripDialogFragment extends DialogFragment {
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     builder.setTitle("Discard trip?");
-    builder.setMessage("This will cancel your trip, preventing any requests coming in.");
+    builder.setMessage("This will cancel your trip and decline any existing requests.");
     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
