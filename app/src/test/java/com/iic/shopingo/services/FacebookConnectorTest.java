@@ -57,9 +57,6 @@ public class FacebookConnectorTest {
 
   @Before
   public void beforeEach() {
-    subject = new FacebookConnector(sharedPreferences);
-    SharedUserConnector.setInstance(subject);
-
     // we want this behavior to occur in all the tests that exercise the Request.newMeRequest static method.
     // Basically what we want it do is to return a mocked instance of Request and store the callback in
     // a member variable, so we can later call methods on it.
@@ -72,11 +69,6 @@ public class FacebookConnectorTest {
         }
       };
     }};
-  }
-
-  @After
-  public void afterEach() {
-    SharedUserConnector.setInstance(null);
   }
 
   @Test
@@ -136,7 +128,6 @@ public class FacebookConnectorTest {
     Assert.assertEquals(USER_LAST_NAME, user.getLastName());
     Assert.assertEquals(USER_STREET, user.getStreet());
     Assert.assertEquals(USER_CITY, user.getCity());
-    Assert.assertEquals(user, SharedUserConnector.getInstance().getCurrentUser());
   }
 
   /**
@@ -144,8 +135,6 @@ public class FacebookConnectorTest {
    */
   @Test
   public void testLogout(@Injectable Context context, @Mocked final Session anySession) {
-    UserInfo user = new UserInfo(USER_UID, USER_FIRST_NAME, USER_LAST_NAME, USER_STREET, USER_CITY, USER_PHONE);
-    subject.setCurrentUser(user);
     new Expectations() {{
       Session.getActiveSession();
       result = anySession;
@@ -156,6 +145,5 @@ public class FacebookConnectorTest {
     new Verifications() {{
       anySession.closeAndClearTokenInformation();
     }};
-    Assert.assertNull(subject.getCurrentUser());
   }
 }
