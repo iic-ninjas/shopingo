@@ -15,9 +15,14 @@ import android.widget.ListView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.iic.shopingo.R;
+import com.iic.shopingo.dal.models.BaseRequest;
+import com.iic.shopingo.events.AppEventBus;
+import com.iic.shopingo.services.notifications.IncomingRequestNotification;
 import com.iic.shopingo.ui.trip_flow.data.ShoppingList;
 import com.iic.shopingo.ui.trip_flow.views.ShoppingListView;
+import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -52,6 +57,38 @@ public class UnifiedShoppingListFragment extends Fragment implements ShoppingLis
     }
     listView.setAdapter(adapter);
     return view;
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    AppEventBus.getInstance().register(this);
+  }
+
+  @Override
+  public void onStop() {
+    AppEventBus.getInstance().unregister(this);
+    super.onStop();
+  }
+
+  @Subscribe
+  public void onIncomingRequest(IncomingRequestNotification notification) {
+    BaseRequest.RequestStatus status = BaseRequest.RequestStatus.valueOf(notification.getStatus().toUpperCase());
+    if (status == BaseRequest.RequestStatus.CANCELED || status == BaseRequest.RequestStatus.SETTLED) {
+      removeShoppingList(notification.getRequester().facebookId);
+    }
+  }
+
+  private void removeShoppingList(String requesterId) {
+    Iterator<ShoppingList> iterator = shoppingLists.iterator();
+    while (iterator.hasNext()) {
+      ShoppingList shoppingList = iterator.next();
+      if (shoppingList.requester.getId().equals(requesterId)) {
+        iterator.remove();
+      }
+    }
+
+    adapter.removeShoppingList(requesterId);
   }
 
   public void addShoppingList(ShoppingList shoppingList) {
@@ -120,6 +157,17 @@ public class UnifiedShoppingListFragment extends Fragment implements ShoppingLis
 
     public void addShoppingList(ShoppingList shoppingList) {
       shoppingLists.add(shoppingList);
+      notifyDataSetChanged();
+    }
+
+    public void removeShoppingList(String requesterId) {
+      Iterator<ShoppingList> iterator = shoppingLists.iterator();
+      while (iterator.hasNext()) {
+        ShoppingList shoppingList = iterator.next();
+        if (shoppingList.requester.getId().equals(requesterId)) {
+          iterator.remove();
+        }
+      }
       notifyDataSetChanged();
     }
   }

@@ -1,6 +1,5 @@
 package com.iic.shopingo.services;
 
-import android.content.SharedPreferences;
 import com.iic.shopingo.dal.models.UserInfo;
 
 /**

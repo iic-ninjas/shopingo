@@ -22,6 +22,8 @@ import com.iic.shopingo.services.FacebookConnector;
 import com.iic.shopingo.ui.ContactDetailsActivity;
 import com.iic.shopingo.ui.onboarding.OnboardingPagerAdapter;
 import com.iic.shopingo.ui.onboarding.views.PagerIndicatorView;
+import com.iic.shopingo.services.NotificationsHelper;
+import com.iic.shopingo.utils.FacebookUtils;
 import com.iic.shopingo.ui.async.ApiTask;
 
 public class OnboardingActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
@@ -46,6 +48,7 @@ public class OnboardingActivity extends ActionBarActivity implements ViewPager.O
     setContentView(R.layout.activity_onboarding);
 
     ButterKnife.inject(this);
+    Log.d("KeyHash", FacebookUtils.getKeyHash(this));
 
     facebookLifecycleHelper = new UiLifecycleHelper(this, new Session.StatusCallback() {
       @Override
@@ -106,42 +109,54 @@ public class OnboardingActivity extends ActionBarActivity implements ViewPager.O
     FacebookConnector.login(session).continueWith(new Continuation<UserInfo, Void>() {
       @Override
       public Void then(Task<UserInfo> task) throws Exception {
-        if (!task.isFaulted() && !task.isCancelled()) {
-          final CurrentUser currentUser = CurrentUser.getInstance();
-
-          UserInfo info = task.getResult();
-
-          ApiTask<UserApiResult> apiTask = new ApiTask<UserApiResult>(getSupportFragmentManager(), "Logging you in...", new LoginCommand(
-              info.getUid(),
-              info.getFirstName(),
-              info.getLastName(),
-              info.getStreet(),
-              info.getCity(),
-              info.getPhoneNumber()
-          ));
-
-          apiTask.execute().continueWith(new Continuation<UserApiResult, Object>() {
-            @Override
-            public Object then(Task<UserApiResult> task) throws Exception {
-              if (!task.isFaulted() && !task.isCancelled()) {
-                currentUser.state = task.getResult().userState;
-                currentUser.userInfo = task.getResult().userContactInfo;
-                currentUser.save();
-                Intent intent = new Intent(OnboardingActivity.this, ContactDetailsActivity.class);
-                startActivity(intent);
-                finish();
-                duringLogin = false;
-              } else {
-                Toast.makeText(OnboardingActivity.this, "Could not login: " + task.getError(), Toast.LENGTH_LONG).show();
-              }
-              return null;
-            }
-          }, Task.UI_THREAD_EXECUTOR);
-        } else if (task.isFaulted()) {
+        if (task.isFaulted()) {
           Toast.makeText(OnboardingActivity.this, "Could not login: " + task.getError(), Toast.LENGTH_LONG).show();
+          return null;
         }
 
-        // task can also be cancelled, in that case we do nothing.
+        if (task.isCancelled()) {
+          // task can also be cancelled, in that case we do nothing.
+          return null;
+        }
+
+        final CurrentUser currentUser = CurrentUser.getInstance();
+        UserInfo info = task.getResult();
+        ApiTask<UserApiResult> apiTask = new ApiTask<UserApiResult>(getSupportFragmentManager(), "Logging you in...",
+            new LoginCommand(info.getUid(), info.getFirstName(), info.getLastName(), info.getStreet(), info.getCity(),
+                info.getPhoneNumber()));
+
+        apiTask.execute().continueWith(new Continuation<UserApiResult, Object>() {
+          @Override
+          public Object then(Task<UserApiResult> task) throws Exception {
+            if (task.isFaulted() || task.isCancelled()) {
+              Toast.makeText(OnboardingActivity.this, "Could not login: " + task.getError(), Toast.LENGTH_LONG).show();
+              return null;
+            }
+
+            if (task.isCancelled()) {
+              Toast.makeText(OnboardingActivity.this, "Login aborted", Toast.LENGTH_LONG).show();
+              return null;
+            }
+
+            currentUser.state = task.getResult().userState;
+            currentUser.userInfo = task.getResult().userContactInfo;
+            currentUser.save();
+            Intent intent = new Intent(OnboardingActivity.this, ContactDetailsActivity.class);
+            startActivity(intent);
+            finish();
+            duringLogin = false;
+            return null;
+          }
+        }, Task.UI_THREAD_EXECUTOR).continueWith(new Continuation<Object, Void>() {
+          @Override
+          public Void then(Task<Object> task) throws Exception {
+            if (CurrentUser.getToken() != null) {
+              NotificationsHelper.registerForNotificationsAsync(OnboardingActivity.this);
+            }
+            return null;
+          }
+        });
+
         return null;
       }
     }, Task.UI_THREAD_EXECUTOR);

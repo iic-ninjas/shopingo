@@ -19,6 +19,8 @@ public class Constants {
     public static final String REQUESTS_SETTLE_PATH = "/requests/settle";
     public static final String REQUESTS_ACCEPT_PATH_TEMPLATE = "/requests/accept";
     public static final String REQUESTS_DECLINE_PATH_TEMPLATE = "/requests/decline";
+
+    public static final String REGISTER_DEVICE_PATH = "/devices";
   }
 
   public static class Parameters {
@@ -33,5 +35,7 @@ public class Constants {
     public static final String REQUESTS_SHOPPER_ID = "shopper_id";
     public static final String REQUESTS_ITEMS = "items";
     public static final String REQUESTS_OFFER = "offer";
+
+    public static final String DEVICES_REG_ID = "registration_id";
   }
 }
