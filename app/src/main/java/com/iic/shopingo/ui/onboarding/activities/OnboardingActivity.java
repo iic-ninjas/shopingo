@@ -1,7 +1,8 @@
-package com.iic.shopingo.ui;
+package com.iic.shopingo.ui.onboarding.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,27 +13,34 @@ import butterknife.InjectView;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.LoginButton;
 import com.iic.shopingo.R;
 import com.iic.shopingo.api.user.LoginCommand;
 import com.iic.shopingo.api.user.UserApiResult;
 import com.iic.shopingo.dal.models.UserInfo;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
+import com.iic.shopingo.ui.ContactDetailsActivity;
+import com.iic.shopingo.ui.onboarding.OnboardingPagerAdapter;
+import com.iic.shopingo.ui.onboarding.views.PagerIndicatorView;
 import com.iic.shopingo.services.NotificationsHelper;
 import com.iic.shopingo.utils.FacebookUtils;
 import com.iic.shopingo.ui.async.ApiTask;
 
-public class OnboardingActivity extends ActionBarActivity {
+public class OnboardingActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
 
   private static final String LOG_TAG = OnboardingActivity.class.getSimpleName();
-
-  @InjectView(R.id.onboarding_login_btn)
-  LoginButton loginBtn;
 
   private UiLifecycleHelper facebookLifecycleHelper;
 
   private boolean duringLogin;
+
+  private OnboardingPagerAdapter pagerAdapter;
+
+  @InjectView(R.id.onboarding_viewpager)
+  ViewPager viewPager;
+
+  @InjectView(R.id.onboarding_pager_indicator)
+  PagerIndicatorView indicatorView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +50,6 @@ public class OnboardingActivity extends ActionBarActivity {
     ButterKnife.inject(this);
     Log.d("KeyHash", FacebookUtils.getKeyHash(this));
 
-    loginBtn.setReadPermissions("public_profile", "user_location");
     facebookLifecycleHelper = new UiLifecycleHelper(this, new Session.StatusCallback() {
       @Override
       public void call(Session session, SessionState sessionState, Exception e) {
@@ -50,6 +57,11 @@ public class OnboardingActivity extends ActionBarActivity {
       }
     });
     facebookLifecycleHelper.onCreate(savedInstanceState);
+
+    pagerAdapter = new OnboardingPagerAdapter(getSupportFragmentManager());
+    viewPager.setAdapter(pagerAdapter);
+    viewPager.setOnPageChangeListener(this);
+    indicatorView.setPages(pagerAdapter.getCount());
   }
 
   @Override
@@ -152,5 +164,20 @@ public class OnboardingActivity extends ActionBarActivity {
 
   private void logout() {
     CurrentUser.getInstance().logout();
+  }
+
+  @Override
+  public void onPageSelected(int position) {
+
+  }
+
+  @Override
+  public void onPageScrollStateChanged(int state) {
+  }
+
+  @Override
+  public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    indicatorView.setPosition(position + positionOffset);
+
   }
 }

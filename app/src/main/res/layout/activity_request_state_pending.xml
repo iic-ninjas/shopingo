@@ -31,9 +31,8 @@
       />
   <Button
       android:id="@+id/request_state_cancel_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
       android:text="@string/request_state_cancel_button"
+      style="@style/PrimaryButton"
       />
 
 </LinearLayout>

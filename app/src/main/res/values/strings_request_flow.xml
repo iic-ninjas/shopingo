@@ -4,11 +4,12 @@
   <string name="title_activity_select_shopper">SelectShopperActivity</string>
   <string name="select_shopper_list_empty_state_title">No one shopping right now</string>
   <string name="select_shopper_list_empty_state_explanation">You\'ll be notified when someone near you goes shopping, or you can just go yourself!</string>
-  <string name="select_shopper_list_empty_state_button">Go Shopping Yourself</string>
+  <string name="select_shopper_go_yourself_button">Go Shopping Yourself</string>
   <string name="select_shopper_distance_format">%.1f km</string>
 
   <!-- Create Request -->
   <string name="title_activity_create_request">CreateRequestActivity</string>
+  <string name="create_request_request_from">Requesting from:</string>
   <string name="create_request_new_item_hint">Add an item</string>
   <string name="create_request_remove_item_button">X</string>
   <string name="create_request_price_hint">$5.00</string>

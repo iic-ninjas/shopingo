@@ -14,12 +14,21 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       />
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/contact_details_title"
+      android:layout_marginBottom="@dimen/default_spacing"
+      style="@style/TitleText"
+      />
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
       >
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:riv_corner_radius="32dp"
         android:layout_height="64dp"
         android:layout_width="64dp"
         android:id="@+id/contact_avatar_imageview"
@@ -84,9 +93,8 @@
       android:layout_weight="3"
       />
   <Button
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="Save"
       android:id="@+id/contact_save_btn"
+      android:text="Save"
+      style="@style/PrimaryButton"
       />
 </LinearLayout>
