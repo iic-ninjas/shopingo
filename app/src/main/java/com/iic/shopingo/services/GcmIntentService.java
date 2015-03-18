@@ -14,6 +14,7 @@ import com.iic.shopingo.R;
 import com.iic.shopingo.events.AppEventBus;
 import com.iic.shopingo.services.notifications.IncomingRequestNotification;
 import com.iic.shopingo.services.notifications.ShopingoNotification;
+import com.iic.shopingo.services.notifications.TripNotification;
 import com.iic.shopingo.ui.HomeActivity;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class GcmIntentService extends IntentService {
   static {
     notificationTypeToClassMapping = new HashMap<>();
     notificationTypeToClassMapping.put("incoming_request_notification", IncomingRequestNotification.class);
+    notificationTypeToClassMapping.put("trip_notification", TripNotification.class);
   }
 
   public GcmIntentService() {
