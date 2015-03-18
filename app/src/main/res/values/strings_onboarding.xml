@@ -5,4 +5,9 @@
   <string name="title_facebook_login">Facebook login</string>
   <string name="onboarding_description">Gopher is a network of friendly neighbors who are willing to help each other out when it comes to grocery shopping.</string>
   <string name="onboarding_explanation">Help your friends out with things they need when you go out and they\'ll do the same for you when you\'re in a jam and need some urgent groceries.</string>
+  <string name="onboarding_request_flow_explanation_title">Need anything?</string>
+  <string name="onboarding_request_flow_explanation_body">See which of your friends is out shopping at the moment, and pick one to request anything from them.</string>
+  <string name="onboarding_trip_flow_explanation_title">Going shopping?</string>
+  <string name="onboarding_trip_flow_explanation_body">Help out your friends by telling them you\'re going out and they\'ll tell you what they need.</string>
+  <string name="onboarding_login_cta">Login now to become part of the Gopher community!</string>
 </resources>

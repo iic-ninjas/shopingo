@@ -33,4 +33,13 @@
   <style name="BodyText.Centered">
     <item name="android:gravity">center</item>
   </style>
+
+  <style name="OnboardingTitle" parent="TitleText.Centered">
+    <item name="android:textSize">32dp</item>
+    <item name="android:layout_marginBottom">@dimen/default_spacing</item>
+  </style>
+
+  <style name="OnboardingBody" parent="BodyText.Centered">
+    <item name="android:textSize">22dp</item>
+  </style>
 </resources>

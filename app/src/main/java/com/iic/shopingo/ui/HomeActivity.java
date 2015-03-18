@@ -30,6 +30,7 @@ import com.iic.shopingo.services.FacebookConnector;
 import com.iic.shopingo.services.location.CurrentLocationProvider;
 import com.iic.shopingo.services.location.LocationUpdatesListenerAdapter;
 import com.iic.shopingo.ui.home.MapManager;
+import com.iic.shopingo.ui.onboarding.activities.OnboardingActivity;
 import com.iic.shopingo.ui.request_flow.activities.CreateShoppingListActivity;
 import com.iic.shopingo.ui.request_flow.activities.RequestStateActivity;
 import com.iic.shopingo.ui.trip_flow.activities.ManageTripActivity;

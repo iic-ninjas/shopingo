@@ -34,7 +34,7 @@
         >
     </activity>
     <activity
-        android:name=".ui.OnboardingActivity"
+        android:name=".ui.onboarding.activities.OnboardingActivity"
         android:label="@string/title_activity_onboarding"
         android:screenOrientation="portrait"
         android:theme="@style/BlankBar">
