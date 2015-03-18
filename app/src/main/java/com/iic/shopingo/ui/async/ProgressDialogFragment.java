@@ -1,4 +1,4 @@
-package com.iic.shopingo.ui;
+package com.iic.shopingo.ui.async;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;

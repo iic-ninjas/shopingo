@@ -1,4 +1,4 @@
-package com.iic.shopingo.ui;
+package com.iic.shopingo.ui.async;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

@@ -19,10 +19,10 @@ import com.iic.shopingo.api.user.UserApiResult;
 import com.iic.shopingo.dal.models.UserInfo;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
-import com.iic.shopingo.ui.ApiTask;
 import com.iic.shopingo.ui.ContactDetailsActivity;
 import com.iic.shopingo.ui.onboarding.OnboardingPagerAdapter;
 import com.iic.shopingo.ui.onboarding.views.PagerIndicatorView;
+import com.iic.shopingo.ui.async.ApiTask;
 
 public class OnboardingActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
 

@@ -22,7 +22,7 @@ public class PagerIndicatorView extends View {
   public PagerIndicatorView(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
-gaa
+
   public PagerIndicatorView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
