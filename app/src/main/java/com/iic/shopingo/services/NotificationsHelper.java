@@ -18,35 +18,7 @@ import java.util.concurrent.Callable;
  */
 public class NotificationsHelper {
 
-  private static final String PREF_GCM_REG_ID = "GCM_REG_ID";
-
-  private static final String PREF_APP_VERSION = "APP_VERSION";
-
   private static final String LOG_TAG = NotificationsHelper.class.getSimpleName();
-
-  public static boolean isPlayServicesSupported(Context context) {
-    int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
-    return resultCode == ConnectionResult.SUCCESS;
-  }
-
-  public static String getGcmRegistrationId(Context context) {
-    SharedPreferences sharedPreferences =
-        context.getSharedPreferences(NotificationsHelper.class.getSimpleName(), Context.MODE_PRIVATE);
-    String gcmRegId = sharedPreferences.getString(PREF_GCM_REG_ID, null);
-    if (gcmRegId == null) {
-      return null;
-    }
-
-    // If app was updated then we need a new registration id
-    int cachedVersion = sharedPreferences.getInt(PREF_APP_VERSION, -1);
-    int currentVersion = getAppVersion(context);
-    if (currentVersion != cachedVersion) {
-      Log.d(LOG_TAG, "App was updated");
-      return null;
-    }
-
-    return gcmRegId;
-  }
 
   public static Task<String> registerForNotificationsAsync(final Context context) {
     return Task.callInBackground(new Callable<String>() {
@@ -56,31 +28,10 @@ public class NotificationsHelper {
         String senderId = context.getString(R.string.google_project_number);
         String gcmRegId = gcm.register(senderId);
 
-        storeRegistrationId(context, gcmRegId);
         new RegisterDeviceCommand(CurrentUser.getToken(), gcmRegId).executeSync();
-
         return gcmRegId;
       }
     });
   }
 
-  private static int getAppVersion(Context context) {
-    try {
-      PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-      return packageInfo.versionCode;
-    } catch (PackageManager.NameNotFoundException e) {
-      throw new RuntimeException(e.getMessage(), e);
-    }
-  }
-
-  private static void storeRegistrationId(Context context, String gcmRegId) {
-    SharedPreferences sharedPreferences =
-        context.getSharedPreferences(NotificationsHelper.class.getSimpleName(), Context.MODE_PRIVATE);
-
-    int appVersion = getAppVersion(context);
-    SharedPreferences.Editor editor = sharedPreferences.edit();
-    editor.putString(PREF_GCM_REG_ID, gcmRegId);
-    editor.putInt(PREF_APP_VERSION, appVersion);
-    editor.commit();
-  }
 }
