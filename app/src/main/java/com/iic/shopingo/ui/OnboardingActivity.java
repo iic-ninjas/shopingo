@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 import bolts.Continuation;
 import bolts.Task;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -21,18 +19,19 @@ import com.iic.shopingo.api.user.UserApiResult;
 import com.iic.shopingo.dal.models.UserInfo;
 import com.iic.shopingo.services.CurrentUser;
 import com.iic.shopingo.services.FacebookConnector;
+import com.iic.shopingo.services.NotificationsHelper;
 import com.iic.shopingo.utils.FacebookUtils;
 
 public class OnboardingActivity extends ActionBarActivity {
 
   private static final String LOG_TAG = OnboardingActivity.class.getSimpleName();
 
+  @InjectView(R.id.onboarding_login_btn)
+  LoginButton loginBtn;
+
   private UiLifecycleHelper facebookLifecycleHelper;
 
   private boolean duringLogin;
-
-  @InjectView(R.id.onboarding_login_btn)
-  LoginButton loginBtn;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -97,42 +96,54 @@ public class OnboardingActivity extends ActionBarActivity {
     FacebookConnector.login(session).continueWith(new Continuation<UserInfo, Void>() {
       @Override
       public Void then(Task<UserInfo> task) throws Exception {
-        if (!task.isFaulted() && !task.isCancelled()) {
-          final CurrentUser currentUser = CurrentUser.getInstance();
-
-          UserInfo info = task.getResult();
-
-          ApiTask<UserApiResult> apiTask = new ApiTask<UserApiResult>(getSupportFragmentManager(), "Logging you in...", new LoginCommand(
-              info.getUid(),
-              info.getFirstName(),
-              info.getLastName(),
-              info.getStreet(),
-              info.getCity(),
-              info.getPhoneNumber()
-          ));
-
-          apiTask.execute().continueWith(new Continuation<UserApiResult, Object>() {
-            @Override
-            public Object then(Task<UserApiResult> task) throws Exception {
-              if (!task.isFaulted() && !task.isCancelled()) {
-                currentUser.state = task.getResult().userState;
-                currentUser.userInfo = task.getResult().userContactInfo;
-                currentUser.save();
-                Intent intent = new Intent(OnboardingActivity.this, ContactDetailsActivity.class);
-                startActivity(intent);
-                finish();
-                duringLogin = false;
-              } else {
-                Toast.makeText(OnboardingActivity.this, "Could not login: " + task.getError(), Toast.LENGTH_LONG).show();
-              }
-              return null;
-            }
-          }, Task.UI_THREAD_EXECUTOR);
-        } else if (task.isFaulted()) {
+        if (task.isFaulted()) {
           Toast.makeText(OnboardingActivity.this, "Could not login: " + task.getError(), Toast.LENGTH_LONG).show();
+          return null;
         }
 
-        // task can also be cancelled, in that case we do nothing.
+        if (task.isCancelled()) {
+          // task can also be cancelled, in that case we do nothing.
+          return null;
+        }
+
+        final CurrentUser currentUser = CurrentUser.getInstance();
+        UserInfo info = task.getResult();
+        ApiTask<UserApiResult> apiTask = new ApiTask<UserApiResult>(getSupportFragmentManager(), "Logging you in...",
+            new LoginCommand(info.getUid(), info.getFirstName(), info.getLastName(), info.getStreet(), info.getCity(),
+                info.getPhoneNumber()));
+
+        apiTask.execute().continueWith(new Continuation<UserApiResult, Object>() {
+          @Override
+          public Object then(Task<UserApiResult> task) throws Exception {
+            if (task.isFaulted() || task.isCancelled()) {
+              Toast.makeText(OnboardingActivity.this, "Could not login: " + task.getError(), Toast.LENGTH_LONG).show();
+              return null;
+            }
+
+            if (task.isCancelled()) {
+              Toast.makeText(OnboardingActivity.this, "Login aborted", Toast.LENGTH_LONG).show();
+              return null;
+            }
+
+            currentUser.state = task.getResult().userState;
+            currentUser.userInfo = task.getResult().userContactInfo;
+            currentUser.save();
+            Intent intent = new Intent(OnboardingActivity.this, ContactDetailsActivity.class);
+            startActivity(intent);
+            finish();
+            duringLogin = false;
+            return null;
+          }
+        }, Task.UI_THREAD_EXECUTOR).continueWith(new Continuation<Object, Void>() {
+          @Override
+          public Void then(Task<Object> task) throws Exception {
+            if (CurrentUser.getToken() != null) {
+              NotificationsHelper.registerForNotificationsAsync(OnboardingActivity.this);
+            }
+            return null;
+          }
+        });
+
         return null;
       }
     }, Task.UI_THREAD_EXECUTOR);

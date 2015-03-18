@@ -15,7 +15,6 @@ public class ShopingoApplication extends Application {
 
     CurrentUser.getInstance().setStorage(new UserStorage(PreferenceManager.getDefaultSharedPreferences(this)));
     if (CurrentUser.getToken() != null) {
-      // TODO: needs to do this after login as well!!!!!
       NotificationsHelper.registerForNotificationsAsync(this);
     }
 
