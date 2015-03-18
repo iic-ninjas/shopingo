@@ -90,6 +90,7 @@ public class GcmIntentService extends IntentService {
         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
         .setContentText(msg)
         .setContentIntent(createPendingIntent(shopingoNotification))
+        .setAutoCancel(true)
         .build();
 
     notificationManager.notify(NOTIFICATION_ID, notification);
