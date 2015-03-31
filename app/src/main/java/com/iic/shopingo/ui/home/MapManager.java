@@ -105,7 +105,9 @@ public class MapManager {
 
     picassoTargets.add(target);
 
-    Transformation circleBitmap = new RoundedTransformationBuilder().cornerRadius(50).build();
+    Transformation circleBitmap = new RoundedTransformationBuilder().
+        cornerRadius(50).
+        build();
     Picasso.with(context)
         .load(shopper.getAvatarUrl())
         .resize(100, 100)

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -21,11 +22,18 @@ public class CurrentLocationProvider implements LocationListener, GoogleApiClien
     this.requestInterval = requestInterval;
     this.updatesListener = listener;
 
-    googleApiClient = new GoogleApiClient.Builder(context)
-        .addApi(LocationServices.API)
-        .addConnectionCallbacks(this)
-        .build();
-    googleApiClient.connect();
+    int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+    if (resultCode == ConnectionResult.SUCCESS) {
+      googleApiClient = new GoogleApiClient.Builder(context)
+          .addApi(LocationServices.API)
+          .addConnectionCallbacks(this)
+          .build();
+      googleApiClient.connect();
+    } else if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+      GooglePlayServicesUtil.showErrorDialogFragment(resultCode, (android.app.Activity) context, 0);
+    } else {
+      throw new RuntimeException("Google play services are not installed/enabled in this device");
+    }
   }
 
   @Override

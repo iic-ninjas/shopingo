@@ -105,6 +105,11 @@ public class ContactDetailsActivity extends ActionBarActivity {
     streetEditView.setText(user.getStreet());
     cityEditView.setText(user.getCity());
     phoneEditView.setText(user.getPhoneNumber());
-    Picasso.with(this).load(user.getAvatarUrl()).resize(300, 300).centerCrop().into(avatarImageView);
+
+    Picasso.with(this).
+        load(user.getAvatarUrl()).
+        resize(300, 300).
+        centerCrop().
+        into(avatarImageView);
   }
 }
