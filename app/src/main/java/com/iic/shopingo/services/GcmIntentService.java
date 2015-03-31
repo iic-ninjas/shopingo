@@ -112,6 +112,7 @@ public class GcmIntentService extends IntentService {
         // Home activity will "redirect" the user to correct screen
         pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, HomeActivity.class), 0);
     } else if (shopingoNotification instanceof OutgoingRequestNotification) {
+      pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, HomeActivity.class), 0);
       OutgoingRequestNotification requestNotification = (OutgoingRequestNotification) shopingoNotification;
       BaseRequest.RequestStatus status = BaseRequest.RequestStatus.valueOf(requestNotification.getStatus().toUpperCase());
       if (status == BaseRequest.RequestStatus.DECLINED) {

@@ -125,6 +125,12 @@ public class RequestListFragment extends Fragment implements RequestListItem.Req
     super.onStop();
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    updateRequests();
+  }
+
   @Subscribe
   public void onIncomingRequest(IncomingRequestNotification notification) {
     updateRequests();
