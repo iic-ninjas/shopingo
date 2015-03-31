@@ -38,11 +38,15 @@ public class CurrentLocationProvider implements LocationListener, GoogleApiClien
 
   @Override
   public void onConnected(Bundle bundle) {
+    Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+    if (lastLocation != null) {
+      updatesListener.onLocationUpdated(lastLocation);
+    }
+
     LocationRequest locationRequest = new LocationRequest();
     locationRequest.setInterval(requestInterval);
     locationRequest.setFastestInterval(requestInterval);
     locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-
     LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
   }
 
